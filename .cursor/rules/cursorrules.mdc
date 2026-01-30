@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+---
+
+# YetiMatch - Kotlin Multiplatform Project
+
+## Project Structure
+- Package: com.daddoodev.yetimatch
+- Targets: Android, iOS
+- UI Framework: Compose Multiplatform with Material 3
+
+## Architecture Rules
+- Shared code goes in `composeApp/src/commonMain/`
+- Platform-specific code uses `expect/actual` pattern
+- ViewModels use StateFlow for state management
+- Follow MVVM architecture
+
+## Best Practices
+- Use kotlinx.serialization for JSON (not Gson/Jackson)
+- Use kotlinx.coroutines for async operations
+- Avoid platform-specific APIs in commonMain
+- Use Ktor for networking (cross-platform)
+- Resources go in commonMain/resources
+
+## UI and Theming
+- Use Material 3 (MaterialTheme, Scaffold, TopAppBar, Button, Card, etc.) for all UI
+- Theme lives in `ui/Theme.kt`: YetiMatchTheme(themeMode), YetiMatchLightColors, YetiMatchDarkColors
+- ThemeMode: Light, Dark, System; use ThemeModeToggle in the app bar for user switch
+- Use MaterialTheme.colorScheme and MaterialTheme.typography (no hard-coded colors in screens)
+
+## Dependencies
+- Prefer Kotlin Multiplatform libraries over platform-specific ones
+- Use Compose Multiplatform for UI (Material 3)
+- Use kotlinx libraries (coroutines, serialization, datetime)
+
+## Common Mistakes to Avoid
+- Don't use Java-specific libraries in shared code
+- Don't use Android/iOS-specific APIs without expect/actual
+- Don't forget to add resources to all platforms
+- Always test shared code on both platforms
