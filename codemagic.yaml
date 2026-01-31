@@ -19,14 +19,8 @@ workflows:
       - name: Build Android (debug APK)
         script: |
           ./gradlew composeApp:assembleDebug
-        artifacts:
-          - composeApp/build/outputs/apk/debug/*.apk
-      # Optional: build release AAB (requires android_signing above and signing config in build.gradle.kts)
-      # - name: Build Android (release AAB)
-      #   script: |
-      #     ./gradlew composeApp:bundleRelease
-      #   artifacts:
-      #     - composeApp/build/outputs/bundle/release/*.aab
+    artifacts:
+      - composeApp/build/outputs/apk/debug/*.apk
 
   ios-kmp:
     name: iOS (KMP)
@@ -58,8 +52,8 @@ workflows:
           xcode-project build-ipa \
             --workspace "$CM_BUILD_DIR/iosApp/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
-        artifacts:
-          - build/ios/ipa/*.ipa
+    artifacts:
+      - build/ios/ipa/*.ipa
     # Uncomment to publish (email and/or App Store Connect):
     # publishing:
     #   email:
