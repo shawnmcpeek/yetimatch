@@ -1,0 +1,317 @@
+{
+  "id": "traveler-personality-quiz",
+  "title": "What Type of Traveler Are You?",
+  "description": "Discover your travel personality and ideal vacation style!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How do you plan your trips?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "Detailed itinerary with every hour planned",
+          "characterId": "planner"
+        },
+        {
+          "id": "q1a2",
+          "text": "No plans - I go with the flow",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q1a3",
+          "text": "Research all the must-see attractions",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q1a4",
+          "text": "Find the best local food spots",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your packing style?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "Pack days in advance with a checklist",
+          "characterId": "planner"
+        },
+        {
+          "id": "q2a2",
+          "text": "Throw things in a bag last minute",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q2a3",
+          "text": "Pack for every possible scenario",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q2a4",
+          "text": "Leave room for souvenirs and local goods",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Your ideal accommodation is:",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Highly-rated hotel with great amenities",
+          "characterId": "planner"
+        },
+        {
+          "id": "q3a2",
+          "text": "Wherever I end up - hostel, Airbnb, camping",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q3a3",
+          "text": "Centrally located for easy sightseeing",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q3a4",
+          "text": "Local neighborhood with authentic restaurants",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "How do you handle travel mishaps?",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Stressed - I had everything planned!",
+          "characterId": "planner"
+        },
+        {
+          "id": "q4a2",
+          "text": "It's all part of the adventure",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q4a3",
+          "text": "Quickly research alternatives",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q4a4",
+          "text": "Find a local spot to eat while I figure it out",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "What's the highlight of any trip?",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Seeing everything on my bucket list",
+          "characterId": "planner"
+        },
+        {
+          "id": "q5a2",
+          "text": "Unexpected discoveries and experiences",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q5a3",
+          "text": "Visiting famous landmarks and attractions",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q5a4",
+          "text": "Trying authentic local cuisine",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "How do you choose your destination?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Compare reviews and make pros/cons lists",
+          "characterId": "planner"
+        },
+        {
+          "id": "q6a2",
+          "text": "Wherever feels right in the moment",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q6a3",
+          "text": "Somewhere with rich history and culture",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q6a4",
+          "text": "Places known for incredible food scenes",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "Your camera roll after a trip is full of:",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Organized photos of each planned activity",
+          "characterId": "planner"
+        },
+        {
+          "id": "q7a2",
+          "text": "Random candid moments and people",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q7a3",
+          "text": "Every major landmark and tourist spot",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q7a4",
+          "text": "Pictures of every meal I ate",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "What's your travel pace?",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Efficient - maximize every minute",
+          "characterId": "planner"
+        },
+        {
+          "id": "q8a2",
+          "text": "Slow and relaxed - no rush",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q8a3",
+          "text": "Active - always on the move seeing things",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q8a4",
+          "text": "Leisurely - with plenty of meal breaks",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "How do you interact with locals?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Ask for recommendations from my research",
+          "characterId": "planner"
+        },
+        {
+          "id": "q9a2",
+          "text": "Strike up conversations and make friends",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q9a3",
+          "text": "Join guided tours to learn the history",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q9a4",
+          "text": "Ask where locals actually eat",
+          "characterId": "foodie"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "What do you bring home from trips?",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Photos organized in albums with dates",
+          "characterId": "planner"
+        },
+        {
+          "id": "q10a2",
+          "text": "Stories and memories",
+          "characterId": "wanderer"
+        },
+        {
+          "id": "q10a3",
+          "text": "Souvenirs from famous sites",
+          "characterId": "explorer"
+        },
+        {
+          "id": "q10a4",
+          "text": "Local spices, ingredients, or recipes",
+          "characterId": "foodie"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "planner",
+      "characterName": "The Organized Planner",
+      "description": "You're detail-oriented and love having everything mapped out! Your trips are efficient, well-researched, and stress-free because you've thought of everything. You maximize your time and rarely miss must-see attractions. Your organizational skills ensure smooth travels and you always know where you're going next.",
+      "traits": [
+        "Organized",
+        "Efficient",
+        "Prepared",
+        "Thorough",
+        "Reliable"
+      ]
+    },
+    {
+      "characterId": "wanderer",
+      "characterName": "The Free-Spirited Wanderer",
+      "description": "You're spontaneous and embrace the unexpected! Your best travel memories come from unplanned moments and random discoveries. You're open to wherever the journey takes you and connect easily with people along the way. Your flexible attitude turns mishaps into adventures and leads to authentic experiences.",
+      "traits": [
+        "Spontaneous",
+        "Flexible",
+        "Adventurous",
+        "Open-minded",
+        "Carefree"
+      ]
+    },
+    {
+      "characterId": "explorer",
+      "characterName": "The Curious Explorer",
+      "description": "You're driven by discovery and want to see it all! You research destinations thoroughly and create bucket lists of must-see places. You're energetic about visiting landmarks, learning history, and experiencing different cultures. Your enthusiasm for exploration and thirst for knowledge make every trip educational and exciting.",
+      "traits": [
+        "Curious",
+        "Energetic",
+        "Knowledge-seeking",
+        "Cultural",
+        "Ambitious"
+      ]
+    },
+    {
+      "characterId": "foodie",
+      "characterName": "The Culinary Adventurer",
+      "description": "You travel through your taste buds! For you, the best way to understand a place is through its food. You seek out authentic local cuisine, from street food to fine dining. You're always asking locals for restaurant recommendations and your trip highlights revolve around memorable meals. Your adventurous palate leads you to unforgettable culinary experiences.",
+      "traits": [
+        "Adventurous",
+        "Sensory-focused",
+        "Authentic",
+        "Passionate",
+        "Experiential"
+      ]
+    }
+  ]
+}

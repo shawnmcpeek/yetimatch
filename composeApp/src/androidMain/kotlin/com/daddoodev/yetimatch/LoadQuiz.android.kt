@@ -1,9 +1,17 @@
 package com.daddoodev.yetimatch
 
-actual fun loadQuizJson(): String {
+actual fun loadManifestJson(): String {
     val ctx = QuizResourceHelper.context
         ?: error("QuizResourceHelper.context not set. Call QuizResourceHelper.context = applicationContext in MainActivity.onCreate.")
-    return ctx.assets.open("quizzes/sample_quiz.json")
+    return ctx.assets.open("manifest.json")
+        .bufferedReader()
+        .use { it.readText() }
+}
+
+actual fun loadQuizJson(path: String): String {
+    val ctx = QuizResourceHelper.context
+        ?: error("QuizResourceHelper.context not set. Call QuizResourceHelper.context = applicationContext in MainActivity.onCreate.")
+    return ctx.assets.open(path)
         .bufferedReader()
         .use { it.readText() }
 }

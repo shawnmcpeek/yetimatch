@@ -1,0 +1,102 @@
+{
+  "categories": [
+    {
+      "id": "relationship-love",
+      "name": "Relationship & Love",
+      "description": "Love languages, compatibility, and relationship styles"
+    },
+    {
+      "id": "who-am-i",
+      "name": "Who Am I?",
+      "description": "Match to characters, personas, and archetypes"
+    },
+    {
+      "id": "career-success",
+      "name": "Career & Success",
+      "description": "Work style, leadership, and career fit"
+    },
+    {
+      "id": "friendship-social",
+      "name": "Friendship & Social",
+      "description": "Social style, friend role, and communication"
+    },
+    {
+      "id": "personality-self",
+      "name": "Personality & Self-Discovery",
+      "description": "Personality types and self-awareness"
+    },
+    {
+      "id": "fun-entertainment",
+      "name": "Fun & Entertainment",
+      "description": "Lighthearted quizzes and vibes"
+    },
+    {
+      "id": "wellness-mindset",
+      "name": "Wellness & Mindset",
+      "description": "Mindset, habits, and well-being"
+    },
+    {
+      "id": "pop-culture-fandom",
+      "name": "Pop Culture & Fandom",
+      "description": "Movies, shows, music, and fandom"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "fabulous-five",
+      "title": "The Fabulous Five",
+      "description": "Discover which of the Fabulous Five personality types matches you best.",
+      "categoryId": "personality-self",
+      "resourcePath": "quizzes/sample_quiz.json"
+    },
+    {
+      "id": "coffee-personality-quiz",
+      "title": "Which Coffee Drink Are You?",
+      "description": "Discover which coffee beverage matches your personality perfectly!",
+      "categoryId": "fun-entertainment",
+      "resourcePath": "quizzes/coffee_personality_quiz.json"
+    },
+    {
+      "id": "learning-style-quiz",
+      "title": "What's Your Learning Style?",
+      "description": "Discover how you learn best and optimize your study approach!",
+      "categoryId": "wellness-mindset",
+      "resourcePath": "quizzes/learning_style_quiz.json"
+    },
+    {
+      "id": "mythical-beast-quiz",
+      "title": "What Is Your Mythical Beast?",
+      "description": "Discover which legendary creature from ancient mythology matches your personality!",
+      "categoryId": "who-am-i",
+      "resourcePath": "quizzes/mythical_beast_quiz.json"
+    },
+    {
+      "id": "pet-personality-quiz",
+      "title": "Which Pet Matches Your Lifestyle?",
+      "description": "Find out which type of pet would be your perfect companion!",
+      "categoryId": "fun-entertainment",
+      "resourcePath": "quizzes/pet_personality_quiz.json"
+    },
+    {
+      "id": "planet-personality-quiz",
+      "title": "Which Planet Are You?",
+      "description": "Discover which planet matches your personality based on ancient mythology!",
+      "categoryId": "who-am-i",
+      "resourcePath": "quizzes/planet_personality_quiz.json"
+    },
+    {
+      "id": "season-personality-quiz",
+      "title": "Which Season Are You?",
+      "description": "Find out which season best represents your personality!",
+      "categoryId": "personality-self",
+      "resourcePath": "quizzes/season_personality_quiz.json"
+    },
+    {
+      "id": "traveler-personality-quiz",
+      "title": "What Type of Traveler Are You?",
+      "description": "Discover your travel personality and ideal vacation style!",
+      "categoryId": "personality-self",
+      "resourcePath": "quizzes/traveler_personality_quiz.json"
+    }
+  ]
+}

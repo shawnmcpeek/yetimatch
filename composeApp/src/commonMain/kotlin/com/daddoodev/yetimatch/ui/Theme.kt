@@ -1,8 +1,10 @@
 package com.daddoodev.yetimatch.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -10,10 +12,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.painterResource
+import yetimatch.composeapp.generated.resources.logoDark
+import yetimatch.composeapp.generated.resources.logoLight
+
+val LocalUseDarkLogo = compositionLocalOf { false }
 
 enum class ThemeMode { Light, Dark, System }
 
@@ -62,10 +72,27 @@ fun YetiMatchTheme(
         ThemeMode.System -> isSystemInDarkTheme()
     }
     val colorScheme = if (darkTheme) YetiMatchDarkColors else YetiMatchLightColors
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = MaterialTheme.typography,
-        content = content
+    androidx.compose.runtime.CompositionLocalProvider(LocalUseDarkLogo provides darkTheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = MaterialTheme.typography,
+            content = content
+        )
+    }
+}
+
+@Composable
+fun YetiMatchLogo(
+    modifier: Modifier = Modifier,
+    size: Dp = 48.dp,
+    contentDescription: String? = "YetiMatch logo"
+) {
+    val useDark = LocalUseDarkLogo.current
+    Image(
+        painter = painterResource(if (useDark) logoDark else logoLight),
+        contentDescription = contentDescription,
+        modifier = modifier.size(size),
+        contentScale = ContentScale.Fit
     )
 }
 

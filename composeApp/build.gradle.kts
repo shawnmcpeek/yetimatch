@@ -7,6 +7,11 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.googleServices)
+}
+
+compose.resources {
+    publicResClass = true
 }
 
 kotlin {
@@ -30,6 +35,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:34.8.0"))
+            implementation("com.google.firebase:firebase-analytics")
+            implementation("com.google.firebase:firebase-auth")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

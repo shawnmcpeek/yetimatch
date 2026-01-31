@@ -1,7 +1,10 @@
 package com.daddoodev.yetimatch.viewmodels
 
+import com.daddoodev.yetimatch.loadManifestJson
 import com.daddoodev.yetimatch.loadQuizJson
 import com.daddoodev.yetimatch.models.Quiz
+import com.daddoodev.yetimatch.models.QuizManifest
+import com.daddoodev.yetimatch.models.QuizMeta
 import com.daddoodev.yetimatch.models.QuizResult
 import com.daddoodev.yetimatch.services.QuizService
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +25,10 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
 
     private val _loadError = MutableStateFlow<String?>(null)
     val loadError: StateFlow<String?> = _loadError.asStateFlow()
+
+    // Manifest (categories + quiz list)
+    private val _manifest = MutableStateFlow<QuizManifest?>(null)
+    val manifest: StateFlow<QuizManifest?> = _manifest.asStateFlow()
 
     // Current quiz being taken
     private val _currentQuiz = MutableStateFlow<Quiz?>(null)
@@ -63,19 +70,53 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
     }
 
     /**
-     * Load quiz from platform resources (assets/bundle). Runs asynchronously.
+     * Load manifest (categories + quiz list) from platform resources.
      */
-    fun loadQuizFromResources() {
+    fun loadManifestFromResources() {
         scope.launch {
             _isLoading.value = true
             _loadError.value = null
             try {
-                val json = loadQuizJson()
+                val json = loadManifestJson()
+                _manifest.value = quizService.loadManifest(json)
+            } catch (e: Exception) {
+                _loadError.value = e.message ?: "Failed to load catalog"
+            }
+            _isLoading.value = false
+        }
+    }
+
+    /**
+     * Load a quiz by resource path and start it. Runs asynchronously.
+     */
+    fun loadQuizByPath(path: String) {
+        scope.launch {
+            _isLoading.value = true
+            _loadError.value = null
+            try {
+                val json = loadQuizJson(path)
                 loadQuiz(json)
             } catch (e: Exception) {
                 _loadError.value = e.message ?: "Failed to load quiz"
             }
             _isLoading.value = false
+        }
+    }
+
+    fun getQuizzesInCategory(categoryId: String): List<QuizMeta> {
+        val m = _manifest.value ?: return emptyList()
+        return m.quizzes.filter { it.categoryId == categoryId }
+    }
+
+    fun searchQuizzes(query: String): List<QuizMeta> {
+        val m = _manifest.value ?: return emptyList()
+        if (query.isBlank()) return emptyList()
+        val q = query.lowercase()
+        val categoryNames = m.categories.associate { it.id to it.name.lowercase() }
+        return m.quizzes.filter { meta ->
+            meta.title.lowercase().contains(q) ||
+                meta.description.lowercase().contains(q) ||
+                categoryNames[meta.categoryId]?.contains(q) == true
         }
     }
 

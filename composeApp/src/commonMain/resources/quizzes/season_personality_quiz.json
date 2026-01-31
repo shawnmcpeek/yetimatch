@@ -1,0 +1,317 @@
+{
+  "id": "season-personality-quiz",
+  "title": "Which Season Are You?",
+  "description": "Find out which season best represents your personality!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What's your ideal temperature?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "Hot and sunny - the warmer the better",
+          "characterId": "summer"
+        },
+        {
+          "id": "q1a2",
+          "text": "Mild and breezy - perfect for layers",
+          "characterId": "spring"
+        },
+        {
+          "id": "q1a3",
+          "text": "Cool and crisp - sweater weather",
+          "characterId": "fall"
+        },
+        {
+          "id": "q1a4",
+          "text": "Cold and cozy - love bundling up",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "How do you approach new opportunities?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "Dive in with full enthusiasm",
+          "characterId": "summer"
+        },
+        {
+          "id": "q2a2",
+          "text": "Excited and optimistic about possibilities",
+          "characterId": "spring"
+        },
+        {
+          "id": "q2a3",
+          "text": "Thoughtfully consider before committing",
+          "characterId": "fall"
+        },
+        {
+          "id": "q2a4",
+          "text": "Cautious but willing if it feels right",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Your social battery is:",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Always charged - I love being around people",
+          "characterId": "summer"
+        },
+        {
+          "id": "q3a2",
+          "text": "High energy with the right crowd",
+          "characterId": "spring"
+        },
+        {
+          "id": "q3a3",
+          "text": "Moderate - I need balance",
+          "characterId": "fall"
+        },
+        {
+          "id": "q3a4",
+          "text": "Low - I prefer small, intimate gatherings",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "Pick your comfort activity:",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Beach day or pool party",
+          "characterId": "summer"
+        },
+        {
+          "id": "q4a2",
+          "text": "Picnic in the park or outdoor concert",
+          "characterId": "spring"
+        },
+        {
+          "id": "q4a3",
+          "text": "Hiking or visiting a pumpkin patch",
+          "characterId": "fall"
+        },
+        {
+          "id": "q4a4",
+          "text": "Movie marathon with hot cocoa",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "Your personality is best described as:",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Vibrant and spontaneous",
+          "characterId": "summer"
+        },
+        {
+          "id": "q5a2",
+          "text": "Fresh and optimistic",
+          "characterId": "spring"
+        },
+        {
+          "id": "q5a3",
+          "text": "Reflective and grounded",
+          "characterId": "fall"
+        },
+        {
+          "id": "q5a4",
+          "text": "Calm and introspective",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "How do you handle change?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Love it - change keeps things exciting",
+          "characterId": "summer"
+        },
+        {
+          "id": "q6a2",
+          "text": "Embrace it as a chance for growth",
+          "characterId": "spring"
+        },
+        {
+          "id": "q6a3",
+          "text": "Accept it but need time to adjust",
+          "characterId": "fall"
+        },
+        {
+          "id": "q6a4",
+          "text": "Prefer stability and routine",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "What kind of music matches your mood?",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Upbeat pop or dance music",
+          "characterId": "summer"
+        },
+        {
+          "id": "q7a2",
+          "text": "Indie or folk with hopeful lyrics",
+          "characterId": "spring"
+        },
+        {
+          "id": "q7a3",
+          "text": "Acoustic or alternative rock",
+          "characterId": "fall"
+        },
+        {
+          "id": "q7a4",
+          "text": "Classical or ambient soundscapes",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "Your ideal evening looks like:",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Going out dancing or to a party",
+          "characterId": "summer"
+        },
+        {
+          "id": "q8a2",
+          "text": "Dinner with friends at a new restaurant",
+          "characterId": "spring"
+        },
+        {
+          "id": "q8a3",
+          "text": "Game night or bonfire with close friends",
+          "characterId": "fall"
+        },
+        {
+          "id": "q8a4",
+          "text": "Quiet night in with a book or show",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "What motivates you?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Adventure and new experiences",
+          "characterId": "summer"
+        },
+        {
+          "id": "q9a2",
+          "text": "Growth and potential",
+          "characterId": "spring"
+        },
+        {
+          "id": "q9a3",
+          "text": "Meaning and purpose",
+          "characterId": "fall"
+        },
+        {
+          "id": "q9a4",
+          "text": "Inner peace and wisdom",
+          "characterId": "winter"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "How do you recharge?",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Being active outdoors with others",
+          "characterId": "summer"
+        },
+        {
+          "id": "q10a2",
+          "text": "Trying new things and exploring",
+          "characterId": "spring"
+        },
+        {
+          "id": "q10a3",
+          "text": "Nature walks and quiet reflection",
+          "characterId": "fall"
+        },
+        {
+          "id": "q10a4",
+          "text": "Solitude and rest",
+          "characterId": "winter"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "summer",
+      "characterName": "Summer",
+      "description": "You're energetic, outgoing, and full of life! Like summer, you bring warmth and excitement wherever you go. You thrive in social settings and love making the most of every moment. Your vibrant personality and zest for life are contagious, making you the center of fun and adventure.",
+      "traits": [
+        "Energetic",
+        "Social",
+        "Adventurous",
+        "Optimistic",
+        "Vibrant"
+      ]
+    },
+    {
+      "characterId": "spring",
+      "characterName": "Spring",
+      "description": "You're fresh, hopeful, and full of potential! Like spring, you represent new beginnings and growth. You're naturally optimistic and see possibilities everywhere. Your enthusiasm for life and ability to inspire renewal in others makes you a breath of fresh air in any situation.",
+      "traits": [
+        "Hopeful",
+        "Optimistic",
+        "Growth-oriented",
+        "Enthusiastic",
+        "Inspiring"
+      ]
+    },
+    {
+      "characterId": "fall",
+      "characterName": "Fall",
+      "description": "You're thoughtful, balanced, and deeply reflective! Like fall, you appreciate life's transitions and find beauty in change. You're grounded and wise, with a knack for seeing the deeper meaning in things. Your warm and contemplative nature provides comfort and perspective to those around you.",
+      "traits": [
+        "Reflective",
+        "Balanced",
+        "Wise",
+        "Grounded",
+        "Thoughtful"
+      ]
+    },
+    {
+      "characterId": "winter",
+      "characterName": "Winter",
+      "description": "You're calm, introspective, and quietly strong! Like winter, you value stillness and inner depth. You're comfortable with solitude and use it to grow and reflect. Your peaceful presence and resilience provide a sense of stability and wisdom that others deeply appreciate.",
+      "traits": [
+        "Introspective",
+        "Calm",
+        "Resilient",
+        "Peaceful",
+        "Wise"
+      ]
+    }
+  ]
+}

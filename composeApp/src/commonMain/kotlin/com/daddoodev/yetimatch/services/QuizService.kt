@@ -1,18 +1,22 @@
 package com.daddoodev.yetimatch.services
 
 import com.daddoodev.yetimatch.models.Quiz
+import com.daddoodev.yetimatch.models.QuizManifest
 import com.daddoodev.yetimatch.models.QuizResult
 import kotlinx.serialization.json.Json
 
 class QuizService {
-    private val json = Json { 
+    private val json = Json {
         ignoreUnknownKeys = true
         prettyPrint = true
     }
-    
+
+    fun loadManifest(jsonString: String): QuizManifest {
+        return json.decodeFromString<QuizManifest>(jsonString)
+    }
+
     /**
      * Load a quiz from JSON string
-     * In your actual app, you'd load this from assets/resources
      */
     fun loadQuiz(jsonString: String): Quiz {
         return json.decodeFromString<Quiz>(jsonString)
