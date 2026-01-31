@@ -3,7 +3,7 @@ package com.daddoodev.yetimatch.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.daddoodev.yetimatch.models.Category
 import com.daddoodev.yetimatch.models.QuizManifest
 import com.daddoodev.yetimatch.models.QuizMeta
-import com.daddoodev.yetimatch.ui.YetiMatchLogo
 
 @Composable
 fun CategoryCard(
@@ -36,11 +35,16 @@ fun CategoryCard(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
+            .height(140.dp)
             .padding(4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
             Text(
                 text = category.name,
                 style = MaterialTheme.typography.titleMedium,
@@ -49,7 +53,8 @@ fun CategoryCard(
             Text(
                 text = category.description,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 4
             )
         }
     }
@@ -76,9 +81,7 @@ fun HomeScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        YetiMatchLogo(size = 80.dp, modifier = Modifier.padding(top = 16.dp))
-        Spacer(modifier = Modifier.height(16.dp))
+    Column(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
         OutlinedTextField(
             value = searchQuery,
             onValueChange = onSearchQueryChange,

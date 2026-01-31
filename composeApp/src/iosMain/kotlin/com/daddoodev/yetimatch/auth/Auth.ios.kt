@@ -8,9 +8,14 @@ actual suspend fun signInWithEmail(email: String, password: String): Result<Unit
 actual suspend fun signUpWithEmail(email: String, password: String): Result<Unit> =
     Result.failure(UnsupportedOperationException("Firebase Auth on iOS: add FirebaseAuth iOS SDK and bridge from Swift/Kotlin"))
 
+actual suspend fun sendPasswordResetEmail(email: String): Result<Unit> =
+    Result.failure(UnsupportedOperationException("Firebase Auth on iOS: implement when Firebase Auth iOS is wired"))
+
 actual fun signOut() {}
 
 actual fun getCurrentUserEmail(): String? = null
+
+actual fun getCurrentUserId(): String? = null
 
 actual suspend fun deleteAccount(): Result<Unit> =
     Result.failure(UnsupportedOperationException("Firebase Auth on iOS: implement when Firebase Auth iOS is wired"))

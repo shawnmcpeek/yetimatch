@@ -97,6 +97,22 @@
       "description": "Discover your travel personality and ideal vacation style!",
       "categoryId": "personality-self",
       "resourcePath": "quizzes/traveler_personality_quiz.json"
+    },
+    {
+      "id": "love-language-quiz",
+      "title": "What Is Your Love Language?",
+      "description": "Discover how you give and receive love.",
+      "categoryId": "relationship-love",
+      "resourcePath": "quizzes/sample_quiz.json",
+      "mature": true
+    },
+    {
+      "id": "compatibility-style-quiz",
+      "title": "What Is Your Compatibility Style?",
+      "description": "Find out how you connect in relationships.",
+      "categoryId": "relationship-love",
+      "resourcePath": "quizzes/sample_quiz.json",
+      "mature": true
     }
   ]
 }

@@ -103,9 +103,9 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
         }
     }
 
-    fun getQuizzesInCategory(categoryId: String): List<QuizMeta> {
+    fun getQuizzesInCategory(categoryId: String, matureOnly: Boolean = false): List<QuizMeta> {
         val m = _manifest.value ?: return emptyList()
-        return m.quizzes.filter { it.categoryId == categoryId }
+        return m.quizzes.filter { it.categoryId == categoryId && it.mature == matureOnly }
     }
 
     fun searchQuizzes(query: String): List<QuizMeta> {

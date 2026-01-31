@@ -18,11 +18,19 @@ actual suspend fun signUpWithEmail(email: String, password: String): Result<Unit
         .addOnFailureListener { cont.resume(Result.failure(it)) }
 }
 
+actual suspend fun sendPasswordResetEmail(email: String): Result<Unit> = suspendCoroutine { cont ->
+    auth.sendPasswordResetEmail(email)
+        .addOnSuccessListener { cont.resume(Result.success(Unit)) }
+        .addOnFailureListener { cont.resume(Result.failure(it)) }
+}
+
 actual fun signOut() {
     auth.signOut()
 }
 
 actual fun getCurrentUserEmail(): String? = auth.currentUser?.email
+
+actual fun getCurrentUserId(): String? = auth.currentUser?.uid
 
 actual suspend fun deleteAccount(): Result<Unit> = suspendCoroutine { cont ->
     val user = auth.currentUser

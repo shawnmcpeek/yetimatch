@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.YetiMatch" parent="Theme.Material.Light.NoActionBar">
+    <style name="Theme.YetiMatch" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_yetimatch</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/yetimatchnotext</item>
     </style>
 </resources>

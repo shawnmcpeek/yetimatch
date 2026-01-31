@@ -38,7 +38,10 @@ kotlin {
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:34.8.0"))
             implementation("com.google.firebase:firebase-analytics")
             implementation("com.google.firebase:firebase-auth")
+            implementation("com.google.firebase:firebase-firestore")
+            implementation(libs.kotlinx.coroutines.play.services)
             implementation("com.google.android.gms:play-services-ads:23.6.0")
+            implementation(libs.play.integrity)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

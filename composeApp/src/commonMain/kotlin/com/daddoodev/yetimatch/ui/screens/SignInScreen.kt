@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.daddoodev.yetimatch.auth.sendPasswordResetEmail
 import com.daddoodev.yetimatch.auth.signInWithEmail
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,10 @@ fun SignInScreen(
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
+    var showForgotPassword by remember { mutableStateOf(false) }
+    var forgotPasswordEmail by remember { mutableStateOf("") }
+    var forgotPasswordError by remember { mutableStateOf<String?>(null) }
+    var forgotPasswordSuccess by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
@@ -111,9 +117,63 @@ fun SignInScreen(
             Text("Need an account? Sign up")
         }
 
+        TextButton(onClick = { showForgotPassword = true; forgotPasswordEmail = email; forgotPasswordError = null; forgotPasswordSuccess = false }) {
+            Text("Forgot password?")
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
         TextButton(onClick = onCancel) {
             Text("Cancel")
         }
+    }
+
+    if (showForgotPassword) {
+        AlertDialog(
+            onDismissRequest = { showForgotPassword = false },
+            title = { Text("Reset password") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (forgotPasswordSuccess) {
+                        Text("Check your email for a link to reset your password.")
+                    } else {
+                        OutlinedTextField(
+                            value = forgotPasswordEmail,
+                            onValueChange = { forgotPasswordEmail = it; forgotPasswordError = null },
+                            label = { Text("Email") },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        forgotPasswordError?.let { msg ->
+                            Text(msg, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                if (forgotPasswordSuccess) {
+                    TextButton(onClick = { showForgotPassword = false }) { Text("OK") }
+                } else {
+                    Button(
+                        onClick = {
+                            if (forgotPasswordEmail.isBlank()) {
+                                forgotPasswordError = "Enter your email"
+                                return@Button
+                            }
+                            scope.launch {
+                                forgotPasswordError = null
+                                sendPasswordResetEmail(forgotPasswordEmail).fold(
+                                    onSuccess = { forgotPasswordSuccess = true },
+                                    onFailure = { e -> forgotPasswordError = e.message ?: "Failed to send reset email" }
+                                )
+                            }
+                        }
+                    ) { Text("Send reset link") }
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showForgotPassword = false }) { Text("Cancel") }
+            }
+        )
     }
 }
