@@ -17,3 +17,9 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+google-services.json
+GoogleService-Info.plist
+iosApp/iosApp/GoogleService-Info.plist
+composeApp/google-services.json
+composeApp/GoogleService-Info.plist
+composeApp/google-services.json
