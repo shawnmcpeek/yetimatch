@@ -1,6 +1,5 @@
 # YetiMatch – Kotlin Multiplatform (Android + iOS)
 # See https://docs.codemagic.io/yaml/yaml-getting-started/
-
 workflows:
   android-kmp:
     name: Android (KMP)
@@ -16,12 +15,17 @@ workflows:
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
+      
+      - name: Fix gradlew permissions
+        script: |
+          chmod +x ./gradlew
+      
       - name: Build Android (debug APK)
         script: |
           ./gradlew composeApp:assembleDebug
     artifacts:
       - composeApp/build/outputs/apk/debug/*.apk
-
+  
   ios-kmp:
     name: iOS (KMP)
     max_build_duration: 60
@@ -38,15 +42,22 @@ workflows:
       #   distribution_type: app_store
       #   bundle_identifier: com.daddoodev.yetimatch.YetiMatch
     scripts:
+      - name: Fix gradlew permissions
+        script: |
+          chmod +x ./gradlew
+      
       - name: Build KMP iOS framework
         script: |
           ./gradlew composeApp:linkReleaseFrameworkIosArm64
+      
       - name: Install CocoaPods
         script: |
           cd iosApp && pod install
+      
       # Uncomment after adding code signing identities:
       # - name: Set up code signing
       #   script: xcode-project use-profiles
+      
       - name: Build IPA
         script: |
           xcode-project build-ipa \
