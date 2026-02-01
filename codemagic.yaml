@@ -1,16 +1,14 @@
 # YetiMatch – Kotlin Multiplatform (Android + iOS)
-# See https://docs.codemagic.io/yaml/yaml-getting-started/
 workflows:
   android-kmp:
     name: Android (KMP)
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
+      groups:
+        - variables  # References your "variables" group
       vars:
         PACKAGE_NAME: "com.daddoodev.yetimatch"
-      # Uncomment and set reference after uploading keystore in Team settings > Code signing > Android keystores:
-      # android_signing:
-      #   - yetimatch_keystore
     scripts:
       - name: Set Android SDK location
         script: |
@@ -20,9 +18,14 @@ workflows:
         script: |
           chmod +x ./gradlew
       
+      - name: Setup google-services.json (Android)
+        script: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > composeApp/google-services.json
+      
       - name: Build Android (debug APK)
         script: |
           ./gradlew composeApp:assembleDebug
+    
     artifacts:
       - composeApp/build/outputs/apk/debug/*.apk
   
@@ -31,20 +34,22 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
+      groups:
+        - variables  # References your "variables" group
       vars:
         XCODE_WORKSPACE: "iosApp.xcworkspace"
         XCODE_SCHEME: "iosApp"
         BUNDLE_ID: "com.daddoodev.yetimatch.YetiMatch"
       xcode: latest
       cocoapods: default
-      # Uncomment and set after adding certificate + provisioning profile in Team settings > Code signing:
-      # ios_signing:
-      #   distribution_type: app_store
-      #   bundle_identifier: com.daddoodev.yetimatch.YetiMatch
     scripts:
       - name: Fix gradlew permissions
         script: |
           chmod +x ./gradlew
+      
+      - name: Setup GoogleService-Info.plist (iOS)
+        script: |
+          echo $GoogleServiceInfo | base64 --decode > iosApp/GoogleService-Info.plist
       
       - name: Build KMP iOS framework
         script: |
@@ -54,25 +59,11 @@ workflows:
         script: |
           cd iosApp && pod install
       
-      # Uncomment after adding code signing identities:
-      # - name: Set up code signing
-      #   script: xcode-project use-profiles
-      
       - name: Build IPA
         script: |
           xcode-project build-ipa \
             --workspace "$CM_BUILD_DIR/iosApp/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
+    
     artifacts:
       - build/ios/ipa/*.ipa
-    # Uncomment to publish (email and/or App Store Connect):
-    # publishing:
-    #   email:
-    #     recipients:
-    #       - your@email.com
-    #     notify:
-    #       success: true
-    #       failure: true
-    #   app_store_connect:
-    #     auth: integration
-    #     submit_to_testflight: true
