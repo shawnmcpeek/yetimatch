@@ -22,9 +22,9 @@ workflows:
         script: |
           echo $GOOGLE_SERVICES_JSON | base64 --decode > composeApp/google-services.json
       
-      - name: Build Android (debug APK)
+      - name: Build Android (release APK)
         script: |
-          ./gradlew composeApp:assembleDebug
+          ./gradlew composeApp:assembleRelease
     
     artifacts:
       - composeApp/build/outputs/apk/debug/*.apk
