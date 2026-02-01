@@ -6,9 +6,11 @@ workflows:
     instance_type: mac_mini_m2
     environment:
       groups:
-        - variables  # References your "variables" group
+        - variables
       vars:
         PACKAGE_NAME: "com.daddoodev.yetimatch"
+      android_signing:
+        - codemagic_android_keystore
     scripts:
       - name: Set Android SDK location
         script: |
@@ -40,7 +42,7 @@ workflows:
     instance_type: mac_mini_m2
     environment:
       groups:
-        - variables  # References your "variables" group
+        - variables
       vars:
         XCODE_WORKSPACE: "iosApp.xcworkspace"
         XCODE_SCHEME: "iosApp"
