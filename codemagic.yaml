@@ -21,14 +21,19 @@ workflows:
       - name: Setup google-services.json (Android)
         script: |
           echo $GOOGLE_SERVICES_JSON | base64 --decode > composeApp/google-services.json
-      
+  
+      - name: Build Android (debug APK)
+        script: |
+          ./gradlew composeApp:assembleDebug
+
       - name: Build Android (release APK)
         script: |
           ./gradlew composeApp:assembleRelease
     
     artifacts:
       - composeApp/build/outputs/apk/debug/*.apk
-  
+      - composeApp/build/outputs/apk/release/*.apk
+
   ios-kmp:
     name: iOS (KMP)
     max_build_duration: 60
