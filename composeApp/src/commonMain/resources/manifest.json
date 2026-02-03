@@ -106,6 +106,13 @@
       "resourcePath": "quizzes/yetimatch_soulmate.json"
     },
     {
+      "id": "spirit-composer-match",
+      "title": "Which Composer Is Your Spirit Match?",
+      "description": "Discover which legendary composer from history matches your personality and creative soul!",
+      "categoryId": "who-am-i",
+      "resourcePath": "quizzes/spirit_composer_quiz.json"
+    },
+    {
       "id": "love-language-quiz",
       "title": "What Is Your Love Language?",
       "description": "Discover how you give and receive love.",
