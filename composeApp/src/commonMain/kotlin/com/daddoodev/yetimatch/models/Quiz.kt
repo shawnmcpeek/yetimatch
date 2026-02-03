@@ -31,5 +31,6 @@ data class QuizResult(
     val characterName: String,
     val description: String,
     val traits: List<String>,
+    val visualDescription: String? = null,
     val imageUrl: String? = null  // Optional image for the character
 )

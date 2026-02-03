@@ -15,3 +15,12 @@ actual fun loadQuizJson(path: String): String {
         .bufferedReader()
         .use { it.readText() }
 }
+
+actual fun loadResourceBytes(path: String): ByteArray? {
+    val ctx = QuizResourceHelper.context ?: return null
+    return try {
+        ctx.assets.open(path).readBytes()
+    } catch (_: Exception) {
+        null
+    }
+}

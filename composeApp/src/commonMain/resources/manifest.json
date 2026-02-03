@@ -99,6 +99,13 @@
       "resourcePath": "quizzes/traveler_personality_quiz.json"
     },
     {
+      "id": "yetimatch-soulmate",
+      "title": "Who Is Your YetiMatch?",
+      "description": "Discover which yeti is your perfect match! Answer honestly to meet your fuzzy friend.",
+      "categoryId": "who-am-i",
+      "resourcePath": "quizzes/yetimatch_soulmate.json"
+    },
+    {
       "id": "love-language-quiz",
       "title": "What Is Your Love Language?",
       "description": "Discover how you give and receive love.",

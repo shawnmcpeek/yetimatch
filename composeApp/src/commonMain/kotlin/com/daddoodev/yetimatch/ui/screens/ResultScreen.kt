@@ -1,5 +1,6 @@
 package com.daddoodev.yetimatch.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,10 +8,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.decodeToImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.daddoodev.yetimatch.loadResourceBytes
 import com.daddoodev.yetimatch.ui.ResultScreenAd
 import com.daddoodev.yetimatch.viewmodels.QuizViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ResultScreen(
@@ -37,9 +44,24 @@ fun ResultScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Result image slot (imageUrl in JSON when set; add Coil/expect-actual to load)
-            quizResult.imageUrl?.let {
-                Spacer(modifier = Modifier.height(16.dp))
+            // Result image: imageUrl is path relative to resources, e.g. "quizzes/images/summit_steve.png"
+            var resultBitmap by remember(quizResult.imageUrl) { mutableStateOf<ImageBitmap?>(null) }
+            LaunchedEffect(quizResult.imageUrl) {
+                resultBitmap = quizResult.imageUrl?.let { path ->
+                    withContext(Dispatchers.Default) {
+                        loadResourceBytes(path)?.decodeToImageBitmap()
+                    }
+                }
+            }
+            resultBitmap?.let { bitmap ->
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = quizResult.characterName,
+                    modifier = Modifier
+                        .size(160.dp)
+                        .padding(bottom = 8.dp),
+                    contentScale = ContentScale.Fit
+                )
             }
 
             // Character name

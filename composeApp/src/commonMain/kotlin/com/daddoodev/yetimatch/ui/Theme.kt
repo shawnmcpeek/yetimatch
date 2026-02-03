@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import yetimatch.composeapp.generated.resources.logoDark
 import yetimatch.composeapp.generated.resources.logoLight
@@ -102,25 +103,37 @@ fun ThemeModeToggle(
     onThemeModeChange: (ThemeMode) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isDark = themeMode == ThemeMode.Dark
+    val darkTheme = when (themeMode) {
+        ThemeMode.Light -> false
+        ThemeMode.Dark -> true
+        ThemeMode.System -> isSystemInDarkTheme()
+    }
+    val onSurface = MaterialTheme.colorScheme.onSurface
+    val primary = MaterialTheme.colorScheme.primary
     Row(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(horizontal = 4.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Dark",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurface
+            text = "☀",
+            fontSize = 20.sp,
+            color = if (!darkTheme) primary else onSurface.copy(alpha = 0.6f)
         )
         Switch(
-            checked = isDark,
+            checked = darkTheme,
             onCheckedChange = { onThemeModeChange(if (it) ThemeMode.Dark else ThemeMode.Light) },
+            modifier = Modifier.padding(horizontal = 4.dp),
             colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.primary,
+                checkedThumbColor = primary,
                 checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
                 uncheckedThumbColor = MaterialTheme.colorScheme.outline,
                 uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
             )
+        )
+        Text(
+            text = "🌙",
+            fontSize = 18.sp,
+            color = if (darkTheme) primary else onSurface.copy(alpha = 0.6f)
         )
     }
 }
