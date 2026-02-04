@@ -7,7 +7,6 @@ workflows:
     environment:
       groups:
         - variables
-        - google_credentials
       vars:
         PACKAGE_NAME: "com.daddoodev.yetimatch"
       android_signing:
