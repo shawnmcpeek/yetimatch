@@ -67,6 +67,20 @@ android {
 
     sourceSets.getByName("main").assets.srcDirs("src/commonMain/resources")
 
+    val keystorePropertiesFile = rootProject.file("keystore.properties")
+    if (keystorePropertiesFile.exists()) {
+        val keystoreProperties = java.util.Properties()
+        keystoreProperties.load(keystorePropertiesFile.inputStream())
+        signingConfigs {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     defaultConfig {
         applicationId = "com.daddoodev.yetimatch"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -82,6 +96,9 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {

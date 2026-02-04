@@ -23,3 +23,6 @@ iosApp/iosApp/GoogleService-Info.plist
 composeApp/google-services.json
 composeApp/GoogleService-Info.plist
 composeApp/google-services.json
+yetimatchkeystoredata
+keystore.properties
+*.keystore
