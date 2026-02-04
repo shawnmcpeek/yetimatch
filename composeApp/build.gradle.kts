@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -68,15 +69,23 @@ android {
     sourceSets.getByName("main").assets.srcDirs("src/commonMain/resources")
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
-    if (keystorePropertiesFile.exists()) {
-        val keystoreProperties = java.util.Properties()
-        keystoreProperties.load(keystorePropertiesFile.inputStream())
+    val useCodemagicSigning = System.getenv("CM_KEYSTORE_PATH") != null
+    if (keystorePropertiesFile.exists() || useCodemagicSigning) {
         signingConfigs {
             create("release") {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
+                if (useCodemagicSigning) {
+                    storeFile = file(System.getenv("CM_KEYSTORE_PATH")!!)
+                    storePassword = System.getenv("CM_KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("CM_KEY_ALIAS")
+                    keyPassword = System.getenv("CM_KEY_PASSWORD")
+                } else {
+                    val keystoreProperties = Properties()
+                    keystoreProperties.load(keystorePropertiesFile.inputStream())
+                    keyAlias = keystoreProperties["keyAlias"] as String
+                    keyPassword = keystoreProperties["keyPassword"] as String
+                    storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                    storePassword = keystoreProperties["storePassword"] as String
+                }
             }
         }
     }
@@ -96,7 +105,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            if (keystorePropertiesFile.exists()) {
+            if (keystorePropertiesFile.exists() || useCodemagicSigning) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
