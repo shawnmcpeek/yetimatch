@@ -28,13 +28,14 @@ workflows:
         script: |
           ./gradlew composeApp:assembleDebug
 
-      - name: Build Android (release APK)
+      - name: Build Android (release – production)
         script: |
-          ./gradlew composeApp:assembleRelease
-    
+          ./gradlew composeApp:assembleRelease composeApp:bundleRelease
+
     artifacts:
       - composeApp/build/outputs/apk/debug/*.apk
       - composeApp/build/outputs/apk/release/*.apk
+      - composeApp/build/outputs/bundle/release/*.aab
 
   ios-kmp:
     name: iOS (KMP)
