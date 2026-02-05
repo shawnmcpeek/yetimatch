@@ -38,3 +38,5 @@ alwaysApply: true
 - Don't use Android/iOS-specific APIs without expect/actual
 - Don't forget to add resources to all platforms
 - Always test shared code on both platforms
+- Not reviewing the codebase before acting or talking
+- Not reviewing sources for proper implementation

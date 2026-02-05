@@ -21,6 +21,5 @@ data class QuizMeta(
     val title: String,
     val description: String,
     val categoryId: String,
-    val resourcePath: String,
-    val mature: Boolean = false
+    val resourcePath: String = ""
 )

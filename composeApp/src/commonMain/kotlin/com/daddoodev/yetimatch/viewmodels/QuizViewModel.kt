@@ -1,7 +1,8 @@
 package com.daddoodev.yetimatch.viewmodels
 
+import com.daddoodev.yetimatch.api.QuizApi
+import com.daddoodev.yetimatch.api.createQuizHttpClient
 import com.daddoodev.yetimatch.loadManifestJson
-import com.daddoodev.yetimatch.loadQuizJson
 import com.daddoodev.yetimatch.models.Quiz
 import com.daddoodev.yetimatch.models.QuizManifest
 import com.daddoodev.yetimatch.models.QuizMeta
@@ -15,7 +16,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class QuizViewModel(private val quizService: QuizService = QuizService()) {
+class QuizViewModel(
+    private val quizService: QuizService = QuizService(),
+    private val quizApi: QuizApi = QuizApi(createQuizHttpClient())
+) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -70,15 +74,26 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
     }
 
     /**
-     * Load manifest (categories + quiz list) from platform resources.
+     * Load manifest: categories from bundled manifest, quiz list from API.
      */
     fun loadManifestFromResources() {
         scope.launch {
             _isLoading.value = true
             _loadError.value = null
             try {
-                val json = loadManifestJson()
-                _manifest.value = quizService.loadManifest(json)
+                val manifestJson = loadManifestJson()
+                val baseManifest = quizService.loadManifest(manifestJson)
+                val apiQuizzes = quizApi.listQuizzes()
+                val quizzes = apiQuizzes.map { item ->
+                    QuizMeta(
+                        id = item.id,
+                        title = item.title,
+                        description = item.description,
+                        categoryId = item.categoryId ?: quizApi.getCategoryForQuiz(item.id),
+                        resourcePath = ""
+                    )
+                }
+                _manifest.value = baseManifest.copy(quizzes = quizzes)
             } catch (e: Exception) {
                 _loadError.value = e.message ?: "Failed to load catalog"
             }
@@ -87,15 +102,15 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
     }
 
     /**
-     * Load a quiz by resource path and start it. Runs asynchronously.
+     * Load a quiz by ID from API and start it. Runs asynchronously.
      */
-    fun loadQuizByPath(path: String) {
+    fun loadQuizById(quizId: String) {
         scope.launch {
             _isLoading.value = true
             _loadError.value = null
             try {
-                val json = loadQuizJson(path)
-                loadQuiz(json)
+                val quiz = quizApi.getQuiz(quizId)
+                startQuiz(quiz)
             } catch (e: Exception) {
                 _loadError.value = e.message ?: "Failed to load quiz"
             }
@@ -103,9 +118,9 @@ class QuizViewModel(private val quizService: QuizService = QuizService()) {
         }
     }
 
-    fun getQuizzesInCategory(categoryId: String, matureOnly: Boolean = false): List<QuizMeta> {
+    fun getQuizzesInCategory(categoryId: String): List<QuizMeta> {
         val m = _manifest.value ?: return emptyList()
-        return m.quizzes.filter { it.categoryId == categoryId && it.mature == matureOnly }
+        return m.quizzes.filter { it.categoryId == categoryId }
     }
 
     fun searchQuizzes(query: String): List<QuizMeta> {

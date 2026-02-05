@@ -39,7 +39,6 @@ import com.daddoodev.yetimatch.auth.setQuizzesTakenCount
 import com.daddoodev.yetimatch.auth.signOut
 import com.daddoodev.yetimatch.firestore.ensureUserOnSignIn
 import com.daddoodev.yetimatch.firestore.saveQuizResult
-import com.daddoodev.yetimatch.firestore.setUserAgeVerified
 import com.daddoodev.yetimatch.preferences.getThemeMode
 import com.daddoodev.yetimatch.preferences.setThemeMode
 import com.daddoodev.yetimatch.platform.openUrl
@@ -61,12 +60,11 @@ private const val FREE_QUIZ_LIMIT = 5
 private sealed class AppScreen {
     data object Home : AppScreen()
     data class CategoryDetail(val categoryId: String) : AppScreen()
-    data class CategoryDetailMature(val categoryId: String) : AppScreen()
     data object LoadingQuiz : AppScreen()
-    /** Sign in screen. pendingPath = null when opened from menu. */
-    data class SignIn(val pendingPath: String?) : AppScreen()
-    /** Sign up screen. pendingPath = null when opened from menu. */
-    data class SignUp(val pendingPath: String?) : AppScreen()
+    /** Sign in screen. pendingQuizId = null when opened from menu. */
+    data class SignIn(val pendingQuizId: String?) : AppScreen()
+    /** Sign up screen. pendingQuizId = null when opened from menu. */
+    data class SignUp(val pendingQuizId: String?) : AppScreen()
     data object Welcome : AppScreen()
     data object Quiz : AppScreen()
     data object Results : AppScreen()
@@ -101,12 +99,10 @@ fun App() {
         }
 
         val showBack = currentScreen is AppScreen.CategoryDetail ||
-            currentScreen is AppScreen.CategoryDetailMature ||
             currentScreen is AppScreen.SignIn ||
             currentScreen is AppScreen.SignUp
         val topBarTitle = when (val s = currentScreen) {
             is AppScreen.CategoryDetail -> manifest?.categories?.find { it.id == s.categoryId }?.name ?: "Category"
-            is AppScreen.CategoryDetailMature -> (manifest?.categories?.find { it.id == s.categoryId }?.name ?: "Category") + " (Adult)"
             is AppScreen.SignIn -> "Sign in"
             is AppScreen.SignUp -> "Sign up"
             else -> "YetiMatch"
@@ -124,12 +120,7 @@ fun App() {
                     },
                     navigationIcon = {
                         if (showBack) {
-                            IconButton(onClick = {
-                                currentScreen = when (val s = currentScreen) {
-                                    is AppScreen.CategoryDetailMature -> AppScreen.CategoryDetail(s.categoryId)
-                                    else -> AppScreen.Home
-                                }
-                            }) {
+                            IconButton(onClick = { currentScreen = AppScreen.Home }) {
                                 Text("<")
                             }
                         }
@@ -324,45 +315,45 @@ fun App() {
                     )
                     currentScreen is AppScreen.SignIn -> {
                         val signIn = currentScreen as AppScreen.SignIn
-                        val pendingPath = signIn.pendingPath
+                        val pendingQuizId = signIn.pendingQuizId
                         SignInScreen(
-                            message = if (pendingPath != null)
+                            message = if (pendingQuizId != null)
                                 "You've completed $FREE_QUIZ_LIMIT free quizzes. Sign in to continue."
                             else
                                 "Sign in to sync your progress and unlock features.",
                             onSuccess = {
                                 scope.launch { ensureUserOnSignIn() }
                                 signedInEmail = getCurrentUserEmail()
-                                if (pendingPath != null) {
+                                if (pendingQuizId != null) {
                                     currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizByPath(pendingPath)
+                                    viewModel.loadQuizById(pendingQuizId)
                                 } else {
                                     currentScreen = AppScreen.Home
                                 }
                             },
-                            onGoToSignUp = { currentScreen = AppScreen.SignUp(pendingPath) },
+                            onGoToSignUp = { currentScreen = AppScreen.SignUp(pendingQuizId) },
                             onCancel = { currentScreen = AppScreen.Home }
                         )
                     }
                     currentScreen is AppScreen.SignUp -> {
                         val signUp = currentScreen as AppScreen.SignUp
-                        val pendingPath = signUp.pendingPath
+                        val pendingQuizId = signUp.pendingQuizId
                         SignUpScreen(
-                            message = if (pendingPath != null)
+                            message = if (pendingQuizId != null)
                                 "You've completed $FREE_QUIZ_LIMIT free quizzes. Create an account to continue."
                             else
                                 "Create an account to sync your progress and unlock features.",
                             onSuccess = {
                                 scope.launch { ensureUserOnSignIn() }
                                 signedInEmail = getCurrentUserEmail()
-                                if (pendingPath != null) {
+                                if (pendingQuizId != null) {
                                     currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizByPath(pendingPath)
+                                    viewModel.loadQuizById(pendingQuizId)
                                 } else {
                                     currentScreen = AppScreen.Home
                                 }
                             },
-                            onGoToSignIn = { currentScreen = AppScreen.SignIn(pendingPath) },
+                            onGoToSignIn = { currentScreen = AppScreen.SignIn(pendingQuizId) },
                             onCancel = { currentScreen = AppScreen.Home }
                         )
                     }
@@ -374,49 +365,26 @@ fun App() {
                         onCategoryClick = { id -> currentScreen = AppScreen.CategoryDetail(id) },
                         onQuizClick = { meta ->
                             if (getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null) {
-                                currentScreen = AppScreen.SignIn(meta.resourcePath)  // gate: must sign in
+                                currentScreen = AppScreen.SignIn(meta.id)
                             } else {
                                 currentScreen = AppScreen.LoadingQuiz
-                                viewModel.loadQuizByPath(meta.resourcePath)
+                                viewModel.loadQuizById(meta.id)
                             }
                         }
                     )
                     currentScreen is AppScreen.CategoryDetail -> {
                         val categoryId = (currentScreen as AppScreen.CategoryDetail).categoryId
                         val categoryName = manifest?.categories?.find { it.id == categoryId }?.name ?: ""
-                        val allAgesQuizzes = viewModel.getQuizzesInCategory(categoryId, matureOnly = false)
-                        val matureQuizzes = viewModel.getQuizzesInCategory(categoryId, matureOnly = true)
+                        val quizzes = viewModel.getQuizzesInCategory(categoryId)
                         CategoryDetailScreen(
                             categoryName = categoryName,
-                            quizzes = allAgesQuizzes,
+                            quizzes = quizzes,
                             onQuizClick = { meta ->
                                 if (getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null) {
-                                    currentScreen = AppScreen.SignIn(meta.resourcePath)  // gate: must sign in
+                                    currentScreen = AppScreen.SignIn(meta.id)
                                 } else {
                                     currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizByPath(meta.resourcePath)
-                                }
-                            },
-                            matureQuizzes = matureQuizzes,
-                            onAdultQuizzesClick = if (matureQuizzes.isNotEmpty()) {
-                                { currentScreen = AppScreen.CategoryDetailMature(categoryId) }
-                            } else null,
-                            onAgeVerifiedPassed = { scope.launch { setUserAgeVerified(true) } }
-                        )
-                    }
-                    currentScreen is AppScreen.CategoryDetailMature -> {
-                        val categoryId = (currentScreen as AppScreen.CategoryDetailMature).categoryId
-                        val categoryName = manifest?.categories?.find { it.id == categoryId }?.name ?: ""
-                        val matureQuizzes = viewModel.getQuizzesInCategory(categoryId, matureOnly = true)
-                        CategoryDetailScreen(
-                            categoryName = "$categoryName (Adult)",
-                            quizzes = matureQuizzes,
-                            onQuizClick = { meta ->
-                                if (getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null) {
-                                    currentScreen = AppScreen.SignIn(meta.resourcePath)  // gate: must sign in
-                                } else {
-                                    currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizByPath(meta.resourcePath)
+                                    viewModel.loadQuizById(meta.id)
                                 }
                             }
                         )

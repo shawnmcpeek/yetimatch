@@ -13,9 +13,3 @@ expect suspend fun ensureUserOnSignIn(): Result<Unit>
  * Data is stored for all signed-in users; visibility (e.g. history UI) can be gated by paid tier later.
  */
 expect suspend fun saveQuizResult(quizId: String, quizTitle: String, result: QuizResult): Result<Unit>
-
-/**
- * Updates the signed-in user's age-verified flag (passed 18+ gate for adult content).
- * No-op if not signed in. Used to persist "passed age test" to user data.
- */
-expect suspend fun setUserAgeVerified(verified: Boolean): Result<Unit>

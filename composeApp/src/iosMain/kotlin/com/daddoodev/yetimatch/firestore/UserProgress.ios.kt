@@ -7,6 +7,3 @@ actual suspend fun ensureUserOnSignIn(): Result<Unit> =
 
 actual suspend fun saveQuizResult(quizId: String, quizTitle: String, result: QuizResult): Result<Unit> =
     Result.failure(UnsupportedOperationException("Firestore on iOS: add Firebase Firestore iOS SDK and implement"))
-
-actual suspend fun setUserAgeVerified(verified: Boolean): Result<Unit> =
-    Result.failure(UnsupportedOperationException("Firestore on iOS: add Firebase Firestore iOS SDK and implement"))

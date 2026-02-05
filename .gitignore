@@ -27,3 +27,4 @@ yetimatchkeystoredata
 keystore.properties
 *.keystore
 yetimatch-5a0f9904a9ef.json
+.env

@@ -19,8 +19,6 @@ private const val CHARACTER_NAME = "characterName"
 private const val DESCRIPTION = "description"
 private const val TRAITS = "traits"
 private const val COMPLETED_AT = "completedAt"
-private const val AGE_VERIFIED = "ageVerified"
-
 private const val TAG = "YetiMatch/Firestore"
 private val firestore: FirebaseFirestore get() = FirebaseFirestore.getInstance()
 
@@ -59,10 +57,3 @@ actual suspend fun saveQuizResult(quizId: String, quizTitle: String, result: Qui
     col.document(quizId).set(data).await()
     Log.d(TAG, "saveQuizResult: wrote quiz $quizId for users/$uid")
 }.onFailure { e -> Log.e(TAG, "saveQuizResult failed", e) }
-
-actual suspend fun setUserAgeVerified(verified: Boolean): Result<Unit> = runCatching {
-    val uid = getCurrentUserId()
-    if (uid == null) return@runCatching
-    firestore.collection(USERS).document(uid).set(mapOf(AGE_VERIFIED to verified), SetOptions.merge()).await()
-    Log.d(TAG, "setUserAgeVerified: users/$uid ageVerified=$verified")
-}.onFailure { e -> Log.e(TAG, "setUserAgeVerified failed", e) }
