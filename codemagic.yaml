@@ -52,7 +52,10 @@ workflows:
       vars:
         XCODE_WORKSPACE: "iosApp.xcworkspace"
         XCODE_SCHEME: "iosApp"
-        BUNDLE_ID: "com.daddoodev.yetimatch.YetiMatch"
+        BUNDLE_ID: "com.daddoodev.yetimatch"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.daddoodev.yetimatch
       xcode: latest
       cocoapods: default
     scripts:
@@ -96,9 +99,12 @@ workflows:
         PACKAGE_NAME: "com.daddoodev.yetimatch"
         XCODE_WORKSPACE: "iosApp.xcworkspace"
         XCODE_SCHEME: "iosApp"
-        BUNDLE_ID: "com.daddoodev.yetimatch.YetiMatch"
+        BUNDLE_ID: "com.daddoodev.yetimatch"
       android_signing:
         - codemagic_android_keystore
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.daddoodev.yetimatch
       xcode: latest
       cocoapods: default
     scripts:
