@@ -84,3 +84,73 @@ workflows:
     
     artifacts:
       - build/ios/ipa/*.ipa
+
+  both-platforms:
+    name: Android + iOS (KMP)
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    environment:
+      groups:
+        - variables
+      vars:
+        PACKAGE_NAME: "com.daddoodev.yetimatch"
+        XCODE_WORKSPACE: "iosApp.xcworkspace"
+        XCODE_SCHEME: "iosApp"
+        BUNDLE_ID: "com.daddoodev.yetimatch.YetiMatch"
+      android_signing:
+        - codemagic_android_keystore
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
+
+      - name: Fix gradlew permissions
+        script: |
+          chmod +x ./gradlew
+
+      - name: Setup google-services.json (Android)
+        script: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > androidApp/google-services.json
+
+      - name: Setup GoogleService-Info.plist (iOS)
+        script: |
+          echo $GoogleServiceInfo | base64 --decode > iosApp/GoogleService-Info.plist
+
+      - name: Sync version to iOS
+        script: |
+          ./gradlew syncVersionToIos
+
+      - name: Build Android (debug APK)
+        script: |
+          ./gradlew androidApp:assembleDebug
+
+      - name: Build Android (release – production)
+        script: |
+          ./gradlew androidApp:assembleRelease androidApp:bundleRelease
+
+      - name: Build KMP iOS framework
+        script: |
+          ./gradlew composeApp:linkReleaseFrameworkIosArm64
+
+      - name: Install CocoaPods
+        script: |
+          cd iosApp && pod install
+
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/iosApp/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - androidApp/build/outputs/apk/debug/*.apk
+      - androidApp/build/outputs/apk/release/*.apk
+      - androidApp/build/outputs/bundle/release/*.aab
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
