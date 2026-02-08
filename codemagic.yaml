@@ -22,20 +22,20 @@ workflows:
       
       - name: Setup google-services.json (Android)
         script: |
-          echo $GOOGLE_SERVICES_JSON | base64 --decode > composeApp/google-services.json
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > androidApp/google-services.json
   
       - name: Build Android (debug APK)
         script: |
-          ./gradlew composeApp:assembleDebug
+          ./gradlew androidApp:assembleDebug
 
       - name: Build Android (release – production)
         script: |
-          ./gradlew composeApp:assembleRelease composeApp:bundleRelease
+          ./gradlew androidApp:assembleRelease androidApp:bundleRelease
 
     artifacts:
-      - composeApp/build/outputs/apk/debug/*.apk
-      - composeApp/build/outputs/apk/release/*.apk
-      - composeApp/build/outputs/bundle/release/*.aab
+      - androidApp/build/outputs/apk/debug/*.apk
+      - androidApp/build/outputs/apk/release/*.apk
+      - androidApp/build/outputs/bundle/release/*.aab
 
     publishing:
       google_play:
@@ -64,6 +64,10 @@ workflows:
         script: |
           echo $GoogleServiceInfo | base64 --decode > iosApp/GoogleService-Info.plist
       
+      - name: Sync version to iOS
+        script: |
+          ./gradlew syncVersionToIos
+
       - name: Build KMP iOS framework
         script: |
           ./gradlew composeApp:linkReleaseFrameworkIosArm64

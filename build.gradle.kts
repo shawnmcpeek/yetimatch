@@ -17,3 +17,17 @@ plugins {
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.googleServices) apply false
 }
+
+tasks.register("syncVersionToIos") {
+    description = "Syncs app version from gradle.properties into iOS Config.xcconfig"
+    doLast {
+        val versionCode = findProperty("app.versionCode") as String
+        val versionName = findProperty("app.versionName") as String
+        val xcconfig = file("iosApp/Configuration/Config.xcconfig")
+        val content = xcconfig.readText()
+            .replace(Regex("CURRENT_PROJECT_VERSION=.*"), "CURRENT_PROJECT_VERSION=$versionCode")
+            .replace(Regex("MARKETING_VERSION=.*"), "MARKETING_VERSION=$versionName")
+        xcconfig.writeText(content)
+        println("iOS version synced: CURRENT_PROJECT_VERSION=$versionCode, MARKETING_VERSION=$versionName")
+    }
+}
