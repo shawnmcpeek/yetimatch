@@ -88,6 +88,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
+            // RevenueCat
+            implementation("com.revenuecat.purchases:purchases-kmp-core:2.5.0+17.32.0")
+            implementation("com.revenuecat.purchases:purchases-kmp-ui:2.5.0+17.32.0")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -51,13 +51,15 @@ import com.daddoodev.yetimatch.ui.screens.ErrorScreen
 import com.daddoodev.yetimatch.ui.screens.HomeScreen
 import com.daddoodev.yetimatch.ui.screens.LoadingScreen
 import com.daddoodev.yetimatch.ui.screens.QuizScreen
+import com.daddoodev.yetimatch.ui.screens.PaywallScreen
 import com.daddoodev.yetimatch.ui.screens.ResultScreen
 import com.daddoodev.yetimatch.ui.screens.WelcomeScreen
+import com.daddoodev.yetimatch.subscription.SubscriptionManager
 import com.daddoodev.yetimatch.viewmodels.QuizViewModel
 import kotlinx.coroutines.launch
 
-/** Number of free quizzes before sign-in is required. (Which quizzes are free can be configured later.) */
-private const val FREE_QUIZ_LIMIT = 5
+/** Number of free quizzes before sign-in/subscription is required. */
+private const val FREE_QUIZ_LIMIT = 4
 
 private sealed class AppScreen {
     data object Home : AppScreen()
@@ -67,6 +69,8 @@ private sealed class AppScreen {
     data class SignIn(val pendingQuizId: String?) : AppScreen()
     /** Sign up screen. pendingQuizId = null when opened from menu. */
     data class SignUp(val pendingQuizId: String?) : AppScreen()
+    /** Paywall shown after sign-in gate or from menu. */
+    data class Paywall(val pendingQuizId: String?) : AppScreen()
     data object Welcome : AppScreen()
     data object Quiz : AppScreen()
     data object Results : AppScreen()
@@ -98,9 +102,13 @@ fun App() {
         var showDeleteConfirm by remember { mutableStateOf(false) }
         var deleteError by remember { mutableStateOf<String?>(null) }
         val scope = rememberCoroutineScope()
+        val hasUnlimited by SubscriptionManager.isUnlimited.collectAsState()
 
         LaunchedEffect(Unit) {
             viewModel.loadManifestFromResources()
+            // Refresh subscription status and link to Firebase user if signed in
+            SubscriptionManager.refreshCustomerInfo()
+            getCurrentUserId()?.let { uid -> SubscriptionManager.loginUser(uid) }
         }
 
         LaunchedEffect(currentScreen, isLoading, currentQuiz) {
@@ -111,11 +119,13 @@ fun App() {
 
         val showBack = currentScreen is AppScreen.CategoryDetail ||
             currentScreen is AppScreen.SignIn ||
-            currentScreen is AppScreen.SignUp
+            currentScreen is AppScreen.SignUp ||
+            currentScreen is AppScreen.Paywall
         val topBarTitle = when (val s = currentScreen) {
             is AppScreen.CategoryDetail -> manifest?.categories?.find { it.id == s.categoryId }?.name ?: "Category"
             is AppScreen.SignIn -> "Sign in"
             is AppScreen.SignUp -> "Sign up"
+            is AppScreen.Paywall -> "Upgrade"
             else -> "YetiMatch"
         }
 
@@ -170,6 +180,7 @@ fun App() {
                                     text = { Text("Sign out") },
                                     onClick = {
                                         signOut()
+                                        SubscriptionManager.logoutUser()
                                         signedInEmail = null
                                         menuExpanded = false
                                     }
@@ -245,17 +256,22 @@ fun App() {
                                     openUrl(AppConfig.SUPPORT_URL)
                                 }
                             )
-                            HorizontalDivider()
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        "Upgrade to Premium",
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                },
-                                onClick = { menuExpanded = false }
-                            )
+                            if (!hasUnlimited) {
+                                HorizontalDivider()
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            "Upgrade to Premium",
+                                            style = MaterialTheme.typography.labelLarge,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    },
+                                    onClick = {
+                                        menuExpanded = false
+                                        currentScreen = AppScreen.Paywall(null)
+                                    }
+                                )
+                            }
                             }
                         }
                     }
@@ -278,6 +294,7 @@ fun App() {
                                         deleteAccount().fold(
                                             onSuccess = {
                                                 signOut()
+                                                SubscriptionManager.logoutUser()
                                                 setQuizzesTakenCount(0)
                                                 signedInEmail = null
                                                 currentScreen = AppScreen.Home
@@ -335,9 +352,15 @@ fun App() {
                             onSuccess = {
                                 scope.launch { ensureUserOnSignIn() }
                                 signedInEmail = getCurrentUserEmail()
+                                getCurrentUserId()?.let { uid -> SubscriptionManager.loginUser(uid) }
                                 if (pendingQuizId != null) {
-                                    currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizById(pendingQuizId)
+                                    // After sign-in, show paywall if not yet purchased
+                                    if (!SubscriptionManager.hasUnlimitedAccess()) {
+                                        currentScreen = AppScreen.Paywall(pendingQuizId)
+                                    } else {
+                                        currentScreen = AppScreen.LoadingQuiz
+                                        viewModel.loadQuizById(pendingQuizId)
+                                    }
                                 } else {
                                     currentScreen = AppScreen.Home
                                 }
@@ -357,6 +380,29 @@ fun App() {
                             onSuccess = {
                                 scope.launch { ensureUserOnSignIn() }
                                 signedInEmail = getCurrentUserEmail()
+                                getCurrentUserId()?.let { uid -> SubscriptionManager.loginUser(uid) }
+                                if (pendingQuizId != null) {
+                                    if (!SubscriptionManager.hasUnlimitedAccess()) {
+                                        currentScreen = AppScreen.Paywall(pendingQuizId)
+                                    } else {
+                                        currentScreen = AppScreen.LoadingQuiz
+                                        viewModel.loadQuizById(pendingQuizId)
+                                    }
+                                } else {
+                                    currentScreen = AppScreen.Home
+                                }
+                            },
+                            onGoToSignIn = { currentScreen = AppScreen.SignIn(pendingQuizId) },
+                            onCancel = { currentScreen = AppScreen.Home }
+                        )
+                    }
+                    currentScreen is AppScreen.Paywall -> {
+                        val paywall = currentScreen as AppScreen.Paywall
+                        val pendingQuizId = paywall.pendingQuizId
+                        PaywallScreen(
+                            onDismiss = { currentScreen = AppScreen.Home },
+                            onPurchaseCompleted = {
+                                SubscriptionManager.refreshCustomerInfo()
                                 if (pendingQuizId != null) {
                                     currentScreen = AppScreen.LoadingQuiz
                                     viewModel.loadQuizById(pendingQuizId)
@@ -364,8 +410,15 @@ fun App() {
                                     currentScreen = AppScreen.Home
                                 }
                             },
-                            onGoToSignIn = { currentScreen = AppScreen.SignIn(pendingQuizId) },
-                            onCancel = { currentScreen = AppScreen.Home }
+                            onRestoreCompleted = {
+                                SubscriptionManager.refreshCustomerInfo()
+                                if (pendingQuizId != null && SubscriptionManager.hasUnlimitedAccess()) {
+                                    currentScreen = AppScreen.LoadingQuiz
+                                    viewModel.loadQuizById(pendingQuizId)
+                                } else {
+                                    currentScreen = AppScreen.Home
+                                }
+                            }
                         )
                     }
                     currentScreen is AppScreen.LoadingQuiz -> LoadingScreen(message = "Loading quiz...")
@@ -375,11 +428,25 @@ fun App() {
                         onSearchQueryChange = { searchQuery = it },
                         onCategoryClick = { id -> currentScreen = AppScreen.CategoryDetail(id) },
                         onQuizClick = { meta ->
-                            if (getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null) {
-                                currentScreen = AppScreen.SignIn(meta.id)
-                            } else {
-                                currentScreen = AppScreen.LoadingQuiz
-                                viewModel.loadQuizById(meta.id)
+                            when {
+                                // Paid users: unlimited access
+                                hasUnlimited -> {
+                                    currentScreen = AppScreen.LoadingQuiz
+                                    viewModel.loadQuizById(meta.id)
+                                }
+                                // Free limit reached, not signed in: sign in first
+                                getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null -> {
+                                    currentScreen = AppScreen.SignIn(meta.id)
+                                }
+                                // Free limit reached, signed in but not purchased: paywall
+                                getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && !hasUnlimited -> {
+                                    currentScreen = AppScreen.Paywall(meta.id)
+                                }
+                                // Under free limit: play
+                                else -> {
+                                    currentScreen = AppScreen.LoadingQuiz
+                                    viewModel.loadQuizById(meta.id)
+                                }
                             }
                         }
                     )
@@ -391,11 +458,21 @@ fun App() {
                             categoryName = categoryName,
                             quizzes = quizzes,
                             onQuizClick = { meta ->
-                                if (getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null) {
-                                    currentScreen = AppScreen.SignIn(meta.id)
-                                } else {
-                                    currentScreen = AppScreen.LoadingQuiz
-                                    viewModel.loadQuizById(meta.id)
+                                when {
+                                    hasUnlimited -> {
+                                        currentScreen = AppScreen.LoadingQuiz
+                                        viewModel.loadQuizById(meta.id)
+                                    }
+                                    getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && getCurrentUserEmail() == null -> {
+                                        currentScreen = AppScreen.SignIn(meta.id)
+                                    }
+                                    getQuizzesTakenCount() >= FREE_QUIZ_LIMIT && !hasUnlimited -> {
+                                        currentScreen = AppScreen.Paywall(meta.id)
+                                    }
+                                    else -> {
+                                        currentScreen = AppScreen.LoadingQuiz
+                                        viewModel.loadQuizById(meta.id)
+                                    }
                                 }
                             }
                         )
