@@ -94,27 +94,16 @@ workflows:
           echo "PROFILE_UUID=$PROFILE_UUID" >> $CM_ENV
           echo "PROFILE_NAME=$PROFILE_NAME" >> $CM_ENV
           echo "CM_TEAM_ID=$TEAM_ID" >> $CM_ENV
-          cat > /Users/builder/export_options.plist << EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>method</key>
-    <string>app-store</string>
-    <key>teamID</key>
-    <string>${TEAM_ID}</string>
-    <key>uploadBitcode</key>
-    <false/>
-    <key>uploadSymbols</key>
-    <true/>
-    <key>provisioningProfiles</key>
-    <dict>
-        <key>com.daddoodev.yetimatch</key>
-        <string>${PROFILE_NAME}</string>
-    </dict>
-</dict>
-</plist>
-EOF
+          EP=/Users/builder/export_options.plist
+          /usr/libexec/PlistBuddy -c "Clear dict" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :method string app-store" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :teamID string $TEAM_ID" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :uploadBitcode bool false" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.daddoodev.yetimatch string $PROFILE_NAME" "$EP"
+          echo "Generated export_options.plist:"
+          cat "$EP"
 
       - name: Build IPA
         script: |
@@ -128,7 +117,6 @@ EOF
             DEVELOPMENT_TEAM="$CM_TEAM_ID" \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
             CODE_SIGN_IDENTITY="Apple Distribution"
-          
           xcodebuild -exportArchive \
             -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
             -exportOptionsPlist /Users/builder/export_options.plist \
@@ -205,27 +193,14 @@ EOF
           echo "PROFILE_UUID=$PROFILE_UUID" >> $CM_ENV
           echo "PROFILE_NAME=$PROFILE_NAME" >> $CM_ENV
           echo "CM_TEAM_ID=$TEAM_ID" >> $CM_ENV
-          cat > /Users/builder/export_options.plist << EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>method</key>
-    <string>app-store</string>
-    <key>teamID</key>
-    <string>${TEAM_ID}</string>
-    <key>uploadBitcode</key>
-    <false/>
-    <key>uploadSymbols</key>
-    <true/>
-    <key>provisioningProfiles</key>
-    <dict>
-        <key>com.daddoodev.yetimatch</key>
-        <string>${PROFILE_NAME}</string>
-    </dict>
-</dict>
-</plist>
-EOF
+          EP=/Users/builder/export_options.plist
+          /usr/libexec/PlistBuddy -c "Clear dict" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :method string app-store" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :teamID string $TEAM_ID" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :uploadBitcode bool false" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EP"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.daddoodev.yetimatch string $PROFILE_NAME" "$EP"
 
       - name: Build IPA
         script: |
@@ -239,7 +214,6 @@ EOF
             DEVELOPMENT_TEAM="$CM_TEAM_ID" \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
             CODE_SIGN_IDENTITY="Apple Distribution"
-          
           xcodebuild -exportArchive \
             -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
             -exportOptionsPlist /Users/builder/export_options.plist \
