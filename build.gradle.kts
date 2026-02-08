@@ -20,14 +20,17 @@ plugins {
 
 tasks.register("syncVersionToIos") {
     description = "Syncs app version from gradle.properties into iOS Config.xcconfig"
+    val versionCode = providers.gradleProperty("app.versionCode")
+    val versionName = providers.gradleProperty("app.versionName")
+    val xcconfig = layout.projectDirectory.file("iosApp/Configuration/Config.xcconfig")
     doLast {
-        val versionCode = findProperty("app.versionCode") as String
-        val versionName = findProperty("app.versionName") as String
-        val xcconfig = file("iosApp/Configuration/Config.xcconfig")
-        val content = xcconfig.readText()
-            .replace(Regex("CURRENT_PROJECT_VERSION=.*"), "CURRENT_PROJECT_VERSION=$versionCode")
-            .replace(Regex("MARKETING_VERSION=.*"), "MARKETING_VERSION=$versionName")
-        xcconfig.writeText(content)
-        println("iOS version synced: CURRENT_PROJECT_VERSION=$versionCode, MARKETING_VERSION=$versionName")
+        val code = versionCode.get()
+        val name = versionName.get()
+        val file = xcconfig.asFile
+        val content = file.readText()
+            .replace(Regex("CURRENT_PROJECT_VERSION=.*"), "CURRENT_PROJECT_VERSION=$code")
+            .replace(Regex("MARKETING_VERSION=.*"), "MARKETING_VERSION=$name")
+        file.writeText(content)
+        println("iOS version synced: CURRENT_PROJECT_VERSION=$code, MARKETING_VERSION=$name")
     }
 }
