@@ -33,7 +33,7 @@ Three-tier freemium model with one-time purchases (no subscriptions). Clear valu
 **What's Included:**
 - ✅ **ALL 100+ quizzes unlocked**
 - ✅ **Zero ads** - completely ad-free experience
-- ✅ **Recent history** - View your last 10 quiz results
+- ✅ **Unlimited quiz history** - Never lose a result
 - ✅ Basic personality insights
 
 **Perfect For:**
@@ -52,7 +52,7 @@ Three-tier freemium model with one-time purchases (no subscriptions). Clear valu
 **One-Time Purchase**
 
 **Everything in Basic, PLUS:**
-- ✅ **Unlimited quiz history** - Never lose a result
+- ✅ **Unlimited quiz history plus more** - Never lose a result - Add Analytics!
 - ✅ **Personalized recommendations** - AI-suggested quizzes based on your results
 - ✅ **Social sharing** - Custom-designed result cards for Instagram/TikTok/Twitter
 - ✅ **Personality insights** - Detailed breakdowns and trait analysis
