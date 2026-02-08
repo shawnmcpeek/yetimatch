@@ -4,7 +4,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
@@ -60,7 +59,7 @@ object SeasonalThemeManager {
     }
     
     fun resolveTheme(
-        date: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()),
+        date: LocalDate = kotlin.time.Clock.System.todayIn(TimeZone.currentSystemDefault()),
         isDarkMode: Boolean
     ): ColorScheme {
         val config = themesConfig ?: return if (isDarkMode) defaultDarkScheme else defaultLightScheme
@@ -77,7 +76,7 @@ object SeasonalThemeManager {
     }
     
     fun getCurrentThemeName(
-        date: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        date: LocalDate = kotlin.time.Clock.System.todayIn(TimeZone.currentSystemDefault())
     ): String {
         val config = themesConfig ?: return "Default"
         
