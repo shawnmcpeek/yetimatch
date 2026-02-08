@@ -3,6 +3,9 @@ platform :ios, '15.0'
 
 target 'iosApp' do
   use_frameworks!
+  pod 'FirebaseCore'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
   pod 'Google-Mobile-Ads-SDK'
 end
 
