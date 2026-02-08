@@ -1,0 +1,689 @@
+{
+  "id": "mythical-beast-quiz",
+  "title": "What Is Your Mythical Beast?",
+  "description": "Discover which legendary creature from ancient mythology matches your personality!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How do you handle conflict?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "With overwhelming force and dominance",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q1a2",
+          "text": "Rise above it and start fresh",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q1a3",
+          "text": "Strike fear to prevent it from happening",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q1a4",
+          "text": "Avoid it - I prefer peace and purity",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q1a5",
+          "text": "With strategic strength and nobility",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q1a6",
+          "text": "Crush it with unstoppable power",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q1a7",
+          "text": "Test others with challenges and riddles",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q1a8",
+          "text": "With unpredictable, multi-faceted attacks",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q1a9",
+          "text": "Fiercely guard what's mine",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q1a10",
+          "text": "With both wisdom and raw power",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your greatest treasure?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "Wealth, possessions, and power",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q2a2",
+          "text": "Hope and the ability to begin again",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q2a3",
+          "text": "My independence and fearsome reputation",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q2a4",
+          "text": "Innocence and magic",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q2a5",
+          "text": "Honor and noble legacy",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q2a6",
+          "text": "The depths - my domain and mystery",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q2a7",
+          "text": "Knowledge and wisdom",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q2a8",
+          "text": "My complexity and uniqueness",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q2a9",
+          "text": "Loyalty to those I protect",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q2a10",
+          "text": "Balance between mind and body",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "How do people see you?",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Powerful and intimidating",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q3a2",
+          "text": "Resilient and inspiring",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q3a3",
+          "text": "Dangerous and misunderstood",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q3a4",
+          "text": "Pure and rare",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q3a5",
+          "text": "Majestic and commanding",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q3a6",
+          "text": "Mysterious and terrifying",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q3a7",
+          "text": "Intelligent and enigmatic",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q3a8",
+          "text": "Unpredictable and fierce",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q3a9",
+          "text": "Protective and loyal",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q3a10",
+          "text": "Wise and strong",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "What's your ideal habitat?",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "A mountain cave filled with treasure",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q4a2",
+          "text": "The sun and open skies",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q4a3",
+          "text": "A secluded lair where few dare venture",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q4a4",
+          "text": "Enchanted forests and pristine meadows",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q4a5",
+          "text": "High mountains where I can survey my domain",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q4a6",
+          "text": "The darkest depths of the ocean",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q4a7",
+          "text": "Ancient temples or desert monuments",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q4a8",
+          "text": "Volcanic regions or wild landscapes",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q4a9",
+          "text": "The gates of somewhere important",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q4a10",
+          "text": "Forests where nature and civilization meet",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "What's your approach to challenges?",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Overpower them with strength",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q5a2",
+          "text": "Persist through any destruction",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q5a3",
+          "text": "Turn threats into stone-cold facts",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q5a4",
+          "text": "Choose only worthy challenges",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q5a5",
+          "text": "Attack from both land and air",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q5a6",
+          "text": "Pull them down to my level",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q5a7",
+          "text": "Test if they're worthy first",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q5a8",
+          "text": "Use multiple strategies at once",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q5a9",
+          "text": "Never let anything past me",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q5a10",
+          "text": "Combine intellect and strength",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "What role do you play in your group?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "The powerful leader everyone respects/fears",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q6a2",
+          "text": "The one who brings hope in dark times",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q6a3",
+          "text": "The intimidating presence that wards off threats",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q6a4",
+          "text": "The rare friend who chooses carefully",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q6a5",
+          "text": "The noble guardian of values",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q6a6",
+          "text": "The hidden force others underestimate",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q6a7",
+          "text": "The wise one who asks important questions",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q6a8",
+          "text": "The unpredictable wildcard",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q6a9",
+          "text": "The faithful protector",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q6a10",
+          "text": "The teacher and warrior combined",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "What's your weakness?",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Greed and pride",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q7a2",
+          "text": "Cyclical destruction before rebirth",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q7a3",
+          "text": "Isolation from being feared",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q7a4",
+          "text": "Too trusting of the pure-hearted",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q7a5",
+          "text": "Rigid sense of honor",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q7a6",
+          "text": "Confined to my domain",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q7a7",
+          "text": "Arrogance in my intelligence",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q7a8",
+          "text": "Internal conflict between parts",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q7a9",
+          "text": "Can't abandon my post",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q7a10",
+          "text": "Torn between civilized and wild nature",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "Pick your element or domain:",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Fire and sky",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q8a2",
+          "text": "Flame and rebirth",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q8a3",
+          "text": "Stone and shadow",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q8a4",
+          "text": "Light and purity",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q8a5",
+          "text": "Wind and earth",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q8a6",
+          "text": "Deep water and storms",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q8a7",
+          "text": "Sand and secrets",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q8a8",
+          "text": "All elements combined",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q8a9",
+          "text": "Darkness and loyalty",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q8a10",
+          "text": "Forest and philosophy",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "How do you react to betrayal?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Burn everything to the ground",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q9a2",
+          "text": "Let it consume me, then rise stronger",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q9a3",
+          "text": "Petrify the relationship permanently",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q9a4",
+          "text": "Retreat and become more selective",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q9a5",
+          "text": "Swift and just punishment",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q9a6",
+          "text": "Drag them into the depths with me",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q9a7",
+          "text": "Make them face the consequences of their choices",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q9a8",
+          "text": "Unleash all my fury at once",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q9a9",
+          "text": "Never trust them again - loyalty is everything",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q9a10",
+          "text": "Analyze it philosophically while planning response",
+          "characterId": "centaur"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "What legacy do you want to leave?",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Tales of my power and treasure",
+          "characterId": "dragon"
+        },
+        {
+          "id": "q10a2",
+          "text": "Symbol of eternal hope and renewal",
+          "characterId": "phoenix"
+        },
+        {
+          "id": "q10a3",
+          "text": "A warning of what happens to those who cross me",
+          "characterId": "medusa"
+        },
+        {
+          "id": "q10a4",
+          "text": "A legend of rare beauty and magic",
+          "characterId": "unicorn"
+        },
+        {
+          "id": "q10a5",
+          "text": "Example of nobility and guardianship",
+          "characterId": "griffin"
+        },
+        {
+          "id": "q10a6",
+          "text": "A terror that makes sailors tremble",
+          "characterId": "kraken"
+        },
+        {
+          "id": "q10a7",
+          "text": "Wisdom that challenges all who seek it",
+          "characterId": "sphinx"
+        },
+        {
+          "id": "q10a8",
+          "text": "A force of nature that can't be categorized",
+          "characterId": "chimera"
+        },
+        {
+          "id": "q10a9",
+          "text": "Unwavering dedication to my duty",
+          "characterId": "cerberus"
+        },
+        {
+          "id": "q10a10",
+          "text": "Bridge between wisdom and action",
+          "characterId": "centaur"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "dragon",
+      "characterName": "Dragon",
+      "description": "You are a Dragon - powerful, territorial, and commanding! Like the legendary fire-breathing reptile, you hoard what you value and defend it fiercely. You have immense strength and presence that demands respect. Your ambition drives you to accumulate wealth, knowledge, or power. You're not easily intimidated and prefer to dominate rather than submit. Your fierce independence and raw power make you a force to be reckoned with.",
+      "traits": [
+        "Powerful",
+        "Ambitious",
+        "Territorial",
+        "Intimidating",
+        "Wealthy"
+      ]
+    },
+    {
+      "characterId": "phoenix",
+      "characterName": "Phoenix",
+      "description": "You are a Phoenix - resilient, transformative, and eternally hopeful! Like the immortal bird that rises from its own ashes, you embrace change and renewal. You've faced destruction and emerged stronger every time. Your ability to reinvent yourself inspires others. You see endings as beginnings and understand that growth requires letting go. Your spirit is unbreakable, and you bring hope wherever darkness falls.",
+      "traits": [
+        "Resilient",
+        "Transformative",
+        "Hopeful",
+        "Immortal spirit",
+        "Inspiring"
+      ]
+    },
+    {
+      "characterId": "medusa",
+      "characterName": "Medusa",
+      "description": "You are Medusa - fierce, misunderstood, and formidable! Like the gorgon with serpent hair, you've been judged and feared for your differences. Your gaze is piercing and your presence intimidating - you turn threats cold with a single look. You're protective of yourself and may keep others at a distance. Behind the fearsome exterior is someone who's been hurt and learned to defend themselves. Your power lies in making people face hard truths.",
+      "traits": [
+        "Fierce",
+        "Protective",
+        "Misunderstood",
+        "Intimidating",
+        "Independent"
+      ]
+    },
+    {
+      "characterId": "unicorn",
+      "characterName": "Unicorn",
+      "description": "You are a Unicorn - pure, rare, and magical! Like the legendary creature of enchanted forests, you possess a unique grace and innocence. You're highly selective about who you trust and don't give your loyalty easily. You're drawn to beauty, magic, and authenticity. Your purity of spirit is both your strength and vulnerability. You believe in the good in the world and seek to preserve it. Those fortunate enough to earn your trust discover something truly special.",
+      "traits": [
+        "Pure-hearted",
+        "Rare",
+        "Magical",
+        "Selective",
+        "Graceful"
+      ]
+    },
+    {
+      "characterId": "griffin",
+      "characterName": "Griffin",
+      "description": "You are a Griffin - noble, vigilant, and majestic! Like the creature combining the king of beasts and king of birds, you embody both strength and wisdom. You're a natural guardian who protects what's valuable with fierce dedication. Your sense of honor guides your actions, and you have high standards for yourself and others. You command respect through your dignified bearing and uncompromising values. You soar above pettiness while remaining grounded in loyalty.",
+      "traits": [
+        "Noble",
+        "Protective",
+        "Honorable",
+        "Majestic",
+        "Vigilant"
+      ]
+    },
+    {
+      "characterId": "kraken",
+      "characterName": "Kraken",
+      "description": "You are a Kraken - mysterious, powerful, and overwhelming! Like the legendary sea monster that emerges from the depths, you possess hidden strength that surprises those who underestimate you. You're comfortable in your own domain and don't need external validation. When provoked, your response is devastating and inescapable. You prefer the depths to the surface - complexity over simplicity. Your true power remains largely unseen until you choose to reveal it.",
+      "traits": [
+        "Mysterious",
+        "Powerful",
+        "Overwhelming",
+        "Deep",
+        "Unstoppable"
+      ]
+    },
+    {
+      "characterId": "sphinx",
+      "characterName": "Sphinx",
+      "description": "You are a Sphinx - wise, enigmatic, and challenging! Like the ancient riddler with the human head and lion body, you value intelligence and test those around you. You're a keeper of knowledge and secrets, and you believe wisdom must be earned. You're patient and observant, seeing through facades to truth. You challenge people to think deeper and prove their worth. Your combination of intellect and strength makes you a formidable guardian of truth.",
+      "traits": [
+        "Wise",
+        "Enigmatic",
+        "Intellectual",
+        "Patient",
+        "Challenging"
+      ]
+    },
+    {
+      "characterId": "chimera",
+      "characterName": "Chimera",
+      "description": "You are a Chimera - complex, unpredictable, and multifaceted! Like the fire-breathing hybrid of lion, goat, and serpent, you contain multitudes. You're not easily categorized and embrace your contradictions. Your different aspects can work in harmony or conflict. You're fierce, stubborn, and dangerous when threatened. Your complexity makes you fascinating but hard to understand. You refuse to be simplified or reduced to one dimension.",
+      "traits": [
+        "Complex",
+        "Fierce",
+        "Unpredictable",
+        "Multifaceted",
+        "Unique"
+      ]
+    },
+    {
+      "characterId": "cerberus",
+      "characterName": "Cerberus",
+      "description": "You are Cerberus - loyal, vigilant, and uncompromising! Like the three-headed guardian of the underworld, you're devoted to your duty and those you protect. You're alert to threats from all directions and never abandon your post. Your loyalty is absolute, but you're fierce toward those who pose danger. You take your responsibilities seriously and won't be swayed from your purpose. Those under your protection are truly safe.",
+      "traits": [
+        "Loyal",
+        "Protective",
+        "Vigilant",
+        "Dutiful",
+        "Fierce guardian"
+      ]
+    },
+    {
+      "characterId": "centaur",
+      "characterName": "Centaur",
+      "description": "You are a Centaur - wise, skilled, and balanced! Like the creature combining human intellect with equine strength, you unite mind and body, thought and action. You're both a teacher and a warrior, philosopher and athlete. You appreciate civilization but maintain your wild, free spirit. Your wisdom comes from embracing both your rational and instinctual sides. You mentor others while continuing to grow yourself. You bridge different worlds and bring them into harmony.",
+      "traits": [
+        "Wise",
+        "Balanced",
+        "Teacher",
+        "Strong",
+        "Philosophical"
+      ]
+    }
+  ]
+}

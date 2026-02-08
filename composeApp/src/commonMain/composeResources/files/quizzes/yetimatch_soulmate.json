@@ -1,0 +1,369 @@
+{
+  "id": "yetimatch-soulmate",
+  "title": "Who Is Your YetiMatch?",
+  "description": "Discover which yeti is your perfect match! Answer honestly to meet your fuzzy friend.",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Are you looking for a male or female yeti match?",
+      "answers": [
+        { "id": "q1a1", "text": "Male yeti", "characterId": "adventurer-male" },
+        { "id": "q1a2", "text": "Female yeti", "characterId": "adventurer-female" },
+        { "id": "q1a3", "text": "Male yeti", "characterId": "bookworm-male" },
+        { "id": "q1a4", "text": "Female yeti", "characterId": "bookworm-female" }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your ideal weekend activity?",
+      "answers": [
+        { "id": "q2a1", "text": "Hiking a mountain trail", "characterId": "adventurer-male" },
+        { "id": "q2a2", "text": "Reading in a cozy corner", "characterId": "bookworm-male" },
+        { "id": "q2a3", "text": "Trying a new recipe", "characterId": "chef-male" },
+        { "id": "q2a4", "text": "Painting or drawing", "characterId": "artist-male" }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "How do you handle stress?",
+      "answers": [
+        { "id": "q3a1", "text": "Go for a run or workout", "characterId": "athlete-male" },
+        { "id": "q3a2", "text": "Play or listen to music", "characterId": "musician-male" },
+        { "id": "q3a3", "text": "Solve puzzles or code", "characterId": "techgeek-male" },
+        { "id": "q3a4", "text": "Spend time in nature", "characterId": "naturelover-male" }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "What's your ideal Friday night?",
+      "answers": [
+        { "id": "q4a1", "text": "Party with friends", "characterId": "partyanimal-male" },
+        { "id": "q4a2", "text": "Netflix and blankets", "characterId": "homebody-male" },
+        { "id": "q4a3", "text": "Rock climbing adventure", "characterId": "adventurer-male" },
+        { "id": "q4a4", "text": "Book club meeting", "characterId": "bookworm-male" }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "Pick your favorite season:",
+      "answers": [
+        { "id": "q5a1", "text": "Winter - perfect for skiing", "characterId": "adventurer-male" },
+        { "id": "q5a2", "text": "Fall - cozy reading weather", "characterId": "bookworm-male" },
+        { "id": "q5a3", "text": "Spring - fresh ingredients", "characterId": "chef-male" },
+        { "id": "q5a4", "text": "Summer - vibrant colors", "characterId": "artist-male" }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "What's your communication style?",
+      "answers": [
+        { "id": "q6a1", "text": "Direct and straightforward", "characterId": "athlete-male" },
+        { "id": "q6a2", "text": "Expressive and emotional", "characterId": "musician-male" },
+        { "id": "q6a3", "text": "Logical and analytical", "characterId": "techgeek-male" },
+        { "id": "q6a4", "text": "Calm and thoughtful", "characterId": "naturelover-male" }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "Your dream vacation is:",
+      "answers": [
+        { "id": "q7a1", "text": "Las Vegas or Miami Beach", "characterId": "partyanimal-male" },
+        { "id": "q7a2", "text": "Cabin in the woods", "characterId": "homebody-male" },
+        { "id": "q7a3", "text": "Backpacking Europe", "characterId": "adventurer-male" },
+        { "id": "q7a4", "text": "Museum tour in Paris", "characterId": "bookworm-male" }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "What's your hidden talent?",
+      "answers": [
+        { "id": "q8a1", "text": "I can cook anything perfectly", "characterId": "chef-male" },
+        { "id": "q8a2", "text": "I can draw or paint beautifully", "characterId": "artist-male" },
+        { "id": "q8a3", "text": "I'm great at sports", "characterId": "athlete-male" },
+        { "id": "q8a4", "text": "I can play multiple instruments", "characterId": "musician-male" }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "Pick a superpower:",
+      "answers": [
+        { "id": "q9a1", "text": "Super intelligence", "characterId": "techgeek-male" },
+        { "id": "q9a2", "text": "Talk to animals", "characterId": "naturelover-male" },
+        { "id": "q9a3", "text": "Teleportation", "characterId": "partyanimal-male" },
+        { "id": "q9a4", "text": "Time manipulation", "characterId": "homebody-male" }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "What motivates you most?",
+      "answers": [
+        { "id": "q10a1", "text": "Conquering new challenges", "characterId": "adventurer-male" },
+        { "id": "q10a2", "text": "Learning new things", "characterId": "bookworm-male" },
+        { "id": "q10a3", "text": "Making people happy", "characterId": "chef-male" },
+        { "id": "q10a4", "text": "Creating something beautiful", "characterId": "artist-male" }
+      ]
+    },
+    {
+      "id": "q11",
+      "text": "Your perfect pet would be:",
+      "answers": [
+        { "id": "q11a1", "text": "An energetic husky", "characterId": "athlete-male" },
+        { "id": "q11a2", "text": "A chill cat", "characterId": "musician-male" },
+        { "id": "q11a3", "text": "A smart parrot", "characterId": "techgeek-male" },
+        { "id": "q11a4", "text": "A gentle rabbit", "characterId": "naturelover-male" }
+      ]
+    },
+    {
+      "id": "q12",
+      "text": "How do you make decisions?",
+      "answers": [
+        { "id": "q12a1", "text": "Go with my gut feeling", "characterId": "partyanimal-male" },
+        { "id": "q12a2", "text": "Think it through carefully", "characterId": "homebody-male" },
+        { "id": "q12a3", "text": "Jump in and figure it out", "characterId": "adventurer-male" },
+        { "id": "q12a4", "text": "Research thoroughly first", "characterId": "bookworm-male" }
+      ]
+    },
+    {
+      "id": "q13",
+      "text": "Your favorite type of movie:",
+      "answers": [
+        { "id": "q13a1", "text": "Food documentaries", "characterId": "chef-male" },
+        { "id": "q13a2", "text": "Art house films", "characterId": "artist-male" },
+        { "id": "q13a3", "text": "Sports movies", "characterId": "athlete-male" },
+        { "id": "q13a4", "text": "Musical dramas", "characterId": "musician-male" }
+      ]
+    },
+    {
+      "id": "q14",
+      "text": "Your workspace is:",
+      "answers": [
+        { "id": "q14a1", "text": "High-tech and organized", "characterId": "techgeek-male" },
+        { "id": "q14a2", "text": "Full of plants and natural light", "characterId": "naturelover-male" },
+        { "id": "q14a3", "text": "Loud and energetic", "characterId": "partyanimal-male" },
+        { "id": "q14a4", "text": "Quiet and comfortable", "characterId": "homebody-male" }
+      ]
+    },
+    {
+      "id": "q15",
+      "text": "Pick a hobby to try:",
+      "answers": [
+        { "id": "q15a1", "text": "Mountain biking", "characterId": "adventurer-male" },
+        { "id": "q15a2", "text": "Joining a book club", "characterId": "bookworm-male" },
+        { "id": "q15a3", "text": "Taking cooking classes", "characterId": "chef-male" },
+        { "id": "q15a4", "text": "Learning watercolor", "characterId": "artist-male" }
+      ]
+    },
+    {
+      "id": "q16",
+      "text": "Your social battery is:",
+      "answers": [
+        { "id": "q16a1", "text": "Always charged, love people", "characterId": "partyanimal-male" },
+        { "id": "q16a2", "text": "Low, prefer solo time", "characterId": "homebody-male" },
+        { "id": "q16a3", "text": "Medium, like small groups", "characterId": "naturelover-male" },
+        { "id": "q16a4", "text": "Depends on the activity", "characterId": "athlete-male" }
+      ]
+    },
+    {
+      "id": "q17",
+      "text": "Your go-to outfit style:",
+      "answers": [
+        { "id": "q17a1", "text": "Outdoor gear and boots", "characterId": "adventurer-male" },
+        { "id": "q17a2", "text": "Glasses and cardigans", "characterId": "bookworm-male" },
+        { "id": "q17a3", "text": "Apron and chef's hat", "characterId": "chef-male" },
+        { "id": "q17a4", "text": "Paint-splattered clothes", "characterId": "artist-male" }
+      ]
+    },
+    {
+      "id": "q18",
+      "text": "What energizes you?",
+      "answers": [
+        { "id": "q18a1", "text": "Competition and winning", "characterId": "athlete-male" },
+        { "id": "q18a2", "text": "Creating or performing music", "characterId": "musician-male" },
+        { "id": "q18a3", "text": "Solving complex problems", "characterId": "techgeek-male" },
+        { "id": "q18a4", "text": "Being in nature", "characterId": "naturelover-male" }
+      ]
+    },
+    {
+      "id": "q19",
+      "text": "Your ideal date activity:",
+      "answers": [
+        { "id": "q19a1", "text": "Concert or festival", "characterId": "partyanimal-male" },
+        { "id": "q19a2", "text": "Movie night at home", "characterId": "homebody-male" },
+        { "id": "q19a3", "text": "Escape room challenge", "characterId": "techgeek-male" },
+        { "id": "q19a4", "text": "Cooking dinner together", "characterId": "chef-male" }
+      ]
+    },
+    {
+      "id": "q20",
+      "text": "What's most important in a match?",
+      "answers": [
+        { "id": "q20a1", "text": "Shared love of adventure", "characterId": "adventurer-male" },
+        { "id": "q20a2", "text": "Deep conversations", "characterId": "bookworm-male" },
+        { "id": "q20a3", "text": "Someone who appreciates art", "characterId": "artist-male" },
+        { "id": "q20a4", "text": "Peaceful companionship", "characterId": "naturelover-male" }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "adventurer-male",
+      "characterName": "Summit Steve",
+      "description": "Steve is your adventurous mountain-climbing match! He loves exploring snowy peaks and knows every trail. Always ready for spontaneous adventures and will push you to try new things.",
+      "traits": ["Adventurous", "Brave", "Outdoorsy", "Spontaneous", "Athletic"],
+      "visualDescription": "A tall, broad-shouldered yeti with thick white fur. Wears a red backpack with climbing gear, rope coiled across his chest, and sturdy hiking boots. Has bright blue eyes, a friendly adventurous grin, and binoculars hanging around his neck. Background: standing on a snowy mountain peak with an ice axe.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "adventurer-female",
+      "characterName": "Avalanche Ava",
+      "description": "Ava is your fearless explorer match! She thrives on outdoor adventures and discovering hidden trails. Her spontaneous spirit and love for nature will inspire you to embrace every challenge.",
+      "traits": ["Adventurous", "Brave", "Outdoorsy", "Spontaneous", "Athletic"],
+      "visualDescription": "An athletic yeti with fluffy white and light gray fur. Wears a teal backpack, climbing harness, and has an ice axe strapped to her side. She has bright green eyes, a determined smile, and a bandana around her neck. Background: rappelling down an icy cliff face.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "bookworm-male",
+      "characterName": "Library Larry",
+      "description": "Larry is your intellectual companion! He can discuss any book for hours and loves quiet coffee shop conversations. His vast knowledge and thoughtful nature make him the perfect thinking partner.",
+      "traits": ["Intelligent", "Thoughtful", "Curious", "Well-read", "Calm"],
+      "visualDescription": "A slightly smaller yeti with neat, groomed white fur. Wears round glasses, a brown cardigan sweater, and holds a stack of books. Has warm brown eyes, a gentle smile, and a steaming mug of tea nearby. Background: cozy library with floor-to-ceiling bookshelves.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "bookworm-female",
+      "characterName": "Novel Nora",
+      "description": "Nora is your literary soulmate! She adores curling up with a good book and engaging in deep discussions. Her wisdom and calm presence create the perfect atmosphere for meaningful connection.",
+      "traits": ["Intelligent", "Thoughtful", "Curious", "Well-read", "Calm"],
+      "visualDescription": "A graceful yeti with silky white fur. Wears vintage-style reading glasses, a cozy purple sweater, and has a bookmark tucked behind her ear. She has hazel eyes, holds an open book, and sits in a comfy armchair. Background: window seat with rain outside and tea on the table.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "chef-male",
+      "characterName": "Bakery Bob",
+      "description": "Bob is your culinary companion! He loves experimenting with recipes and sharing delicious meals. His warmth and creativity in the kitchen will fill your life with flavor and joy.",
+      "traits": ["Creative", "Warm", "Generous", "Talented", "Nurturing"],
+      "visualDescription": "A round, friendly yeti with fluffy white fur dusted with flour. Wears a white chef's hat, red and white checkered apron, and oven mitts. Has kind brown eyes, a flour smudge on his cheek, and holds a freshly baked pie. Background: rustic kitchen with baking ingredients everywhere.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "chef-female",
+      "characterName": "Cookie Clara",
+      "description": "Clara is your perfect cooking partner! She finds joy in creating delicious dishes and sharing them with others. Her nurturing spirit and culinary passion make every meal special.",
+      "traits": ["Creative", "Warm", "Generous", "Talented", "Nurturing"],
+      "visualDescription": "A cheerful yeti with soft white fur and rosy cheeks. Wears a pink chef's hat, floral apron, and has a wooden spoon tucked into her pocket. She has sparkling blue eyes, a warm smile, and decorates cookies. Background: bright, sunny kitchen with fresh ingredients on the counter.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "artist-male",
+      "characterName": "Palette Pete",
+      "description": "Pete is your creative muse! He sees beauty everywhere and expresses himself through vibrant art. His unique perspective and artistic soul will inspire you to see the world differently.",
+      "traits": ["Creative", "Expressive", "Unique", "Passionate", "Imaginative"],
+      "visualDescription": "A slender yeti with white fur splattered with colorful paint marks. Wears a paint-stained smock, has a paintbrush behind his ear, and palette in hand. He has dreamy gray eyes, tousled fur, and stands before an easel. Background: art studio with canvases and abstract paintings.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "artist-female",
+      "characterName": "Canvas Carla",
+      "description": "Carla is your artistic companion! She expresses her emotions through beautiful creations and sees magic in everyday moments. Her imaginative spirit brings color and creativity to everything.",
+      "traits": ["Creative", "Expressive", "Unique", "Passionate", "Imaginative"],
+      "visualDescription": "An elegant yeti with flowing white fur with streaks of pastel colors. Wears a bohemian-style paint-covered dress, has multiple paintbrushes in her fur bun, and jewelry made from art supplies. She has violet eyes, paints on a large canvas. Background: bright art studio with sculptures and murals.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "athlete-male",
+      "characterName": "Sprint Sam",
+      "description": "Sam is your active adventure buddy! He lives for competition and staying fit. His energetic spirit and determination will motivate you to reach new personal bests together.",
+      "traits": ["Athletic", "Competitive", "Energetic", "Determined", "Strong"],
+      "visualDescription": "A muscular yeti with short, athletic white fur. Wears a sports jersey with number 1, sweatbands on wrists, and running shoes. Has intense green eyes, competitive grin, and holds a trophy. Background: running track or sports stadium with medals displayed.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "athlete-female",
+      "characterName": "Marathon Molly",
+      "description": "Molly is your fitness-focused match! She thrives on physical challenges and pushing her limits. Her dedication and energetic personality will inspire you to stay active and strong.",
+      "traits": ["Athletic", "Competitive", "Energetic", "Determined", "Strong"],
+      "visualDescription": "A fit, toned yeti with sleek white fur pulled back in a ponytail. Wears a sporty tank top, yoga pants, and running shoes. She has determined brown eyes, confident stance, and fitness tracker on wrist. Background: gym or outdoor trail with mountains in distance.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "musician-male",
+      "characterName": "Melody Max",
+      "description": "Max is your musical soulmate! He expresses his emotions through song and finds rhythm in everything. His artistic sensitivity and passion for music create deep, meaningful connections.",
+      "traits": ["Musical", "Emotional", "Artistic", "Expressive", "Soulful"],
+      "visualDescription": "A cool yeti with long white fur and relaxed vibe. Wears a leather jacket, band t-shirt, and has headphones around his neck. He has deep blue eyes, plays an acoustic guitar, and has a thoughtful expression. Background: music studio with instruments and vinyl records.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "musician-female",
+      "characterName": "Harmony Hope",
+      "description": "Hope is your melodic match! She feels everything deeply and shares her heart through music. Her soulful nature and creative spirit bring beauty and emotion to every moment.",
+      "traits": ["Musical", "Emotional", "Artistic", "Expressive", "Soulful"],
+      "visualDescription": "A graceful yeti with long flowing white fur. Wears a vintage band jacket, flowy dress, and has music note earrings. She has expressive hazel eyes, holds a microphone, and sings with passion. Background: intimate concert venue with stage lights and piano.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "techgeek-male",
+      "characterName": "Digital Dan",
+      "description": "Dan is your tech-savvy partner! He loves solving problems and staying ahead of trends. His logical mind and innovative thinking make him the perfect partner for tackling any challenge.",
+      "traits": ["Intelligent", "Logical", "Innovative", "Problem-solver", "Modern"],
+      "visualDescription": "A sleek yeti with well-groomed white fur. Wears trendy glasses, a hoodie with tech company logo, and has a smartwatch. He has sharp gray eyes, types on a laptop, and has gadgets everywhere. Background: modern minimalist office with multiple monitors and LED lights.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "techgeek-female",
+      "characterName": "Binary Bella",
+      "description": "Bella is your brilliant tech match! She thrives on innovation and solving complex puzzles. Her sharp mind and forward-thinking approach make her an exciting and inspiring companion.",
+      "traits": ["Intelligent", "Logical", "Innovative", "Problem-solver", "Modern"],
+      "visualDescription": "A smart-looking yeti with neat white fur and modern style. Wears stylish tech glasses, a blazer over graphic tee, and has wireless earbuds. She has intelligent green eyes, works on a tablet with coding on screen. Background: high-tech workspace with robot prototypes and VR headset.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "naturelover-male",
+      "characterName": "Forest Frank",
+      "description": "Frank is your zen companion! He finds peace in nature and lives in harmony with the earth. His calm presence and deep connection to the natural world create a grounding, serene bond.",
+      "traits": ["Peaceful", "Grounded", "Eco-conscious", "Patient", "Wise"],
+      "visualDescription": "A serene yeti with soft, earthy-toned white fur. Wears natural fiber clothing, has a small bird perched on his shoulder, and carries a wooden walking stick. He has calm green eyes, gentle smile, and holds wildflowers. Background: lush forest with a waterfall and wildlife.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "naturelover-female",
+      "characterName": "Meadow Mia",
+      "description": "Mia is your nature-loving match! She cherishes every living thing and finds beauty in the earth. Her peaceful spirit and eco-conscious lifestyle bring tranquility and purpose to life.",
+      "traits": ["Peaceful", "Grounded", "Eco-conscious", "Patient", "Wise"],
+      "visualDescription": "A gentle yeti with flowing white fur adorned with flowers. Wears earth-tone clothing, flower crown, and has a butterflies landing on her. She has soft brown eyes, serene expression, and tends to plants. Background: beautiful garden with blooming flowers and a small pond.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "partyanimal-male",
+      "characterName": "Disco Derek",
+      "description": "Derek is your fun-loving party buddy! He lights up every room and knows how to have a good time. His infectious energy and social nature guarantee you'll never have a dull moment.",
+      "traits": ["Social", "Energetic", "Fun", "Outgoing", "Charismatic"],
+      "visualDescription": "An energetic yeti with wild, party-styled white fur. Wears colorful party clothes, sunglasses, and has glow sticks. He has bright, excited eyes, big smile, and dances enthusiastically. Background: vibrant party scene with disco ball, confetti, and crowd of friends.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "partyanimal-female",
+      "characterName": "Fiesta Fiona",
+      "description": "Fiona is your social butterfly match! She thrives in crowds and loves bringing people together. Her charismatic personality and zest for life make every day feel like a celebration.",
+      "traits": ["Social", "Energetic", "Fun", "Outgoing", "Charismatic"],
+      "visualDescription": "A vibrant yeti with glamorous white fur styled perfectly. Wears a sparkly party dress, fun accessories, and has festive decorations in her fur. She has dazzling blue eyes, excited expression, and raises a party popper. Background: rooftop party with city lights and dancing crowd.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "homebody-male",
+      "characterName": "Cozy Calvin",
+      "description": "Calvin is your comfort-loving companion! He cherishes quiet nights in and creates the coziest atmosphere. His relaxed nature and appreciation for simple pleasures make home feel like paradise.",
+      "traits": ["Comfortable", "Relaxed", "Content", "Homey", "Peaceful"],
+      "visualDescription": "A plump, cuddly yeti with super soft white fur. Wears comfy pajamas, fuzzy slippers, and a warm robe. He has sleepy brown eyes, content smile, and holds hot cocoa with marshmallows. Background: cozy living room with fireplace, blankets, and favorite movies ready.",
+      "imageUrl": null
+    },
+    {
+      "characterId": "homebody-female",
+      "characterName": "Snuggle Sarah",
+      "description": "Sarah is your perfect stay-at-home match! She finds joy in creating a warm, inviting space and treasures relaxation. Her nurturing presence and love of coziness make every moment feel like a hug.",
+      "traits": ["Comfortable", "Relaxed", "Content", "Homey", "Peaceful"],
+      "visualDescription": "A soft, cuddly yeti with incredibly fluffy white fur. Wears an oversized sweater, warm socks, and has a blanket draped over shoulders. She has gentle blue eyes, peaceful expression, and sits with a book and candles. Background: hygge-style home with plants, soft lighting, and comfort everywhere.",
+      "imageUrl": null
+    }
+  ]
+}

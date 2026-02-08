@@ -1,0 +1,317 @@
+{
+  "id": "coffee-personality-quiz",
+  "title": "Which Coffee Drink Are You?",
+  "description": "Discover which coffee beverage matches your personality perfectly!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How do you start your morning?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "Jump out of bed ready to go!",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q1a2",
+          "text": "Slowly ease into the day",
+          "characterId": "latte"
+        },
+        {
+          "id": "q1a3",
+          "text": "Hit snooze multiple times",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q1a4",
+          "text": "Need 30 minutes to feel human",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "Pick your ideal weekend activity:",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "High-intensity workout or adventure sport",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q2a2",
+          "text": "Brunch with friends",
+          "characterId": "latte"
+        },
+        {
+          "id": "q2a3",
+          "text": "Netflix marathon",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q2a4",
+          "text": "Museum or art gallery visit",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Your work style is best described as:",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Fast-paced and efficient",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q3a2",
+          "text": "Collaborative and friendly",
+          "characterId": "latte"
+        },
+        {
+          "id": "q3a3",
+          "text": "Steady and consistent",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q3a4",
+          "text": "Thoughtful and detail-oriented",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "What's your approach to social gatherings?",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Life of the party - always energetic",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q4a2",
+          "text": "Love meeting new people and chatting",
+          "characterId": "latte"
+        },
+        {
+          "id": "q4a3",
+          "text": "Prefer small groups or one-on-one",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q4a4",
+          "text": "Enjoy deep conversations with close friends",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "How do you handle deadlines?",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Thrive under pressure - it energizes me",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q5a2",
+          "text": "Work steadily with team check-ins",
+          "characterId": "latte"
+        },
+        {
+          "id": "q5a3",
+          "text": "Prefer to finish early and avoid stress",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q5a4",
+          "text": "Take my time to ensure quality",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "Your ideal vacation spot:",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Bustling city with tons to explore",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q6a2",
+          "text": "Resort with activities and socializing",
+          "characterId": "latte"
+        },
+        {
+          "id": "q6a3",
+          "text": "Quiet beach with a good book",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q6a4",
+          "text": "Cultural destination with history",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "When making decisions, you:",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Go with your gut instantly",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q7a2",
+          "text": "Ask friends for their opinions",
+          "characterId": "latte"
+        },
+        {
+          "id": "q7a3",
+          "text": "Take your time to think it through",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q7a4",
+          "text": "Carefully weigh all options",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "Your fashion style is:",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Bold and attention-grabbing",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q8a2",
+          "text": "Trendy and approachable",
+          "characterId": "latte"
+        },
+        {
+          "id": "q8a3",
+          "text": "Casual and comfortable",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q8a4",
+          "text": "Classic and sophisticated",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "What energizes you most?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Challenges and competition",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q9a2",
+          "text": "Connecting with others",
+          "characterId": "latte"
+        },
+        {
+          "id": "q9a3",
+          "text": "Peace and quiet time",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q9a4",
+          "text": "Learning and self-improvement",
+          "characterId": "cappuccino"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "Your phone background is most likely:",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "A motivational quote or bold graphic",
+          "characterId": "espresso"
+        },
+        {
+          "id": "q10a2",
+          "text": "Photo with friends or family",
+          "characterId": "latte"
+        },
+        {
+          "id": "q10a3",
+          "text": "Scenic nature or minimalist design",
+          "characterId": "cold-brew"
+        },
+        {
+          "id": "q10a4",
+          "text": "Artistic photo or aesthetic image",
+          "characterId": "cappuccino"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "espresso",
+      "characterName": "Espresso",
+      "description": "You're intense, focused, and packed with energy! Like a shot of espresso, you get straight to the point and make a powerful impact. You thrive on challenges and aren't afraid to take risks. Your direct approach and high energy inspire others to take action.",
+      "traits": [
+        "Energetic",
+        "Direct",
+        "Confident",
+        "Bold",
+        "Fast-paced"
+      ]
+    },
+    {
+      "characterId": "latte",
+      "characterName": "Latte",
+      "description": "You're warm, approachable, and well-balanced! Like a perfectly crafted latte, you blend different aspects of life smoothly. You're social and friendly, making everyone feel comfortable. Your ability to connect with others and create harmony makes you universally loved.",
+      "traits": [
+        "Friendly",
+        "Balanced",
+        "Approachable",
+        "Social",
+        "Adaptable"
+      ]
+    },
+    {
+      "characterId": "cold-brew",
+      "characterName": "Cold Brew",
+      "description": "You're smooth, laid-back, and effortlessly cool! Like cold brew coffee, you take your time but deliver consistent quality. You don't get rattled easily and prefer a steady, sustainable pace. Your calm demeanor and reliability make you the rock in any situation.",
+      "traits": [
+        "Calm",
+        "Consistent",
+        "Patient",
+        "Reliable",
+        "Low-key"
+      ]
+    },
+    {
+      "characterId": "cappuccino",
+      "characterName": "Cappuccino",
+      "description": "You're refined, thoughtful, and appreciate the finer things! Like a cappuccino, you're layered and complex with a sophisticated edge. You value quality over quantity and take time to savor experiences. Your attention to detail and cultured perspective set you apart.",
+      "traits": [
+        "Sophisticated",
+        "Thoughtful",
+        "Cultured",
+        "Detail-oriented",
+        "Refined"
+      ]
+    }
+  ]
+}

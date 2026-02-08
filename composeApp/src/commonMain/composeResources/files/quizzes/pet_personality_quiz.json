@@ -1,0 +1,317 @@
+{
+  "id": "pet-personality-quiz",
+  "title": "Which Pet Matches Your Lifestyle?",
+  "description": "Find out which type of pet would be your perfect companion!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How would you describe your energy level?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "High energy - always on the go",
+          "characterId": "dog"
+        },
+        {
+          "id": "q1a2",
+          "text": "Independent and self-sufficient",
+          "characterId": "cat"
+        },
+        {
+          "id": "q1a3",
+          "text": "Calm and observant",
+          "characterId": "fish"
+        },
+        {
+          "id": "q1a4",
+          "text": "Playful but low-maintenance",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your living situation?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "House with a yard",
+          "characterId": "dog"
+        },
+        {
+          "id": "q2a2",
+          "text": "Apartment with some space",
+          "characterId": "cat"
+        },
+        {
+          "id": "q2a3",
+          "text": "Small apartment or room",
+          "characterId": "fish"
+        },
+        {
+          "id": "q2a4",
+          "text": "Any size - I need minimal space",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "How much time can you dedicate to a pet daily?",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Several hours - I'm home often",
+          "characterId": "dog"
+        },
+        {
+          "id": "q3a2",
+          "text": "A couple hours of quality time",
+          "characterId": "cat"
+        },
+        {
+          "id": "q3a3",
+          "text": "15-30 minutes for feeding and maintenance",
+          "characterId": "fish"
+        },
+        {
+          "id": "q3a4",
+          "text": "30 minutes to an hour",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "What's your ideal weekend activity?",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Hiking, running, or outdoor adventures",
+          "characterId": "dog"
+        },
+        {
+          "id": "q4a2",
+          "text": "Relaxing at home with a book or show",
+          "characterId": "cat"
+        },
+        {
+          "id": "q4a3",
+          "text": "Quiet activities like reading or meditation",
+          "characterId": "fish"
+        },
+        {
+          "id": "q4a4",
+          "text": "Mix of activities and downtime",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "How do you handle routine?",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Love structure and daily schedules",
+          "characterId": "dog"
+        },
+        {
+          "id": "q5a2",
+          "text": "Flexible but appreciate some routine",
+          "characterId": "cat"
+        },
+        {
+          "id": "q5a3",
+          "text": "Thrive on predictable patterns",
+          "characterId": "fish"
+        },
+        {
+          "id": "q5a4",
+          "text": "Simple routines work best",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "What kind of companionship do you want?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Active and always engaged",
+          "characterId": "dog"
+        },
+        {
+          "id": "q6a2",
+          "text": "Affectionate on their own terms",
+          "characterId": "cat"
+        },
+        {
+          "id": "q6a3",
+          "text": "Peaceful presence in the room",
+          "characterId": "fish"
+        },
+        {
+          "id": "q6a4",
+          "text": "Cute and entertaining to watch",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "How do you feel about mess and cleaning?",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Don't mind - worth it for the companionship",
+          "characterId": "dog"
+        },
+        {
+          "id": "q7a2",
+          "text": "Prefer minimal but manageable",
+          "characterId": "cat"
+        },
+        {
+          "id": "q7a3",
+          "text": "Want the cleanest option possible",
+          "characterId": "fish"
+        },
+        {
+          "id": "q7a4",
+          "text": "Limited mess is fine",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "What's your travel frequency?",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Rarely - I'm usually home",
+          "characterId": "dog"
+        },
+        {
+          "id": "q8a2",
+          "text": "Occasional weekends away",
+          "characterId": "cat"
+        },
+        {
+          "id": "q8a3",
+          "text": "Regular travel - need low maintenance",
+          "characterId": "fish"
+        },
+        {
+          "id": "q8a4",
+          "text": "Sometimes - but can arrange care easily",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "What appeals to you most about having a pet?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Loyal companion and best friend",
+          "characterId": "dog"
+        },
+        {
+          "id": "q9a2",
+          "text": "Independent but loving presence",
+          "characterId": "cat"
+        },
+        {
+          "id": "q9a3",
+          "text": "Calming and meditative to watch",
+          "characterId": "fish"
+        },
+        {
+          "id": "q9a4",
+          "text": "Low-commitment entertainment",
+          "characterId": "hamster"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "How do you want to interact with your pet?",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Play, train, and exercise together",
+          "characterId": "dog"
+        },
+        {
+          "id": "q10a2",
+          "text": "Cuddle and hang out when they want",
+          "characterId": "cat"
+        },
+        {
+          "id": "q10a3",
+          "text": "Observe and maintain their environment",
+          "characterId": "fish"
+        },
+        {
+          "id": "q10a4",
+          "text": "Hold occasionally and watch them play",
+          "characterId": "hamster"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "dog",
+      "characterName": "Dog Person",
+      "description": "You're active, social, and thrive on companionship! A dog matches your energetic lifestyle and desire for a loyal best friend. You have the time and dedication for daily walks, play sessions, and training. You love having an enthusiastic companion who's always excited to see you and ready for adventure.",
+      "traits": [
+        "Active",
+        "Social",
+        "Dedicated",
+        "Loyal",
+        "Energetic"
+      ]
+    },
+    {
+      "characterId": "cat",
+      "characterName": "Cat Person",
+      "description": "You're independent, low-key, and appreciate affection on your own terms! A cat suits your lifestyle perfectly - they're loving but don't require constant attention. You enjoy quiet companionship and respect boundaries. Your home provides a calm environment where both you and a feline friend can coexist peacefully.",
+      "traits": [
+        "Independent",
+        "Balanced",
+        "Calm",
+        "Respectful",
+        "Low-key"
+      ]
+    },
+    {
+      "characterId": "fish",
+      "characterName": "Fish Person",
+      "description": "You're calm, organized, and find peace in simplicity! Fish match your desire for low-maintenance companionship. You appreciate the meditative quality of watching aquatic life and enjoy creating a beautiful environment. Your lifestyle benefits from pets that are serene, contained, and don't require walks or extensive interaction.",
+      "traits": [
+        "Peaceful",
+        "Organized",
+        "Minimalist",
+        "Observant",
+        "Zen"
+      ]
+    },
+    {
+      "characterId": "hamster",
+      "characterName": "Small Pet Person",
+      "description": "You're playful but practical, wanting the joy of a pet without major commitment! Small pets like hamsters, guinea pigs, or rabbits match your lifestyle. You enjoy watching them play and can give attention when you're home, but appreciate that they don't need constant care. You're perfect for pocket pets that are cute, entertaining, and manageable.",
+      "traits": [
+        "Practical",
+        "Playful",
+        "Flexible",
+        "Efficient",
+        "Fun-loving"
+      ]
+    }
+  ]
+}

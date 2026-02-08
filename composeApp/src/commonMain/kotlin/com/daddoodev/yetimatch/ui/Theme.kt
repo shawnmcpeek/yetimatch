@@ -12,7 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,9 +31,11 @@ import yetimatch.composeapp.generated.resources.logoDark
 import yetimatch.composeapp.generated.resources.logoLight
 
 val LocalUseDarkLogo = compositionLocalOf { false }
+val LocalSeasonalThemeName = compositionLocalOf { "Default" }
 
 enum class ThemeMode { Light, Dark, System }
 
+// Fallback colors if seasonal themes aren't loaded
 private val YetiMatchDarkColors = darkColorScheme(
     primary = Color(0xFF7DD3FC),
     onPrimary = Color(0xFF003547),
@@ -65,6 +73,7 @@ private val YetiMatchLightColors = lightColorScheme(
 @Composable
 fun YetiMatchTheme(
     themeMode: ThemeMode = ThemeMode.System,
+    seasonalThemesEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val darkTheme = when (themeMode) {
@@ -72,8 +81,23 @@ fun YetiMatchTheme(
         ThemeMode.Dark -> true
         ThemeMode.System -> isSystemInDarkTheme()
     }
-    val colorScheme = if (darkTheme) YetiMatchDarkColors else YetiMatchLightColors
-    androidx.compose.runtime.CompositionLocalProvider(LocalUseDarkLogo provides darkTheme) {
+    
+    val colorScheme = if (seasonalThemesEnabled) {
+        SeasonalThemeManager.resolveTheme(isDarkMode = darkTheme)
+    } else {
+        if (darkTheme) YetiMatchDarkColors else YetiMatchLightColors
+    }
+    
+    val themeName = if (seasonalThemesEnabled) {
+        SeasonalThemeManager.getCurrentThemeName()
+    } else {
+        "Default"
+    }
+    
+    CompositionLocalProvider(
+        LocalUseDarkLogo provides darkTheme,
+        LocalSeasonalThemeName provides themeName
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = MaterialTheme.typography,

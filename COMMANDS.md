@@ -6,10 +6,10 @@ Run from the project root (`yetimatch`). Use `.\gradlew` on Windows, `./gradlew`
 
 | Command | What it does |
 |--------|----------------|
-| `.\gradlew composeApp:assembleDebug` | Build debug APK |
-| `.\gradlew clean composeApp:assembleDebug` | Clean, then build debug APK |
-| `.\gradlew composeApp:installDebug` | Build and install debug on device/emulator |
-| `.\gradlew composeApp:bundleRelease` | Build release AAB (for Play Store) |
+| `.\gradlew androidApp:assembleDebug` | Build debug APK |
+| `.\gradlew clean androidApp:assembleDebug` | Clean, then build debug APK |
+| `.\gradlew androidApp:installDebug` | Build and install debug on device/emulator |
+| `.\gradlew androidApp:bundleRelease` | Build release AAB (for Play Store) |
 
 ## iOS (macOS only)
 

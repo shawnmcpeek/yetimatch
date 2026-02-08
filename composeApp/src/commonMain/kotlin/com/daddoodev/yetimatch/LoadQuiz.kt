@@ -1,7 +1,31 @@
 package com.daddoodev.yetimatch
 
-expect fun loadManifestJson(): String
-expect fun loadQuizJson(path: String): String
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import yetimatch.composeapp.generated.resources.Res
 
-/** Loads a resource file (e.g. image) from the app bundle as raw bytes. Path is relative to resources root, e.g. "quizzes/images/summit_steve.png". */
-expect fun loadResourceBytes(path: String): ByteArray?
+@OptIn(ExperimentalResourceApi::class)
+suspend fun loadManifestJson(): String {
+    return Res.readBytes("files/manifest.json").decodeToString()
+}
+
+@OptIn(ExperimentalResourceApi::class)
+suspend fun loadQuizJson(path: String): String {
+    // path comes as "quizzes/xyz.json", we need "files/quizzes/xyz.json"
+    val resourcePath = if (path.startsWith("files/")) path else "files/$path"
+    return Res.readBytes(resourcePath).decodeToString()
+}
+
+@OptIn(ExperimentalResourceApi::class)
+suspend fun loadThemesJson(): String {
+    return Res.readBytes("files/themes.json").decodeToString()
+}
+
+@OptIn(ExperimentalResourceApi::class)
+suspend fun loadResourceBytes(path: String): ByteArray? {
+    return try {
+        val resourcePath = if (path.startsWith("files/")) path else "files/$path"
+        Res.readBytes(resourcePath)
+    } catch (_: Exception) {
+        null
+    }
+}

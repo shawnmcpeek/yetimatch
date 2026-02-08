@@ -1,0 +1,317 @@
+{
+  "id": "learning-style-quiz",
+  "title": "What's Your Learning Style?",
+  "description": "Discover how you learn best and optimize your study approach!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "When learning something new, you prefer to:",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "Watch videos or demonstrations",
+          "characterId": "visual"
+        },
+        {
+          "id": "q1a2",
+          "text": "Listen to explanations or podcasts",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q1a3",
+          "text": "Jump in and try it hands-on",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q1a4",
+          "text": "Read articles or written instructions",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "How do you remember directions?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "Visualize landmarks and the route",
+          "characterId": "visual"
+        },
+        {
+          "id": "q2a2",
+          "text": "Repeat the directions out loud",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q2a3",
+          "text": "Drive/walk it once and remember the feel",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q2a4",
+          "text": "Write them down step by step",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Your ideal study environment is:",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Bright and colorful with charts and diagrams",
+          "characterId": "visual"
+        },
+        {
+          "id": "q3a2",
+          "text": "Quiet or with background music",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q3a3",
+          "text": "Space to move around and take breaks",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q3a4",
+          "text": "Organized desk with books and notes",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "When studying for a test, you:",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Create colorful mind maps and diagrams",
+          "characterId": "visual"
+        },
+        {
+          "id": "q4a2",
+          "text": "Explain concepts out loud to yourself",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q4a3",
+          "text": "Use flashcards and practice problems",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q4a4",
+          "text": "Write detailed study guides",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "In meetings or lectures, you tend to:",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Doodle or draw to stay focused",
+          "characterId": "visual"
+        },
+        {
+          "id": "q5a2",
+          "text": "Listen intently without taking notes",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q5a3",
+          "text": "Fidget or need to move around",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q5a4",
+          "text": "Take extensive written notes",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "What helps you remember names?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Associating the face with the name",
+          "characterId": "visual"
+        },
+        {
+          "id": "q6a2",
+          "text": "Repeating the name in conversation",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q6a3",
+          "text": "Shaking hands or physical gesture",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q6a4",
+          "text": "Writing it down or seeing it written",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "When assembling furniture, you:",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Follow the picture instructions",
+          "characterId": "visual"
+        },
+        {
+          "id": "q7a2",
+          "text": "Have someone read instructions to you",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q7a3",
+          "text": "Figure it out by trying different ways",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q7a4",
+          "text": "Carefully read all written instructions first",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "Your notebook/digital notes are:",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Full of colors, highlighting, and drawings",
+          "characterId": "visual"
+        },
+        {
+          "id": "q8a2",
+          "text": "Minimal - I prefer voice recordings",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q8a3",
+          "text": "Brief bullet points - I learn by doing",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q8a4",
+          "text": "Detailed and organized paragraphs",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "How do you best understand a concept?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Seeing examples and illustrations",
+          "characterId": "visual"
+        },
+        {
+          "id": "q9a2",
+          "text": "Hearing someone explain it",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q9a3",
+          "text": "Trying it myself and making mistakes",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q9a4",
+          "text": "Reading multiple sources about it",
+          "characterId": "reading-writing"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "When giving someone directions, you:",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Draw a map or show them visually",
+          "characterId": "visual"
+        },
+        {
+          "id": "q10a2",
+          "text": "Verbally explain turn by turn",
+          "characterId": "auditory"
+        },
+        {
+          "id": "q10a3",
+          "text": "Walk with them or gesture the way",
+          "characterId": "kinesthetic"
+        },
+        {
+          "id": "q10a4",
+          "text": "Text or write out the directions",
+          "characterId": "reading-writing"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "visual",
+      "characterName": "Visual Learner",
+      "description": "You learn best through seeing! You prefer diagrams, charts, videos, and visual demonstrations. Colors and spatial arrangements help you remember information. You benefit from mind maps, highlighting, and organizing information visually. Your strength is seeing the big picture and remembering through images.",
+      "traits": [
+        "Visual",
+        "Spatial",
+        "Observant",
+        "Pattern-oriented",
+        "Image-focused"
+      ]
+    },
+    {
+      "characterId": "auditory",
+      "characterName": "Auditory Learner",
+      "description": "You learn best through hearing! You remember information from lectures, discussions, and verbal explanations. You benefit from reading aloud, discussing concepts, and using audio resources. Your strength is processing information through sound and language. You often think in words and learn well through conversation.",
+      "traits": [
+        "Verbal",
+        "Listening-focused",
+        "Conversational",
+        "Sound-oriented",
+        "Discussion-loving"
+      ]
+    },
+    {
+      "characterId": "kinesthetic",
+      "characterName": "Kinesthetic Learner",
+      "description": "You learn best through doing! You prefer hands-on experience, practice, and physical involvement. You benefit from experiments, building things, and trial-and-error learning. Your strength is learning through action and movement. You understand concepts better when you can apply them practically and engage physically.",
+      "traits": [
+        "Hands-on",
+        "Active",
+        "Practical",
+        "Experiential",
+        "Movement-oriented"
+      ]
+    },
+    {
+      "characterId": "reading-writing",
+      "characterName": "Reading/Writing Learner",
+      "description": "You learn best through words! You prefer reading articles, taking notes, and writing summaries. You benefit from textbooks, lists, and written instructions. Your strength is processing information through text and organizing thoughts in writing. You excel at expressing ideas in written form and learn through detailed note-taking.",
+      "traits": [
+        "Text-focused",
+        "Detail-oriented",
+        "Organized",
+        "Written-word",
+        "Note-taking"
+      ]
+    }
+  ]
+}

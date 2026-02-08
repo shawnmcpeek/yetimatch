@@ -1,0 +1,627 @@
+{
+  "id": "planet-personality-quiz",
+  "title": "Which Planet Are You?",
+  "description": "Discover which planet matches your personality based on ancient mythology!",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How do you approach challenges?",
+      "answers": [
+        {
+          "id": "q1a1",
+          "text": "With fierce determination and courage",
+          "characterId": "mars"
+        },
+        {
+          "id": "q1a2",
+          "text": "With wisdom and strategic thinking",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q1a3",
+          "text": "With charm and diplomacy",
+          "characterId": "venus"
+        },
+        {
+          "id": "q1a4",
+          "text": "With quick thinking and adaptability",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q1a5",
+          "text": "With patience and careful planning",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q1a6",
+          "text": "With innovation and unconventional ideas",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q1a7",
+          "text": "With intuition and imagination",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q1a8",
+          "text": "By observing from the shadows first",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q1a9",
+          "text": "With optimism and bringing people together",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your greatest strength?",
+      "answers": [
+        {
+          "id": "q2a1",
+          "text": "Passion and competitive spirit",
+          "characterId": "mars"
+        },
+        {
+          "id": "q2a2",
+          "text": "Leadership and confidence",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q2a3",
+          "text": "Creativity and bringing people together",
+          "characterId": "venus"
+        },
+        {
+          "id": "q2a4",
+          "text": "Communication and clever problem-solving",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q2a5",
+          "text": "Discipline and responsibility",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q2a6",
+          "text": "Originality and independence",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q2a7",
+          "text": "Empathy and spiritual depth",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q2a8",
+          "text": "Transformation and inner power",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q2a9",
+          "text": "Balance and nurturing others",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "In a group, you're the one who:",
+      "answers": [
+        {
+          "id": "q3a1",
+          "text": "Takes action and defends others",
+          "characterId": "mars"
+        },
+        {
+          "id": "q3a2",
+          "text": "Takes charge and makes big decisions",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q3a3",
+          "text": "Creates harmony and resolves conflicts",
+          "characterId": "venus"
+        },
+        {
+          "id": "q3a4",
+          "text": "Communicates ideas and keeps things moving",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q3a5",
+          "text": "Keeps everyone organized and on track",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q3a6",
+          "text": "Suggests radical new approaches",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q3a7",
+          "text": "Understands everyone's feelings and needs",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q3a8",
+          "text": "Works behind the scenes influencing outcomes",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q3a9",
+          "text": "Ensures everyone feels included and supported",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "What motivates you most?",
+      "answers": [
+        {
+          "id": "q4a1",
+          "text": "Competition and proving yourself",
+          "characterId": "mars"
+        },
+        {
+          "id": "q4a2",
+          "text": "Success and achieving greatness",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q4a3",
+          "text": "Beauty and meaningful connections",
+          "characterId": "venus"
+        },
+        {
+          "id": "q4a4",
+          "text": "Knowledge and new experiences",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q4a5",
+          "text": "Long-term goals and legacy",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q4a6",
+          "text": "Freedom and breaking boundaries",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q4a7",
+          "text": "Dreams and spiritual fulfillment",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q4a8",
+          "text": "Personal transformation and hidden truths",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q4a9",
+          "text": "Growth and helping others thrive",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "How do you express yourself?",
+      "answers": [
+        {
+          "id": "q5a1",
+          "text": "Through bold actions and intensity",
+          "characterId": "mars"
+        },
+        {
+          "id": "q5a2",
+          "text": "Through authority and grand gestures",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q5a3",
+          "text": "Through art, style, and affection",
+          "characterId": "venus"
+        },
+        {
+          "id": "q5a4",
+          "text": "Through words and clever wit",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q5a5",
+          "text": "Through dedication and hard work",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q5a6",
+          "text": "Through unique and unexpected ways",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q5a7",
+          "text": "Through creativity and mysticism",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q5a8",
+          "text": "Through intensity and depth",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q5a9",
+          "text": "Through kindness and practical care",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "What's your approach to relationships?",
+      "answers": [
+        {
+          "id": "q6a1",
+          "text": "Passionate and protective",
+          "characterId": "mars"
+        },
+        {
+          "id": "q6a2",
+          "text": "Generous and loyal to those worthy",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q6a3",
+          "text": "Loving and devoted to harmony",
+          "characterId": "venus"
+        },
+        {
+          "id": "q6a4",
+          "text": "Playful and intellectually stimulating",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q6a5",
+          "text": "Committed and serious about loyalty",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q6a6",
+          "text": "Need space and independence",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q6a7",
+          "text": "Deeply romantic and spiritual",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q6a8",
+          "text": "Intense and transformative",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q6a9",
+          "text": "Supportive and stable",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "Pick a superpower:",
+      "answers": [
+        {
+          "id": "q7a1",
+          "text": "Super strength and combat skills",
+          "characterId": "mars"
+        },
+        {
+          "id": "q7a2",
+          "text": "Command over lightning and weather",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q7a3",
+          "text": "Power to inspire love and unity",
+          "characterId": "venus"
+        },
+        {
+          "id": "q7a4",
+          "text": "Super speed and telepathy",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q7a5",
+          "text": "Time manipulation",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q7a6",
+          "text": "Reality warping and innovation",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q7a7",
+          "text": "Illusion and dream manipulation",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q7a8",
+          "text": "Death and rebirth transformation",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q7a9",
+          "text": "Healing and life creation",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "What's your idea of success?",
+      "answers": [
+        {
+          "id": "q8a1",
+          "text": "Victory and overcoming all obstacles",
+          "characterId": "mars"
+        },
+        {
+          "id": "q8a2",
+          "text": "Power, influence, and prosperity",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q8a3",
+          "text": "Creating beauty and deep connections",
+          "characterId": "venus"
+        },
+        {
+          "id": "q8a4",
+          "text": "Mastering skills and sharing knowledge",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q8a5",
+          "text": "Building something lasting",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q8a6",
+          "text": "Revolutionizing and changing the world",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q8a7",
+          "text": "Achieving enlightenment and inner peace",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q8a8",
+          "text": "Complete transformation and rebirth",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q8a9",
+          "text": "Creating harmony and sustaining life",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "How do others see you?",
+      "answers": [
+        {
+          "id": "q9a1",
+          "text": "Brave and fearless warrior",
+          "characterId": "mars"
+        },
+        {
+          "id": "q9a2",
+          "text": "Confident and natural leader",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q9a3",
+          "text": "Charming and graceful presence",
+          "characterId": "venus"
+        },
+        {
+          "id": "q9a4",
+          "text": "Quick-witted and versatile",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q9a5",
+          "text": "Wise and reliable authority",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q9a6",
+          "text": "Eccentric and revolutionary",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q9a7",
+          "text": "Mysterious and artistic dreamer",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q9a8",
+          "text": "Intense and enigmatic",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q9a9",
+          "text": "Warm and dependable friend",
+          "characterId": "earth"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "What would you rather be doing right now?",
+      "answers": [
+        {
+          "id": "q10a1",
+          "text": "Competing in sports or a challenging activity",
+          "characterId": "mars"
+        },
+        {
+          "id": "q10a2",
+          "text": "Planning something big and ambitious",
+          "characterId": "jupiter"
+        },
+        {
+          "id": "q10a3",
+          "text": "Creating art or spending time with loved ones",
+          "characterId": "venus"
+        },
+        {
+          "id": "q10a4",
+          "text": "Learning something new or traveling",
+          "characterId": "mercury"
+        },
+        {
+          "id": "q10a5",
+          "text": "Working on a long-term project",
+          "characterId": "saturn"
+        },
+        {
+          "id": "q10a6",
+          "text": "Experimenting with technology or new ideas",
+          "characterId": "uranus"
+        },
+        {
+          "id": "q10a7",
+          "text": "Meditating, creating, or daydreaming",
+          "characterId": "neptune"
+        },
+        {
+          "id": "q10a8",
+          "text": "Researching mysteries or psychology",
+          "characterId": "pluto"
+        },
+        {
+          "id": "q10a9",
+          "text": "Gardening or helping someone",
+          "characterId": "earth"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "mercury",
+      "characterName": "Mercury - The Messenger",
+      "description": "You embody the swiftness of Mercury, the Roman messenger god! Like the fastest planet orbiting the sun, you're quick-thinking and always on the move. You're a master communicator, adaptable problem-solver, and eternal learner. Your wit and versatility allow you to navigate any situation with ease. You connect ideas and people, serving as a bridge between worlds.",
+      "traits": [
+        "Quick-witted",
+        "Communicative",
+        "Adaptable",
+        "Clever",
+        "Versatile"
+      ]
+    },
+    {
+      "characterId": "venus",
+      "characterName": "Venus - The Lover",
+      "description": "You embody the grace of Venus, the Roman goddess of love and beauty! Like the brightest planet in our sky, you radiate charm and warmth. You value relationships, aesthetics, and harmony above all. Your artistic nature and ability to bring people together create beauty in the world. You see love and connection as the most powerful forces in the universe.",
+      "traits": [
+        "Charming",
+        "Artistic",
+        "Loving",
+        "Harmonious",
+        "Graceful"
+      ]
+    },
+    {
+      "characterId": "earth",
+      "characterName": "Earth - The Nurturer",
+      "description": "You embody the life-giving spirit of Earth, our home planet! Named after Terra, the Roman goddess of earth and fertility, you're grounded, nurturing, and balanced. You create harmony between different elements and support life in all its forms. Your practical wisdom and caring nature make you a stabilizing force. You understand the cycles of growth and the importance of sustainability.",
+      "traits": [
+        "Nurturing",
+        "Balanced",
+        "Grounded",
+        "Practical",
+        "Life-giving"
+      ]
+    },
+    {
+      "characterId": "mars",
+      "characterName": "Mars - The Warrior",
+      "description": "You embody the spirit of Mars, the Roman god of war! You're bold, passionate, and driven by action. Like the Red Planet, you burn with intensity and aren't afraid of conflict or competition. Your courage and determination inspire others, and you protect those you care about fiercely. You thrive on challenges and never back down from a fight.",
+      "traits": [
+        "Courageous",
+        "Passionate",
+        "Competitive",
+        "Protective",
+        "Action-oriented"
+      ]
+    },
+    {
+      "characterId": "jupiter",
+      "characterName": "Jupiter - The King",
+      "description": "You embody the majesty of Jupiter, king of the Roman gods! Like the largest planet in our solar system, you have a commanding presence and natural authority. You're wise, generous, and think big. Your confidence and optimism inspire others to follow your lead. You seek success and prosperity, and your leadership brings order and justice to those around you.",
+      "traits": [
+        "Authoritative",
+        "Confident",
+        "Wise",
+        "Generous",
+        "Ambitious"
+      ]
+    },
+    {
+      "characterId": "saturn",
+      "characterName": "Saturn - The Teacher",
+      "description": "You embody the wisdom of Saturn, the Roman god of time and agriculture! Like the ringed planet with its structured beauty, you value discipline, responsibility, and long-term thinking. You're patient, persistent, and build things that last. Your sense of duty and commitment to excellence make you a pillar of stability. You understand that true success requires hard work and time.",
+      "traits": [
+        "Disciplined",
+        "Patient",
+        "Responsible",
+        "Wise",
+        "Structured"
+      ]
+    },
+    {
+      "characterId": "uranus",
+      "characterName": "Uranus - The Innovator",
+      "description": "You embody the revolutionary spirit of Uranus, the Greek god of the sky! Like the planet that spins on its side, you're unconventional and march to your own beat. You're a visionary who sees possibilities others miss and aren't afraid to challenge the status quo. Your innovative thinking and independence inspire change. You believe in progress and breaking free from limitations.",
+      "traits": [
+        "Innovative",
+        "Independent",
+        "Revolutionary",
+        "Visionary",
+        "Unconventional"
+      ]
+    },
+    {
+      "characterId": "neptune",
+      "characterName": "Neptune - The Mystic",
+      "description": "You embody the mystery of Neptune, the Roman god of the sea! Like the distant blue planet shrouded in storms, you're intuitive, imaginative, and deeply spiritual. You navigate life through feelings and dreams rather than logic alone. Your empathy and creativity allow you to connect with the unseen and inspire others through art and compassion. You understand that reality has layers beyond the visible.",
+      "traits": [
+        "Intuitive",
+        "Imaginative",
+        "Spiritual",
+        "Empathetic",
+        "Artistic"
+      ]
+    },
+    {
+      "characterId": "pluto",
+      "characterName": "Pluto - The Transformer",
+      "description": "You embody the power of Pluto, the Roman god of the underworld! Like the dwarf planet at the edge of our solar system, you dwell in the depths and understand hidden truths. You're intense, transformative, and unafraid of darkness or endings. You know that true growth comes through metamorphosis. Your ability to see beneath surfaces and facilitate profound change makes you a force of renewal and rebirth.",
+      "traits": [
+        "Transformative",
+        "Intense",
+        "Insightful",
+        "Powerful",
+        "Mysterious"
+      ]
+    }
+  ]
+}

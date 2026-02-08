@@ -1,0 +1,77 @@
+{
+  "id": "fabulous-five",
+  "title": "The Fabulous Five",
+  "description": "Discover which of the Fabulous Five personality types matches you best.",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "On a weekend, you'd rather:",
+      "answers": [
+        { "id": "q1a", "text": "Hit the trail or try something new outdoors", "characterId": "adventurer" },
+        { "id": "q1b", "text": "Curiosity wins—you research something fascinating", "characterId": "thinker" },
+        { "id": "q1c", "text": "Organize a get-together or lead a project", "characterId": "leader" },
+        { "id": "q1d", "text": "Make something with your hands or express yourself", "characterId": "creator" },
+        { "id": "q1e", "text": "Help someone out or spend time with close friends", "characterId": "supporter" }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "When a problem comes up, you usually:",
+      "answers": [
+        { "id": "q2a", "text": "Jump in and try a solution right away", "characterId": "adventurer" },
+        { "id": "q2b", "text": "Step back and think it through first", "characterId": "thinker" },
+        { "id": "q2c", "text": "Take charge and delegate if needed", "characterId": "leader" },
+        { "id": "q2d", "text": "Look for a creative or unusual approach", "characterId": "creator" },
+        { "id": "q2e", "text": "Ask others what they need and pitch in", "characterId": "supporter" }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Your friends would say you're the one who:",
+      "answers": [
+        { "id": "q3a", "text": "Always has the next adventure planned", "characterId": "adventurer" },
+        { "id": "q3b", "text": "Has the random facts and deep answers", "characterId": "thinker" },
+        { "id": "q3c", "text": "Gets everyone on the same page", "characterId": "leader" },
+        { "id": "q3d", "text": "Brings the ideas and the vibe", "characterId": "creator" },
+        { "id": "q3e", "text": "Makes people feel heard and supported", "characterId": "supporter" }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "characterId": "adventurer",
+      "characterName": "The Adventurer",
+      "description": "You thrive on new experiences and the great outdoors. Life is an adventure waiting to happen.",
+      "traits": ["Bold", "Spontaneous", "Outdoorsy", "Energetic"],
+      "imageUrl": null
+    },
+    {
+      "characterId": "thinker",
+      "characterName": "The Thinker",
+      "description": "You love learning and digging into ideas. Curiosity drives you, and you enjoy solving puzzles.",
+      "traits": ["Curious", "Analytical", "Thoughtful", "Knowledgeable"],
+      "imageUrl": null
+    },
+    {
+      "characterId": "leader",
+      "characterName": "The Leader",
+      "description": "You naturally step up and bring people together. You're the one others look to when things need to get done.",
+      "traits": ["Confident", "Organized", "Decisive", "Reliable"],
+      "imageUrl": null
+    },
+    {
+      "characterId": "creator",
+      "characterName": "The Creator",
+      "description": "You see the world through a creative lens. Making things and expressing yourself is how you connect with life.",
+      "traits": ["Imaginative", "Expressive", "Original", "Artistic"],
+      "imageUrl": null
+    },
+    {
+      "characterId": "supporter",
+      "characterName": "The Supporter",
+      "description": "You care deeply about people and relationships. You're the friend everyone counts on.",
+      "traits": ["Caring", "Loyal", "Empathetic", "Warm"],
+      "imageUrl": null
+    }
+  ]
+}

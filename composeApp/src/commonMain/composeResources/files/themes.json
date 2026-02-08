@@ -1,0 +1,406 @@
+{
+  "themes": [
+    {
+      "id": "default",
+      "name": "YetiMatch Default",
+      "priority": 0,
+      "dateRanges": [],
+      "light": {
+        "primary": "#006684",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#B6EAFF",
+        "onPrimaryContainer": "#001F29",
+        "secondary": "#4D616C",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#D0E6F2",
+        "onSecondaryContainer": "#091E27",
+        "background": "#F5FAFC",
+        "onBackground": "#191C1E",
+        "surface": "#F5FAFC",
+        "onSurface": "#191C1E",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#7DD3FC",
+        "onPrimary": "#003547",
+        "primaryContainer": "#004D64",
+        "onPrimaryContainer": "#B6EAFF",
+        "secondary": "#B1C8D4",
+        "onSecondary": "#1C333B",
+        "secondaryContainer": "#334952",
+        "onSecondaryContainer": "#CDE4F0",
+        "background": "#191C1E",
+        "onBackground": "#E1E3E5",
+        "surface": "#191C1E",
+        "onSurface": "#E1E3E5",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "winter",
+      "name": "Winter",
+      "priority": 10,
+      "dateRanges": [
+        {"start": "01-13", "end": "01-31"},
+        {"start": "02-15", "end": "02-28"},
+        {"start": "03-18", "end": "03-21"},
+        {"start": "12-21", "end": "12-24"}
+      ],
+      "light": {
+        "primary": "#1565C0",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#BBDEFB",
+        "onPrimaryContainer": "#0D47A1",
+        "secondary": "#546E7A",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#CFD8DC",
+        "onSecondaryContainer": "#263238",
+        "background": "#F5F9FC",
+        "onBackground": "#1C1B1F",
+        "surface": "#F5F9FC",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#90CAF9",
+        "onPrimary": "#0D47A1",
+        "primaryContainer": "#1565C0",
+        "onPrimaryContainer": "#BBDEFB",
+        "secondary": "#B0BEC5",
+        "onSecondary": "#263238",
+        "secondaryContainer": "#455A64",
+        "onSecondaryContainer": "#CFD8DC",
+        "background": "#121620",
+        "onBackground": "#E3E2E6",
+        "surface": "#121620",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "spring",
+      "name": "Spring",
+      "priority": 10,
+      "dateRanges": [
+        {"start": "03-22", "end": "06-20"}
+      ],
+      "light": {
+        "primary": "#43A047",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#C8E6C9",
+        "onPrimaryContainer": "#1B5E20",
+        "secondary": "#7CB342",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#DCEDC8",
+        "onSecondaryContainer": "#33691E",
+        "background": "#F1F8E9",
+        "onBackground": "#1C1B1F",
+        "surface": "#F1F8E9",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#81C784",
+        "onPrimary": "#1B5E20",
+        "primaryContainer": "#2E7D32",
+        "onPrimaryContainer": "#C8E6C9",
+        "secondary": "#AED581",
+        "onSecondary": "#33691E",
+        "secondaryContainer": "#558B2F",
+        "onSecondaryContainer": "#DCEDC8",
+        "background": "#1A1F1A",
+        "onBackground": "#E3E2E6",
+        "surface": "#1A1F1A",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "summer",
+      "name": "Summer",
+      "priority": 10,
+      "dateRanges": [
+        {"start": "06-21", "end": "09-21"}
+      ],
+      "light": {
+        "primary": "#F9A825",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#FFF59D",
+        "onPrimaryContainer": "#5D4037",
+        "secondary": "#FF7043",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#FFCCBC",
+        "onSecondaryContainer": "#BF360C",
+        "background": "#FFFDE7",
+        "onBackground": "#1C1B1F",
+        "surface": "#FFFDE7",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#FFD54F",
+        "onPrimary": "#5D4037",
+        "primaryContainer": "#F9A825",
+        "onPrimaryContainer": "#FFF59D",
+        "secondary": "#FF8A65",
+        "onSecondary": "#BF360C",
+        "secondaryContainer": "#E64A19",
+        "onSecondaryContainer": "#FFCCBC",
+        "background": "#1F1C18",
+        "onBackground": "#E3E2E6",
+        "surface": "#1F1C18",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "fall",
+      "name": "Fall",
+      "priority": 10,
+      "dateRanges": [
+        {"start": "09-22", "end": "12-20"}
+      ],
+      "light": {
+        "primary": "#E65100",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#FFCC80",
+        "onPrimaryContainer": "#4E342E",
+        "secondary": "#8D6E63",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#D7CCC8",
+        "onSecondaryContainer": "#3E2723",
+        "background": "#FFF3E0",
+        "onBackground": "#1C1B1F",
+        "surface": "#FFF3E0",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#FFB74D",
+        "onPrimary": "#4E342E",
+        "primaryContainer": "#E65100",
+        "onPrimaryContainer": "#FFCC80",
+        "secondary": "#BCAAA4",
+        "onSecondary": "#3E2723",
+        "secondaryContainer": "#5D4037",
+        "onSecondaryContainer": "#D7CCC8",
+        "background": "#1F1A18",
+        "onBackground": "#E3E2E6",
+        "surface": "#1F1A18",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "valentines",
+      "name": "Valentine's Day",
+      "priority": 100,
+      "dateRanges": [
+        {"start": "02-01", "end": "02-14"}
+      ],
+      "light": {
+        "primary": "#D81B60",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#FCE4EC",
+        "onPrimaryContainer": "#880E4F",
+        "secondary": "#AD1457",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#F8BBD9",
+        "onSecondaryContainer": "#6A1B4D",
+        "background": "#FFF5F8",
+        "onBackground": "#1C1B1F",
+        "surface": "#FFF5F8",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#F48FB1",
+        "onPrimary": "#880E4F",
+        "primaryContainer": "#C2185B",
+        "onPrimaryContainer": "#FCE4EC",
+        "secondary": "#F06292",
+        "onSecondary": "#6A1B4D",
+        "secondaryContainer": "#AD1457",
+        "onSecondaryContainer": "#F8BBD9",
+        "background": "#1F181A",
+        "onBackground": "#E3E2E6",
+        "surface": "#1F181A",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "stpatricks",
+      "name": "St. Patrick's Day",
+      "priority": 100,
+      "dateRanges": [
+        {"start": "03-01", "end": "03-17"}
+      ],
+      "light": {
+        "primary": "#1B5E20",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#A5D6A7",
+        "onPrimaryContainer": "#0A3D0A",
+        "secondary": "#388E3C",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#C8E6C9",
+        "onSecondaryContainer": "#1B5E20",
+        "background": "#E8F5E9",
+        "onBackground": "#1C1B1F",
+        "surface": "#E8F5E9",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#69F0AE",
+        "onPrimary": "#0A3D0A",
+        "primaryContainer": "#1B5E20",
+        "onPrimaryContainer": "#A5D6A7",
+        "secondary": "#81C784",
+        "onSecondary": "#1B5E20",
+        "secondaryContainer": "#2E7D32",
+        "onSecondaryContainer": "#C8E6C9",
+        "background": "#141F14",
+        "onBackground": "#E3E2E6",
+        "surface": "#141F14",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "july4th",
+      "name": "Independence Day",
+      "priority": 150,
+      "dateRanges": [
+        {"start": "07-04", "end": "07-04"}
+      ],
+      "light": {
+        "primary": "#1565C0",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#BBDEFB",
+        "onPrimaryContainer": "#0D47A1",
+        "secondary": "#C62828",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#FFCDD2",
+        "onSecondaryContainer": "#B71C1C",
+        "background": "#FAFAFA",
+        "onBackground": "#1C1B1F",
+        "surface": "#FAFAFA",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#64B5F6",
+        "onPrimary": "#0D47A1",
+        "primaryContainer": "#1565C0",
+        "onPrimaryContainer": "#BBDEFB",
+        "secondary": "#EF5350",
+        "onSecondary": "#B71C1C",
+        "secondaryContainer": "#C62828",
+        "onSecondaryContainer": "#FFCDD2",
+        "background": "#121218",
+        "onBackground": "#E3E2E6",
+        "surface": "#121218",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "halloween",
+      "name": "Halloween",
+      "priority": 100,
+      "dateRanges": [
+        {"start": "10-31", "end": "11-02"}
+      ],
+      "light": {
+        "primary": "#E65100",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#FFB74D",
+        "onPrimaryContainer": "#3E2723",
+        "secondary": "#6A1B9A",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#CE93D8",
+        "onSecondaryContainer": "#4A148C",
+        "background": "#FFF3E0",
+        "onBackground": "#1C1B1F",
+        "surface": "#FFF3E0",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#FF9800",
+        "onPrimary": "#3E2723",
+        "primaryContainer": "#E65100",
+        "onPrimaryContainer": "#FFB74D",
+        "secondary": "#BA68C8",
+        "onSecondary": "#4A148C",
+        "secondaryContainer": "#7B1FA2",
+        "onSecondaryContainer": "#CE93D8",
+        "background": "#1A1418",
+        "onBackground": "#E3E2E6",
+        "surface": "#1A1418",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas",
+      "priority": 100,
+      "dateRanges": [
+        {"start": "12-25", "end": "12-31"},
+        {"start": "01-01", "end": "01-12"}
+      ],
+      "light": {
+        "primary": "#B71C1C",
+        "onPrimary": "#FFFFFF",
+        "primaryContainer": "#FFCDD2",
+        "onPrimaryContainer": "#7F0000",
+        "secondary": "#1B5E20",
+        "onSecondary": "#FFFFFF",
+        "secondaryContainer": "#C8E6C9",
+        "onSecondaryContainer": "#0A3D0A",
+        "background": "#FFF8F5",
+        "onBackground": "#1C1B1F",
+        "surface": "#FFF8F5",
+        "onSurface": "#1C1B1F",
+        "error": "#BA1A1A",
+        "onError": "#FFFFFF"
+      },
+      "dark": {
+        "primary": "#EF5350",
+        "onPrimary": "#7F0000",
+        "primaryContainer": "#C62828",
+        "onPrimaryContainer": "#FFCDD2",
+        "secondary": "#66BB6A",
+        "onSecondary": "#0A3D0A",
+        "secondaryContainer": "#2E7D32",
+        "onSecondaryContainer": "#C8E6C9",
+        "background": "#1A1514",
+        "onBackground": "#E3E2E6",
+        "surface": "#1A1514",
+        "onSurface": "#E3E2E6",
+        "error": "#FFB4AB",
+        "onError": "#690005"
+      }
+    }
+  ]
+}

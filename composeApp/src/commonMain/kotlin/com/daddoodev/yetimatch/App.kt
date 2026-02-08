@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.daddoodev.yetimatch.ui.LocalSeasonalThemeName
+import com.daddoodev.yetimatch.ui.SeasonalThemeManager
 import com.daddoodev.yetimatch.ui.ThemeMode
 import com.daddoodev.yetimatch.ui.ThemeModeToggle
 import com.daddoodev.yetimatch.ui.YetiMatchLogo
@@ -73,6 +75,15 @@ private sealed class AppScreen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
+    // Initialize seasonal themes
+    LaunchedEffect(Unit) {
+        try {
+            SeasonalThemeManager.initialize(loadThemesJson())
+        } catch (e: Exception) {
+            println("Failed to load seasonal themes: ${e.message}")
+        }
+    }
+    
     var themeMode by remember { mutableStateOf(getThemeMode()) }
     YetiMatchTheme(themeMode = themeMode) {
         val viewModel = remember { QuizViewModel() }
