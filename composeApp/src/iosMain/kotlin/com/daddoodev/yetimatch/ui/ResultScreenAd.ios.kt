@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.interop.UIKitView
 import com.daddoodev.yetimatch.generateIOSBanner
+import kotlinx.cinterop.ExperimentalForeignApi
 
+@OptIn(ExperimentalForeignApi::class)
 @Composable
 actual fun ResultScreenAd(modifier: Modifier) {
     UIKitView(

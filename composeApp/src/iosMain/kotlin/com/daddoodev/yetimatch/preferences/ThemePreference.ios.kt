@@ -1,6 +1,7 @@
 package com.daddoodev.yetimatch.preferences
 
 import com.daddoodev.yetimatch.ui.ThemeMode
+import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSString
 import platform.Foundation.NSUTF8StringEncoding
@@ -14,6 +15,7 @@ private fun themeModePath(): String {
     return "$home/Documents/$FILENAME"
 }
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun getThemeMode(): ThemeMode {
     val path = themeModePath()
     val content = NSString.stringWithContentsOfFile(path, NSUTF8StringEncoding, null) as? String ?: return ThemeMode.System
@@ -25,7 +27,8 @@ actual fun getThemeMode(): ThemeMode {
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun setThemeMode(mode: ThemeMode) {
     val path = themeModePath()
-    (mode.name as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding.toLong(), error = null)
+    (mode.name as NSString).writeToFile(path, atomically = true, encoding = NSUTF8StringEncoding.toULong(), error = null)
 }

@@ -125,7 +125,9 @@ object SeasonalThemeManager {
 private fun SeasonalThemeDefinition.isActiveOn(date: LocalDate): Boolean {
     if (dateRanges.isEmpty()) return true // Default theme is always active
     
-    val monthDay = "%02d-%02d".format(date.monthNumber, date.dayOfMonth)
+    val month = date.monthNumber.toString().padStart(2, '0')
+    val day = date.dayOfMonth.toString().padStart(2, '0')
+    val monthDay = "$month-$day"
     
     return dateRanges.any { range ->
         if (range.start <= range.end) {

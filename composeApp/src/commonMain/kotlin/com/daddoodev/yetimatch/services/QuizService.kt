@@ -39,7 +39,7 @@ class QuizService {
             
             // Increment vote count for this character
             answer?.let {
-                characterVotes[it.characterId] = characterVotes.getOrDefault(it.characterId, 0) + 1
+                characterVotes[it.characterId] = (characterVotes[it.characterId] ?: 0) + 1
             }
         }
         
