@@ -77,7 +77,7 @@ workflows:
       
       - name: Install CocoaPods
         script: |
-          cd iosApp && pod install
+          cd iosApp && pod install --repo-update
 
       - name: Set up code signing
         script: |
@@ -179,7 +179,7 @@ workflows:
 
       - name: Install CocoaPods
         script: |
-          cd iosApp && pod install
+          cd iosApp && pod install --repo-update
 
       - name: Set up code signing
         script: |
