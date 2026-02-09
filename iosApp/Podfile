@@ -9,6 +9,8 @@ target 'iosApp' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'RevenueCat'
   pod 'RevenueCatUI'
+  pod 'PurchasesHybridCommon'
+  pod 'PurchasesHybridCommonUI'
 end
 
 post_install do |installer|
