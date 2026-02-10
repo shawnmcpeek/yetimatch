@@ -6,7 +6,11 @@ import ComposeApp
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        FirebaseApp.configure()
+        if Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil {
+            FirebaseApp.configure()
+        } else {
+            print("WARNING: GoogleService-Info.plist not found in bundle — Firebase not configured")
+        }
         MobileAds.shared.start()
         RevenueCatConfigKt.configureRevenueCat()
         return true

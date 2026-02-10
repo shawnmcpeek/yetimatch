@@ -67,7 +67,7 @@ workflows:
       
       - name: Setup GoogleService-Info.plist (iOS)
         script: |
-          echo $GoogleServiceInfo | base64 --decode > iosApp/GoogleService-Info.plist
+          echo $GoogleServiceInfo | base64 --decode > iosApp/iosApp/GoogleService-Info.plist
       
       - name: Sync version to iOS
         script: |
@@ -107,6 +107,17 @@ workflows:
           echo "Generated export_options.plist:"
           cat "$EP"
 
+      - name: Validate iOS resources
+        script: |
+          echo "=== Checking GoogleService-Info.plist ==="
+          if [ -f "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist" ]; then
+            echo "GoogleService-Info.plist exists at iosApp/iosApp/"
+            plutil -lint "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist"
+          else
+            echo "ERROR: GoogleService-Info.plist NOT FOUND at iosApp/iosApp/"
+            ls -la "$CM_BUILD_DIR/iosApp/iosApp/"
+          fi
+
       - name: Build IPA
         script: |
           xcodebuild archive \
@@ -119,6 +130,9 @@ workflows:
             DEVELOPMENT_TEAM="$CM_TEAM_ID" \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
             CODE_SIGN_IDENTITY="Apple Distribution"
+          echo "=== Verifying archive contents ==="
+          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/GoogleService-Info.plist" 2>/dev/null && echo "GoogleService-Info.plist IS in archive" || echo "WARNING: GoogleService-Info.plist NOT in archive"
+          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/Frameworks/" 2>/dev/null | head -20
           xcodebuild -exportArchive \
             -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
             -exportOptionsPlist /Users/builder/export_options.plist \
@@ -169,7 +183,7 @@ workflows:
 
       - name: Setup GoogleService-Info.plist (iOS)
         script: |
-          echo $GoogleServiceInfo | base64 --decode > iosApp/GoogleService-Info.plist
+          echo $GoogleServiceInfo | base64 --decode > iosApp/iosApp/GoogleService-Info.plist
 
       - name: Sync version to iOS
         script: |
@@ -200,6 +214,9 @@ workflows:
           PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
           PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
           TEAM_ID=$(/usr/libexec/PlistBuddy -c "Print :TeamIdentifier:0" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
+          echo "Profile UUID: $PROFILE_UUID"
+          echo "Profile Name: $PROFILE_NAME"
+          echo "Team ID: $TEAM_ID"
           echo "PROFILE_UUID=$PROFILE_UUID" >> $CM_ENV
           echo "PROFILE_NAME=$PROFILE_NAME" >> $CM_ENV
           echo "CM_TEAM_ID=$TEAM_ID" >> $CM_ENV
@@ -211,6 +228,19 @@ workflows:
           /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EP"
           /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EP"
           /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.daddoodev.yetimatch string $PROFILE_NAME" "$EP"
+          echo "Generated export_options.plist:"
+          cat "$EP"
+
+      - name: Validate iOS resources
+        script: |
+          echo "=== Checking GoogleService-Info.plist ==="
+          if [ -f "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist" ]; then
+            echo "GoogleService-Info.plist exists at iosApp/iosApp/"
+            plutil -lint "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist"
+          else
+            echo "ERROR: GoogleService-Info.plist NOT FOUND at iosApp/iosApp/"
+            ls -la "$CM_BUILD_DIR/iosApp/iosApp/"
+          fi
 
       - name: Build IPA
         script: |
@@ -224,6 +254,9 @@ workflows:
             DEVELOPMENT_TEAM="$CM_TEAM_ID" \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
             CODE_SIGN_IDENTITY="Apple Distribution"
+          echo "=== Verifying archive contents ==="
+          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/GoogleService-Info.plist" 2>/dev/null && echo "GoogleService-Info.plist IS in archive" || echo "WARNING: GoogleService-Info.plist NOT in archive"
+          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/Frameworks/" 2>/dev/null | head -20
           xcodebuild -exportArchive \
             -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
             -exportOptionsPlist /Users/builder/export_options.plist \
