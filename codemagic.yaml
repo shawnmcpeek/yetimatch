@@ -1,7 +1,7 @@
-# YetiMatch – Kotlin Multiplatform (Android + iOS)
+# YetiMatch – Flutter (Android + iOS)
 workflows:
-  android-kmp:
-    name: Android (KMP)
+  android-flutter:
+    name: Android (Flutter)
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
@@ -12,38 +12,29 @@ workflows:
       android_signing:
         - codemagic_android_keystore
     scripts:
-      - name: Set Android SDK location
+      - name: Set up Firebase (Android)
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
-      
-      - name: Fix gradlew permissions
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
+      - name: Get Flutter packages
         script: |
-          chmod +x ./gradlew
-      
-      - name: Setup google-services.json (Android)
-        script: |
-          echo $GOOGLE_SERVICES_JSON | base64 --decode > androidApp/google-services.json
-  
+          flutter pub get
       - name: Build Android (debug APK)
         script: |
-          ./gradlew androidApp:assembleDebug
-
-      - name: Build Android (release – production)
+          flutter build apk --debug
+      - name: Build Android (release)
         script: |
-          ./gradlew androidApp:assembleRelease androidApp:bundleRelease
-
+          flutter build apk --release
+          flutter build appbundle --release
     artifacts:
-      - androidApp/build/outputs/apk/debug/*.apk
-      - androidApp/build/outputs/apk/release/*.apk
-      - androidApp/build/outputs/bundle/release/*.aab
-
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
     publishing:
       google_play:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
         track: internal
 
-  ios-kmp:
-    name: iOS (KMP)
+  ios-flutter:
+    name: iOS (Flutter)
     max_build_duration: 60
     instance_type: mac_mini_m2
     integrations:
@@ -52,8 +43,6 @@ workflows:
       groups:
         - variables
       vars:
-        XCODE_WORKSPACE: "iosApp.xcworkspace"
-        XCODE_SCHEME: "iosApp"
         BUNDLE_ID: "com.daddoodev.yetimatch"
       ios_signing:
         distribution_type: app_store
@@ -61,86 +50,20 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Fix gradlew permissions
+      - name: Set up Firebase (iOS)
         script: |
-          chmod +x ./gradlew
-      
-      - name: Setup GoogleService-Info.plist (iOS)
+          echo $GoogleServiceInfo | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - name: Get Flutter packages
         script: |
-          echo $GoogleServiceInfo | base64 --decode > iosApp/iosApp/GoogleService-Info.plist
-      
-      - name: Sync version to iOS
-        script: |
-          ./gradlew syncVersionToIos
-
-      - name: Build KMP iOS framework
-        script: |
-          ./gradlew composeApp:linkReleaseFrameworkIosArm64
-      
+          flutter pub get
       - name: Install CocoaPods
         script: |
-          cd iosApp && pod install --repo-update
-
-      - name: Set up code signing
-        script: |
-          PROFILE_PATH=$(ls ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision 2>/dev/null | head -1)
-          if [ -z "$PROFILE_PATH" ]; then
-            PROFILE_PATH=$(ls ~/Library/MobileDevice/Provisioning\ Profiles/*.provisionprofile 2>/dev/null | head -1)
-          fi
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          TEAM_ID=$(/usr/libexec/PlistBuddy -c "Print :TeamIdentifier:0" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          echo "Profile UUID: $PROFILE_UUID"
-          echo "Profile Name: $PROFILE_NAME"
-          echo "Team ID: $TEAM_ID"
-          echo "PROFILE_UUID=$PROFILE_UUID" >> $CM_ENV
-          echo "PROFILE_NAME=$PROFILE_NAME" >> $CM_ENV
-          echo "CM_TEAM_ID=$TEAM_ID" >> $CM_ENV
-          EP=/Users/builder/export_options.plist
-          /usr/libexec/PlistBuddy -c "Clear dict" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :method string app-store" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :teamID string $TEAM_ID" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :uploadBitcode bool false" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.daddoodev.yetimatch string $PROFILE_NAME" "$EP"
-          echo "Generated export_options.plist:"
-          cat "$EP"
-
-      - name: Validate iOS resources
-        script: |
-          echo "=== Checking GoogleService-Info.plist ==="
-          if [ -f "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist" ]; then
-            echo "GoogleService-Info.plist exists at iosApp/iosApp/"
-            plutil -lint "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist"
-          else
-            echo "ERROR: GoogleService-Info.plist NOT FOUND at iosApp/iosApp/"
-            ls -la "$CM_BUILD_DIR/iosApp/iosApp/"
-          fi
-
+          cd ios && pod install
       - name: Build IPA
         script: |
-          xcodebuild archive \
-            -workspace "$CM_BUILD_DIR/iosApp/$XCODE_WORKSPACE" \
-            -scheme "$XCODE_SCHEME" \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
-            CODE_SIGN_STYLE=Manual \
-            DEVELOPMENT_TEAM="$CM_TEAM_ID" \
-            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
-            CODE_SIGN_IDENTITY="Apple Distribution"
-          echo "=== Verifying archive contents ==="
-          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/GoogleService-Info.plist" 2>/dev/null && echo "GoogleService-Info.plist IS in archive" || echo "WARNING: GoogleService-Info.plist NOT in archive"
-          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/Frameworks/" 2>/dev/null | head -20
-          xcodebuild -exportArchive \
-            -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
-            -exportOptionsPlist /Users/builder/export_options.plist \
-            -exportPath "$CM_BUILD_DIR/build/ios/ipa"
-
+          flutter build ipa --release
     artifacts:
       - build/ios/ipa/*.ipa
-
     publishing:
       app_store_connect:
         auth: integration
@@ -148,7 +71,7 @@ workflows:
         submit_to_app_store: false
 
   both-platforms:
-    name: Android + iOS (KMP)
+    name: Android + iOS (Flutter)
     max_build_duration: 90
     instance_type: mac_mini_m2
     integrations:
@@ -158,8 +81,6 @@ workflows:
         - variables
       vars:
         PACKAGE_NAME: "com.daddoodev.yetimatch"
-        XCODE_WORKSPACE: "iosApp.xcworkspace"
-        XCODE_SCHEME: "iosApp"
         BUNDLE_ID: "com.daddoodev.yetimatch"
       android_signing:
         - codemagic_android_keystore
@@ -169,105 +90,29 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Set Android SDK location
+      - name: Set up Firebase (Android)
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
-
-      - name: Fix gradlew permissions
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
+      - name: Set up Firebase (iOS)
         script: |
-          chmod +x ./gradlew
-
-      - name: Setup google-services.json (Android)
+          echo $GoogleServiceInfo | base64 --decode > ios/Runner/GoogleService-Info.plist
+      - name: Get Flutter packages
         script: |
-          echo $GOOGLE_SERVICES_JSON | base64 --decode > androidApp/google-services.json
-
-      - name: Setup GoogleService-Info.plist (iOS)
+          flutter pub get
+      - name: Build Android
         script: |
-          echo $GoogleServiceInfo | base64 --decode > iosApp/iosApp/GoogleService-Info.plist
-
-      - name: Sync version to iOS
-        script: |
-          ./gradlew syncVersionToIos
-
-      - name: Build Android (debug APK)
-        script: |
-          ./gradlew androidApp:assembleDebug
-
-      - name: Build Android (release – production)
-        script: |
-          ./gradlew androidApp:assembleRelease androidApp:bundleRelease
-
-      - name: Build KMP iOS framework
-        script: |
-          ./gradlew composeApp:linkReleaseFrameworkIosArm64
-
+          flutter build apk --release
+          flutter build appbundle --release
       - name: Install CocoaPods
         script: |
-          cd iosApp && pod install --repo-update
-
-      - name: Set up code signing
-        script: |
-          PROFILE_PATH=$(ls ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision 2>/dev/null | head -1)
-          if [ -z "$PROFILE_PATH" ]; then
-            PROFILE_PATH=$(ls ~/Library/MobileDevice/Provisioning\ Profiles/*.provisionprofile 2>/dev/null | head -1)
-          fi
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          TEAM_ID=$(/usr/libexec/PlistBuddy -c "Print :TeamIdentifier:0" /dev/stdin <<< $(/usr/bin/security cms -D -i "$PROFILE_PATH"))
-          echo "Profile UUID: $PROFILE_UUID"
-          echo "Profile Name: $PROFILE_NAME"
-          echo "Team ID: $TEAM_ID"
-          echo "PROFILE_UUID=$PROFILE_UUID" >> $CM_ENV
-          echo "PROFILE_NAME=$PROFILE_NAME" >> $CM_ENV
-          echo "CM_TEAM_ID=$TEAM_ID" >> $CM_ENV
-          EP=/Users/builder/export_options.plist
-          /usr/libexec/PlistBuddy -c "Clear dict" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :method string app-store" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :teamID string $TEAM_ID" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :uploadBitcode bool false" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EP"
-          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.daddoodev.yetimatch string $PROFILE_NAME" "$EP"
-          echo "Generated export_options.plist:"
-          cat "$EP"
-
-      - name: Validate iOS resources
-        script: |
-          echo "=== Checking GoogleService-Info.plist ==="
-          if [ -f "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist" ]; then
-            echo "GoogleService-Info.plist exists at iosApp/iosApp/"
-            plutil -lint "$CM_BUILD_DIR/iosApp/iosApp/GoogleService-Info.plist"
-          else
-            echo "ERROR: GoogleService-Info.plist NOT FOUND at iosApp/iosApp/"
-            ls -la "$CM_BUILD_DIR/iosApp/iosApp/"
-          fi
-
+          cd ios && pod install
       - name: Build IPA
         script: |
-          xcodebuild archive \
-            -workspace "$CM_BUILD_DIR/iosApp/$XCODE_WORKSPACE" \
-            -scheme "$XCODE_SCHEME" \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
-            CODE_SIGN_STYLE=Manual \
-            DEVELOPMENT_TEAM="$CM_TEAM_ID" \
-            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
-            CODE_SIGN_IDENTITY="Apple Distribution"
-          echo "=== Verifying archive contents ==="
-          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/GoogleService-Info.plist" 2>/dev/null && echo "GoogleService-Info.plist IS in archive" || echo "WARNING: GoogleService-Info.plist NOT in archive"
-          ls "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive/Products/Applications/YetiMatch.app/Frameworks/" 2>/dev/null | head -20
-          xcodebuild -exportArchive \
-            -archivePath "$CM_BUILD_DIR/build/ios/YetiMatch.xcarchive" \
-            -exportOptionsPlist /Users/builder/export_options.plist \
-            -exportPath "$CM_BUILD_DIR/build/ios/ipa"
-
+          flutter build ipa --release
     artifacts:
-      - androidApp/build/outputs/apk/debug/*.apk
-      - androidApp/build/outputs/apk/release/*.apk
-      - androidApp/build/outputs/bundle/release/*.aab
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
       - build/ios/ipa/*.ipa
-
     publishing:
       google_play:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
