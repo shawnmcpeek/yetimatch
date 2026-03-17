@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'app/yeti_match_app.dart';
 import 'config/app_config.dart';
-import 'firebase_options.dart';
 import 'services/auth_rest_service.dart';
 import 'services/auth_service.dart';
 import 'services/auth_service_interface.dart';
@@ -32,11 +31,11 @@ void main() async {
 
   final prefs = await PrefsService.init();
   final IAuthService auth = isDesktop
-      ? AuthRestService(apiKey: desktopFirebaseOptions.apiKey)
+      ? AuthRestService(apiKey: AppConfig.apiKey)
       : AuthService();
 
   final IFirestoreService firestore = isDesktop
-      ? FirestoreRestService(projectId: desktopFirebaseOptions.projectId, auth: auth)
+      ? FirestoreRestService(projectId: 'yetimatch', auth: auth)
       : FirestoreService(auth: auth);
 
   runApp(YetiMatchApp(

@@ -2,41 +2,40 @@
 alwaysApply: true
 ---
 
-# YetiMatch - Kotlin Multiplatform Project
+# YetiMatch - Flutter Project
 
 ## Project Structure
 - Package: com.daddoodev.yetimatch
-- Targets: Android, iOS
-- UI Framework: Compose Multiplatform with Material 3
+- Targets: Android, iOS, Linux (desktop)
+- Shared code in `lib/` (Dart)
+- UI: Flutter with Material 3
 
-## Architecture Rules
-- Shared code goes in `composeApp/src/commonMain/`
-- Platform-specific code uses `expect/actual` pattern
-- ViewModels use StateFlow for state management
-- Follow MVVM architecture
+## Architecture
+- Screens in `lib/screens/`, app shell in `lib/app/`
+- State: setState at root or ChangeNotifier where needed; no KMP ViewModels/StateFlow
+- Platform-specific code: `dart:io` Platform checks or conditional imports; no expect/actual
 
 ## Best Practices
-- Use kotlinx.serialization for JSON (not Gson/Jackson)
-- Use kotlinx.coroutines for async operations
-- Avoid platform-specific APIs in commonMain
-- Use Ktor for networking (cross-platform)
-- Resources go in commonMain/resources
+- Use Dart SDK and pub.dev packages; prefer cross-platform packages
+- JSON: dart:convert or packages (e.g. json_serializable) as used in project
+- Async: async/await and Future; networking via `http` or project choice
+- Resources: `assets/` in project root; declare in `pubspec.yaml` under `flutter.assets`
 
 ## UI and Theming
-- Use Material 3 (MaterialTheme, Scaffold, TopAppBar, Button, Card, etc.) for all UI
-- Theme lives in `ui/Theme.kt`: YetiMatchTheme(themeMode), YetiMatchLightColors, YetiMatchDarkColors
-- ThemeMode: Light, Dark, System; use ThemeModeToggle in the app bar for user switch
-- Use MaterialTheme.colorScheme and MaterialTheme.typography (no hard-coded colors in screens)
+- Material 3: MaterialTheme, Scaffold, AppBar, Button, Card, etc.
+- Theme in `lib/theme/app_theme.dart`: yetiMatchTheme(dark: bool), themeMode (Light/Dark/System)
+- Use Theme.of(context).colorScheme and Theme.of(context).textTheme; no hard-coded colors in screens
 
 ## Dependencies
-- Prefer Kotlin Multiplatform libraries over platform-specific ones
-- Use Compose Multiplatform for UI (Material 3)
-- Use kotlinx libraries (coroutines, serialization, datetime)
+- Manage in `pubspec.yaml`; use Flutter/Dart packages from pub.dev
+- Firebase (mobile), REST auth/Firestore for desktop where SDK isn’t available
+
+## Rules
+- Never use placeholders in code, config, or assets; use real values or ask for them.
+- Do not create instruction, guide, or how-to markdown files unless the user explicitly asks for them.
 
 ## Common Mistakes to Avoid
-- Don't use Java-specific libraries in shared code
-- Don't use Android/iOS-specific APIs without expect/actual
-- Don't forget to add resources to all platforms
-- Always test shared code on both platforms
-- Not reviewing the codebase before acting or talking
-- Not reviewing sources for proper implementation
+- Don’t put secrets in repo; use .env (e.g. YETIMATCH_API_KEY) and keep .env gitignored
+- Don’t assume platform APIs without Platform.isXXX or conditional imports
+- Don’t forget to add new assets under `flutter.assets` in pubspec.yaml
+- Review the codebase and relevant sources before changing code or giving implementation advice
