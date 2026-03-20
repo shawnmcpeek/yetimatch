@@ -33,9 +33,10 @@ alwaysApply: true
 ## Rules
 - Never use placeholders in code, config, or assets; use real values or ask for them.
 - Do not create instruction, guide, or how-to markdown files unless the user explicitly asks for them.
+- **Before changing tooling or integration behavior, verify from primary sources** (official docs, vendor docs, or the tool itself: e.g. `flutter <command> -h`, Gradle/Xcode help). Do not guess CLI flags, Codemagic keys, or platform options—wrong config wastes time and CI money.
 
 ## Common Mistakes to Avoid
 - Don’t put secrets in repo; use .env (e.g. YETIMATCH_API_KEY) and keep .env gitignored
 - Don’t assume platform APIs without Platform.isXXX or conditional imports
 - Don’t forget to add new assets under `flutter.assets` in pubspec.yaml
-- Review the codebase and relevant sources before changing code or giving implementation advice
+- Review the codebase **and** authoritative docs (Flutter, Firebase, Apple, Google Play, Codemagic) before changing code, CI, or giving implementation advice

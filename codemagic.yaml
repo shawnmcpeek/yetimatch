@@ -1,5 +1,9 @@
 # YetiMatch – Flutter (Android + iOS)
-# Set YETIMATCH_API_KEY in Codemagic (group "variables") so release builds get the quiz API key.
+# YETIMATCH_API_KEY: Codemagic group "variables" (--dart-define).
+# Store uploads run in scripts (codemagic-cli-tools) so they are not skipped when YAML
+# "publishing:" would show "Not publishing to external services" (e.g. PR builds).
+# Google Play: GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS + optional GOOGLE_PLAY_TRACK (default alpha).
+# iOS: App Store Connect integration + app-store-connect publish (same as prior submit_to_testflight).
 workflows:
   android-flutter:
     name: Android (Flutter)
@@ -27,15 +31,19 @@ workflows:
         script: |
           flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
           flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+      - name: Publish AAB to Google Play
+        script: |
+          set -e
+          python3 -m pip install -q codemagic-cli-tools
+          TRACK="${GOOGLE_PLAY_TRACK:-alpha}"
+          google-play bundles publish \
+            --bundle "$CM_BUILD_DIR/build/app/outputs/bundle/release/app-release.aab" \
+            --track "$TRACK"
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/bundle/release/*.aab
       - build/app/outputs/mapping/release/mapping.txt
       - build/app/outputs/native-debug-symbols/release/*.zip
-    publishing:
-      google_play:
-        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
-        track: alpha
 
   ios-flutter:
     name: iOS (Flutter)
@@ -66,14 +74,16 @@ workflows:
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release --export-method=app-store-connect --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build ipa --release --export-method=app-store --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+      - name: Publish IPA to App Store Connect (TestFlight)
+        script: |
+          set -e
+          python3 -m pip install -q codemagic-cli-tools
+          app-store-connect publish \
+            --path "$CM_BUILD_DIR/build/ios/ipa/*.ipa" \
+            --testflight
     artifacts:
       - build/ios/ipa/*.ipa
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        submit_to_app_store: false
 
   both-platforms:
     name: Android + iOS (Flutter)
@@ -109,23 +119,30 @@ workflows:
         script: |
           flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
           flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+      - name: Publish AAB to Google Play
+        script: |
+          set -e
+          python3 -m pip install -q codemagic-cli-tools
+          TRACK="${GOOGLE_PLAY_TRACK:-alpha}"
+          google-play bundles publish \
+            --bundle "$CM_BUILD_DIR/build/app/outputs/bundle/release/app-release.aab" \
+            --track "$TRACK"
       - name: Install CocoaPods
         script: |
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release --export-method=app-store-connect --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build ipa --release --export-method=app-store --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+      - name: Publish IPA to App Store Connect (TestFlight)
+        script: |
+          set -e
+          python3 -m pip install -q codemagic-cli-tools
+          app-store-connect publish \
+            --path "$CM_BUILD_DIR/build/ios/ipa/*.ipa" \
+            --testflight
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/bundle/release/*.aab
       - build/app/outputs/mapping/release/mapping.txt
       - build/app/outputs/native-debug-symbols/release/*.zip
       - build/ios/ipa/*.ipa
-    publishing:
-      google_play:
-        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
-        track: alpha
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        submit_to_app_store: false
