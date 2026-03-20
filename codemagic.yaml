@@ -1,10 +1,12 @@
 # YetiMatch – Flutter (Android + iOS)
+# Set YETIMATCH_API_KEY in Codemagic (group "variables") so release builds get the quiz API key.
 workflows:
   android-flutter:
     name: Android (Flutter)
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
+      flutter: stable
       groups:
         - variables
       vars:
@@ -20,11 +22,11 @@ workflows:
           flutter pub get
       - name: Build Android (debug APK)
         script: |
-          flutter build apk --debug
+          flutter build apk --debug --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
       - name: Build Android (release)
         script: |
-          flutter build apk --release
-          flutter build appbundle --release
+          flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/bundle/release/*.aab
@@ -40,6 +42,7 @@ workflows:
     integrations:
       app_store_connect: apidistributekey
     environment:
+      flutter: stable
       groups:
         - variables
       vars:
@@ -61,7 +64,7 @@ workflows:
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release
+          flutter build ipa --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
@@ -77,6 +80,7 @@ workflows:
     integrations:
       app_store_connect: apidistributekey
     environment:
+      flutter: stable
       groups:
         - variables
       vars:
@@ -101,14 +105,14 @@ workflows:
           flutter pub get
       - name: Build Android
         script: |
-          flutter build apk --release
-          flutter build appbundle --release
+          flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
       - name: Install CocoaPods
         script: |
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release
+          flutter build ipa --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/bundle/release/*.aab
