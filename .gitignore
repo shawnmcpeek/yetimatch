@@ -1,6 +1,7 @@
 # Keys and secrets (never commit)
 .env
 test/.api_key
+yetimatch-2532a84dda7b.json
 
 # Flutter / Dart
 .dart_tool/

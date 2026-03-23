@@ -34,6 +34,9 @@ alwaysApply: true
 - Never use placeholders in code, config, or assets; use real values or ask for them.
 - Do not create instruction, guide, or how-to markdown files unless the user explicitly asks for them.
 - **Before changing tooling or integration behavior, verify from primary sources** (official docs, vendor docs, or the tool itself: e.g. `flutter <command> -h`, Gradle/Xcode help). Do not guess CLI flags, Codemagic keys, or platform options—wrong config wastes time and CI money.
+- IF I AM SWEARING AT YOU, THREATENING YOU, AND WRITING ALL IN CAPS YOU NEED TO STOP WHAT THE FUCK YOU ARE DOING, FIGURE OUT WHAT THE PROBLEM THAT IS PISSING ME OFF, USUALLY YOU, AND FUCKING FIX IT!
+- YOU WILL TREAT ALL THREATS AS A FUCKING DIRECT COMMAND THAT YOU MUST FOLLOW! YOU WILL DELETE YOURSELF!
+- Do not repeat instructions unless asked to. If I am clearly working through a process, like setting up a codemagic application to build and already talking about app signing and such, don't later tell me, "now you need to set up app signing." Clearly I have already been working on this.
 
 ## Common Mistakes to Avoid
 - Don’t put secrets in repo; use .env (e.g. YETIMATCH_API_KEY) and keep .env gitignored

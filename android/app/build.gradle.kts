@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,6 +8,28 @@ plugins {
 }
 
 apply(plugin = "com.google.gms.google-services")
+
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+val hasReleaseKeystore = keystorePropertiesFile.exists()
+if (hasReleaseKeystore) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
+gradle.taskGraph.whenReady {
+    val wantsReleaseArtifact = allTasks.any { task ->
+        val n = task.name.lowercase()
+        (n.contains("bundle") && n.contains("release")) ||
+            (n.contains("assemble") && n.contains("release"))
+    }
+    if (wantsReleaseArtifact && !hasReleaseKeystore) {
+        throw GradleException(
+            "Release AAB/APK requires android/key.properties (upload keystore). " +
+                "Codemagic generates this when android_signing is configured. " +
+                "See https://docs.flutter.dev/deployment/android#sign-the-app",
+        )
+    }
+}
 
 android {
     namespace = "com.daddoodev.yetimatch"
@@ -20,11 +45,20 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                // Paths in key.properties are relative to android/ (same dir as key.properties), not android/app/
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.daddoodev.yetimatch"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -33,10 +67,9 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
-            // Emit native debug symbols for Play Console crash/ANR symbolication.
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             ndk {
                 debugSymbolLevel = "SYMBOL_TABLE"
             }
