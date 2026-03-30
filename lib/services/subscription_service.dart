@@ -15,21 +15,29 @@ class SubscriptionService {
     if (!Platform.isIOS && !Platform.isAndroid) {
       return;
     }
-    final apiKey = Platform.isIOS
+    var apiKey = Platform.isIOS
         ? AppConfig.revenueCatIosKey
         : AppConfig.revenueCatAndroidKey;
     if (apiKey.isEmpty) {
-      throw StateError(
-        'RevenueCat: set REVENUECAT_IOS_KEY (appl_…) and REVENUECAT_ANDROID_KEY (goog_…) '
-        'in .env or environment / --dart-define. '
-        'Dashboard app ids (e.g. appc848949dc2, app05f4bb20fb) are not SDK keys.',
-      );
+      apiKey = AppConfig.revenueCatFallbackKey;
     }
-    await Purchases.setLogLevel(LogLevel.error);
-    await Purchases.configure(
-      PurchasesConfiguration(apiKey),
-    );
-    _configured = true;
+    if (apiKey.isEmpty) {
+      debugPrint(
+        'RevenueCat: no key for this platform (set REVENUECAT_IOS_KEY / '
+        'REVENUECAT_ANDROID_KEY or REVENUECAT_FALLBACK_KEY). Subscriptions disabled.',
+      );
+      return;
+    }
+    try {
+      await Purchases.setLogLevel(LogLevel.error);
+      await Purchases.configure(
+        PurchasesConfiguration(apiKey),
+      );
+      _configured = true;
+    } catch (e, st) {
+      debugPrint('RevenueCat configure failed: $e');
+      if (kDebugMode) debugPrint('$st');
+    }
   }
 
   static Future<CustomerInfo?> getCustomerInfo() async {

@@ -1,3 +1,5 @@
+import 'dart:async' show TimeoutException, unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,10 +79,27 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
     _themeMode = widget.prefs.getThemeMode();
     _signedInEmail = widget.auth.currentUserEmail;
     _loadManifest();
-    _refreshSubscription();
-    if (widget.auth.currentUserId != null) {
-      SubscriptionService.loginUser(widget.auth.currentUserId!);
+    unawaited(_bootstrapSubscriptionsAfterFirstFrame());
+  }
+
+  /// Runs after [runApp] so the UI is not blocked by RevenueCat (see [main]).
+  Future<void> _bootstrapSubscriptionsAfterFirstFrame() async {
+    try {
+      await SubscriptionService.configure()
+          .timeout(const Duration(seconds: 20));
+    } on TimeoutException {
+      debugPrint(
+        'YetiMatch: RevenueCat.configure timed out; subscriptions disabled.',
+      );
+    } catch (_) {
+      // configure() already logs; continue without subscriptions.
     }
+    if (!mounted) return;
+    final uid = widget.auth.currentUserId;
+    if (uid != null) {
+      await SubscriptionService.loginUser(uid);
+    }
+    await _refreshSubscription();
   }
 
   Future<void> _loadManifest() async {

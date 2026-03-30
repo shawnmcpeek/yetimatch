@@ -12,7 +12,6 @@ import 'services/firestore_rest_service.dart';
 import 'services/firestore_service.dart';
 import 'services/firestore_service_interface.dart';
 import 'services/prefs_service.dart';
-import 'services/subscription_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +23,10 @@ void main() async {
     await Firebase.initializeApp();
   }
   // Desktop uses Auth REST + Firestore REST only; no Firebase SDK init
-
-  if (!isDesktop) {
-    await SubscriptionService.configure();
-  }
+  //
+  // RevenueCat must NOT run in main() before runApp: Purchases.configure can
+  // block for a long time (network / Store), which leaves the native splash
+  // up forever on Android and a blank screen on iOS.
 
   final prefs = await PrefsService.init();
   final IAuthService auth = isDesktop
