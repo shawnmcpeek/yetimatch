@@ -22,8 +22,8 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             Image.asset(
               Theme.of(context).brightness == Brightness.dark
-                  ? 'assets/images/yetimatch_light.png'
-                  : 'assets/images/yetimatch_dark.png',
+                  ? 'assets/images/yetimatch_dark_bg.png'
+                  : 'assets/images/yetimatch.png',
               height: 100,
               fit: BoxFit.contain,
             ),

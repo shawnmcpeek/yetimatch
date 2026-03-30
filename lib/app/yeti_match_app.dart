@@ -330,8 +330,8 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
             children: [
               Image.asset(
                 Theme.of(context).brightness == Brightness.dark
-                    ? 'assets/images/yetimatch_light.png'
-                    : 'assets/images/yetimatch_dark.png',
+                    ? 'assets/images/yetimatch_dark_bg.png'
+                    : 'assets/images/yetimatch.png',
                 height: 32,
                 fit: BoxFit.contain,
               ),

@@ -3,6 +3,11 @@ import 'dart:io' show File, Platform;
 /// App URLs and API key.
 ///
 /// YETIMATCH_API_KEY from .env (or --dart-define / env var). Used for quiz API and desktop Firebase.
+///
+/// RevenueCat public SDK keys (not dashboard app ids): REVENUECAT_IOS_KEY (`appl_…`),
+/// REVENUECAT_ANDROID_KEY (`goog_…`). Dashboard apps for reference: iOS `appc848949dc2`,
+/// Android `app05f4bb20fb`.
+///
 /// Call [init] from main() before runApp.
 class AppConfig {
   static const String privacyPolicyUrl = 'https://daddoodev.pro/privacy';
@@ -10,10 +15,22 @@ class AppConfig {
       'mailto:support@daddoodev.pro?subject=YetiMatch%20Support';
 
   static String? _runtimeKey;
+  static String? _revenueCatIosKey;
+  static String? _revenueCatAndroidKey;
 
   static String get apiKey =>
       _runtimeKey ??
       const String.fromEnvironment('YETIMATCH_API_KEY', defaultValue: '');
+
+  /// Public RevenueCat SDK key for Apple (`appl_…` from RevenueCat → API keys).
+  static String get revenueCatIosKey =>
+      _revenueCatIosKey ??
+      const String.fromEnvironment('REVENUECAT_IOS_KEY', defaultValue: '');
+
+  /// Public RevenueCat SDK key for Google Play (`goog_…` from RevenueCat → API keys).
+  static String get revenueCatAndroidKey =>
+      _revenueCatAndroidKey ??
+      const String.fromEnvironment('REVENUECAT_ANDROID_KEY', defaultValue: '');
 
   static void setApiKeyForTesting(String key) {
     _runtimeKey = key.trim().isEmpty ? null : key.trim();
@@ -38,6 +55,27 @@ class AppConfig {
     }
     if (_runtimeKey != null && _runtimeKey!.isEmpty) _runtimeKey = null;
 
+    final dartIos =
+        const String.fromEnvironment('REVENUECAT_IOS_KEY', defaultValue: '');
+    _revenueCatIosKey = dartIos.isNotEmpty ? dartIos : null;
+    if (_revenueCatIosKey == null || _revenueCatIosKey!.isEmpty) {
+      _revenueCatIosKey = Platform.environment['REVENUECAT_IOS_KEY']?.trim();
+    }
+    if (_revenueCatIosKey != null && _revenueCatIosKey!.isEmpty) {
+      _revenueCatIosKey = null;
+    }
+
+    final dartAndroid =
+        const String.fromEnvironment('REVENUECAT_ANDROID_KEY', defaultValue: '');
+    _revenueCatAndroidKey = dartAndroid.isNotEmpty ? dartAndroid : null;
+    if (_revenueCatAndroidKey == null || _revenueCatAndroidKey!.isEmpty) {
+      _revenueCatAndroidKey =
+          Platform.environment['REVENUECAT_ANDROID_KEY']?.trim();
+    }
+    if (_revenueCatAndroidKey != null && _revenueCatAndroidKey!.isEmpty) {
+      _revenueCatAndroidKey = null;
+    }
+
     try {
       final candidates = envPath != null
           ? [File(envPath)]
@@ -47,6 +85,10 @@ class AppConfig {
         for (final line in f.readAsLinesSync()) {
           final v = _parseValue(line, 'YETIMATCH_API_KEY');
           if (v != null) _runtimeKey = v;
+          final ri = _parseValue(line, 'REVENUECAT_IOS_KEY');
+          if (ri != null) _revenueCatIosKey = ri;
+          final ra = _parseValue(line, 'REVENUECAT_ANDROID_KEY');
+          if (ra != null) _revenueCatAndroidKey = ra;
         }
       }
     } catch (_) {}

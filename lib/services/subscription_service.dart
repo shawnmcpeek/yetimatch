@@ -1,19 +1,33 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-const String entitlementUnlimited = 'YetiMatch Unlimited';
+import '../config/app_config.dart';
 
-/// RevenueCat API key (public, safe to embed).
-const String _revenueCatApiKey = 'test_KqSuiFjkPcIGGSClwLTnpDPpbFw';
+const String entitlementUnlimited = 'YetiMatch Unlimited';
 
 class SubscriptionService {
   static bool _configured = false;
 
   static Future<void> configure() async {
     if (_configured) return;
+    if (!Platform.isIOS && !Platform.isAndroid) {
+      return;
+    }
+    final apiKey = Platform.isIOS
+        ? AppConfig.revenueCatIosKey
+        : AppConfig.revenueCatAndroidKey;
+    if (apiKey.isEmpty) {
+      throw StateError(
+        'RevenueCat: set REVENUECAT_IOS_KEY (appl_…) and REVENUECAT_ANDROID_KEY (goog_…) '
+        'in .env or environment / --dart-define. '
+        'Dashboard app ids (e.g. appc848949dc2, app05f4bb20fb) are not SDK keys.',
+      );
+    }
     await Purchases.setLogLevel(LogLevel.error);
     await Purchases.configure(
-      PurchasesConfiguration(_revenueCatApiKey),
+      PurchasesConfiguration(apiKey),
     );
     _configured = true;
   }
