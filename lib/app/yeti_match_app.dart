@@ -93,22 +93,26 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
           await rootBundle.loadString('assets/manifest.json');
       var manifest = _quizService.loadManifestFromJson(manifestJson);
       if (AppConfig.apiKey.isNotEmpty) {
-        final apiQuizzes = await _quizApi.listQuizzes();
-        if (apiQuizzes.isNotEmpty) {
-          manifest = QuizManifest(
-            categories: manifest.categories,
-            quizzes: apiQuizzes
-                .map((q) => QuizMeta(
-                      id: q.id,
-                      title: q.title,
-                      description: q.description,
-                      categoryId: q.categoryId.isEmpty
-                          ? _quizApi.getCategoryForQuiz(q.id)
-                          : q.categoryId,
-                      resourcePath: '',
-                    ))
-                .toList(),
-          );
+        try {
+          final apiQuizzes = await _quizApi.listQuizzes();
+          if (apiQuizzes.isNotEmpty) {
+            manifest = QuizManifest(
+              categories: manifest.categories,
+              quizzes: apiQuizzes
+                  .map((q) => QuizMeta(
+                        id: q.id,
+                        title: q.title,
+                        description: q.description,
+                        categoryId: q.categoryId.isEmpty
+                            ? _quizApi.getCategoryForQuiz(q.id)
+                            : q.categoryId,
+                        resourcePath: '',
+                      ))
+                  .toList(),
+            );
+          }
+        } catch (_) {
+          // Offline, timeout, or API error: keep bundled manifest.
         }
       }
       if (!mounted) return;
@@ -324,98 +328,100 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
       theme: yetiMatchTheme(dark: false),
       darkTheme: yetiMatchTheme(dark: true),
       themeMode: _themeMode,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              Image.asset(
-                Theme.of(context).brightness == Brightness.dark
-                    ? 'assets/images/yetimatch_dark_bg.png'
-                    : 'assets/images/yetimatch.png',
-                height: 32,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(width: 8),
-              Text(_appBarTitle),
-            ],
-          ),
-          leading: _showBack
-              ? IconButton(
-                  icon: const Text('<'),
-                  onPressed: () =>
-                      setState(() => _screen = _AppScreen.home),
-                )
-              : null,
-          actions: [
-            Switch(
-              value: _isDark(),
-              onChanged: (v) {
-                final next = v ? ThemeMode.dark : ThemeMode.light;
-                widget.prefs.setThemeMode(next);
-                setState(() => _themeMode = next);
-              },
-            ),
-            PopupMenuButton<String>(
-              onSelected: (value) async {
-                if (value == 'account' || value == 'email') return;
-                switch (value) {
-                  case 'sign_in':
-                    _pendingQuizId = null;
-                    setState(() => _screen = _AppScreen.signIn);
-                    break;
-                  case 'sign_out':
-                    await widget.auth.signOut();
-                    await SubscriptionService.logout();
-                    setState(() {
-                      _signedInEmail = null;
-                      _screen = _AppScreen.home;
-                    });
-                    break;
-                  case 'delete':
-                    _showDeleteAccountDialog();
-                    break;
-                  case 'privacy':
-                    _openUrl(AppConfig.privacyPolicyUrl);
-                    break;
-                  case 'support':
-                    _openUrl(AppConfig.supportUrl);
-                    break;
-                  case 'upgrade':
-                    _pendingQuizId = null;
-                    setState(() => _screen = _AppScreen.paywall);
-                    break;
-                }
-              },
-              itemBuilder: (ctx) => [
-                if (_signedInEmail != null) ...[
-                  const PopupMenuItem(
-                      value: 'account', child: Text('Account')),
-                  PopupMenuItem(
-                      value: 'email', child: Text(_signedInEmail!)),
-                  const PopupMenuItem(
-                      value: 'sign_out', child: Text('Sign out')),
-                  const PopupMenuItem(
-                    value: 'delete',
-                    child: Text('Delete account',
-                        style: TextStyle(color: Colors.red)),
-                  ),
-                ] else
-                  const PopupMenuItem(
-                      value: 'sign_in', child: Text('Sign in')),
-                const PopupMenuDivider(),
-                const PopupMenuItem(
-                    value: 'privacy', child: Text('Privacy policy')),
-                const PopupMenuItem(value: 'support', child: Text('Support')),
-                if (!_hasUnlimited)
-                  const PopupMenuItem(
-                    value: 'upgrade',
-                    child: Text('Upgrade to Premium'),
-                  ),
+      home: Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Row(
+              children: [
+                Image.asset(
+                  Theme.of(context).brightness == Brightness.dark
+                      ? 'assets/images/yetimatch_dark_bg.png'
+                      : 'assets/images/yetimatch.png',
+                  height: 32,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 8),
+                Text(_appBarTitle),
               ],
             ),
-          ],
+            leading: _showBack
+                ? IconButton(
+                    icon: const Text('<'),
+                    onPressed: () =>
+                        setState(() => _screen = _AppScreen.home),
+                  )
+                : null,
+            actions: [
+              Switch(
+                value: _isDark(),
+                onChanged: (v) {
+                  final next = v ? ThemeMode.dark : ThemeMode.light;
+                  widget.prefs.setThemeMode(next);
+                  setState(() => _themeMode = next);
+                },
+              ),
+              PopupMenuButton<String>(
+                onSelected: (value) async {
+                  if (value == 'account' || value == 'email') return;
+                  switch (value) {
+                    case 'sign_in':
+                      _pendingQuizId = null;
+                      setState(() => _screen = _AppScreen.signIn);
+                      break;
+                    case 'sign_out':
+                      await widget.auth.signOut();
+                      await SubscriptionService.logout();
+                      setState(() {
+                        _signedInEmail = null;
+                        _screen = _AppScreen.home;
+                      });
+                      break;
+                    case 'delete':
+                      _showDeleteAccountDialog();
+                      break;
+                    case 'privacy':
+                      _openUrl(AppConfig.privacyPolicyUrl);
+                      break;
+                    case 'support':
+                      _openUrl(AppConfig.supportUrl);
+                      break;
+                    case 'upgrade':
+                      _pendingQuizId = null;
+                      setState(() => _screen = _AppScreen.paywall);
+                      break;
+                  }
+                },
+                itemBuilder: (ctx) => [
+                  if (_signedInEmail != null) ...[
+                    const PopupMenuItem(
+                        value: 'account', child: Text('Account')),
+                    PopupMenuItem(
+                        value: 'email', child: Text(_signedInEmail!)),
+                    const PopupMenuItem(
+                        value: 'sign_out', child: Text('Sign out')),
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Text('Delete account',
+                          style: TextStyle(color: Colors.red)),
+                    ),
+                  ] else
+                    const PopupMenuItem(
+                        value: 'sign_in', child: Text('Sign in')),
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
+                      value: 'privacy', child: Text('Privacy policy')),
+                  const PopupMenuItem(value: 'support', child: Text('Support')),
+                  if (!_hasUnlimited)
+                    const PopupMenuItem(
+                      value: 'upgrade',
+                      child: Text('Upgrade to Premium'),
+                    ),
+                ],
+              ),
+            ],
+          ),
+          body: _buildBody(),
         ),
-        body: _buildBody(),
       ),
     );
   }

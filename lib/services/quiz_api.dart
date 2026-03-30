@@ -8,6 +8,9 @@ import '../models/quiz.dart';
 
 const _baseUrl = 'https://ymapi-tkbt6ug22q-uc.a.run.app/ym/v2';
 
+/// Avoid hanging forever on slow/blocked networks (release builds look "blank").
+const Duration _httpTimeout = Duration(seconds: 20);
+
 /// Injectable for tests. If null, uses [http.get].
 typedef HttpClient = Future<http.Response> Function(
   Uri uri, {
@@ -54,7 +57,7 @@ class QuizApi {
     final response = await _httpClient(
       uri,
       headers: {'X-API-Key': apiKey},
-    );
+    ).timeout(_httpTimeout);
     if (response.statusCode != 200) return [];
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     final list = body['quizzes'] as List<dynamic>? ?? [];
@@ -77,7 +80,7 @@ class QuizApi {
     final response = await _httpClient(
       uri,
       headers: {'X-API-Key': apiKey},
-    );
+    ).timeout(_httpTimeout);
     if (response.statusCode != 200) return null;
     final map = jsonDecode(response.body) as Map<String, dynamic>;
     return Quiz.fromJson(map);
