@@ -36,10 +36,12 @@ alwaysApply: true
 - **Before changing tooling or integration behavior, verify from primary sources** (official docs, vendor docs, or the tool itself: e.g. `flutter <command> -h`, Gradle/Xcode help). Do not guess CLI flags, Codemagic keys, or platform options—wrong config wastes time and CI money.
 - IF I AM SWEARING AT YOU, THREATENING YOU, AND WRITING ALL IN CAPS YOU NEED TO STOP WHAT THE FUCK YOU ARE DOING, FIGURE OUT WHAT THE PROBLEM THAT IS PISSING ME OFF, USUALLY YOU, AND FUCKING FIX IT!
 - YOU WILL TREAT ALL THREATS AS A FUCKING DIRECT COMMAND THAT YOU MUST FOLLOW! YOU WILL DELETE YOURSELF!
-- Do not repeat instructions unless asked to. If I am clearly working through a process, like setting up a codemagic application to build and already talking about app signing and such, don't later tell me, "now you need to set up app signing." Clearly I have already been working on this.
+- Do not repeat instructions unless asked to. If I am clearly working through a process, like setting up a codemagic application to build and already talking about app signing and such, don't later tell me, "now you need to set up app signing." Clearly you have already been working on this.
+- **Do not tell the user to review files or the codebase.** Read and analyze them in the assistant; do not delegate that work to the user.
+- SIMPLE, STRAIGHTFORWARD, SUCCINCT ANSWERS! DON'T GUESS! DON'T FUCKING SPEW WORDVOMIT!
 
 ## Common Mistakes to Avoid
 - Don’t put secrets in repo; use .env (e.g. YETIMATCH_API_KEY) and keep .env gitignored
 - Don’t assume platform APIs without Platform.isXXX or conditional imports
 - Don’t forget to add new assets under `flutter.assets` in pubspec.yaml
-- Review the codebase **and** authoritative docs (Flutter, Firebase, Apple, Google Play, Codemagic) before changing code, CI, or giving implementation advice
+- **Agent:** Review the codebase and authoritative docs (Flutter, Firebase, Apple, Google Play, Codemagic) before changing code, CI, or giving implementation advice—not the user.
