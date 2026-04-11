@@ -1,5 +1,5 @@
 # YetiMatch – Flutter (Android + iOS)
-# YETIMATCH_API_KEY: Codemagic group "variables" (--dart-define).
+# Quiz API key is compiled into the app (AppConfig); no dart-define for YETIMATCH_API_KEY.
 # Store uploads run in scripts (codemagic-cli-tools) so they are not skipped when YAML
 # "publishing:" would show "Not publishing to external services" (e.g. PR builds).
 # Google Play: GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS + optional GOOGLE_PLAY_TRACK (default alpha).
@@ -26,11 +26,11 @@ workflows:
           flutter pub get
       - name: Build Android (debug APK)
         script: |
-          flutter build apk --debug --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build apk --debug
       - name: Build Android (release)
         script: |
-          flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
-          flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build apk --release
+          flutter build appbundle --release
       - name: Publish AAB to Google Play
         script: |
           set -e
@@ -74,7 +74,7 @@ workflows:
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release --export-method=app-store --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build ipa --release --export-method=app-store
       - name: Publish IPA to App Store Connect (TestFlight)
         script: |
           set -e
@@ -117,8 +117,8 @@ workflows:
           flutter pub get
       - name: Build Android
         script: |
-          flutter build apk --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
-          flutter build appbundle --release --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build apk --release
+          flutter build appbundle --release
       - name: Publish AAB to Google Play
         script: |
           set -e
@@ -132,7 +132,7 @@ workflows:
           cd ios && pod install
       - name: Build IPA
         script: |
-          flutter build ipa --release --export-method=app-store --dart-define=YETIMATCH_API_KEY=$YETIMATCH_API_KEY
+          flutter build ipa --release --export-method=app-store
       - name: Publish IPA to App Store Connect (TestFlight)
         script: |
           set -e

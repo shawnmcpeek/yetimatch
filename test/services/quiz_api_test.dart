@@ -140,7 +140,7 @@ void main() {
         expect(
           AppConfig.apiKey.isNotEmpty,
           true,
-          reason: 'YETIMATCH_API_KEY must be set (.env or env). No skip—pass or fail.',
+          reason: 'Quiz API key missing (see AppConfig / .env).',
         );
         final api = QuizApi(); // real HTTP, no mock
         final list = await api.listQuizzes();

@@ -2,7 +2,8 @@ import 'dart:io' show File, Platform;
 
 /// App URLs and API key.
 ///
-/// YETIMATCH_API_KEY from .env (or --dart-define / env var). Used for quiz API and desktop Firebase.
+/// Quiz API (`ym/v2`) uses [ymV2QuizApiKey] — hardcoded client key (same as Cloud Run `YM_API_KEY`).
+/// [setApiKeyForTesting] can override for unit tests only.
 ///
 /// RevenueCat public SDK keys (not dashboard app ids): REVENUECAT_IOS_KEY (`appl_…`),
 /// REVENUECAT_ANDROID_KEY (`goog_…`). Optional REVENUECAT_FALLBACK_KEY: single shared key
@@ -11,18 +12,24 @@ import 'dart:io' show File, Platform;
 ///
 /// Call [init] from main() before runApp.
 class AppConfig {
+  /// Client key for `GET /ym/v2/quizzes` (matches Firebase secret for `ymApi`).
+  static const String ymV2QuizApiKey =
+      'ymTJKwohI4otH8wUdFYzlaJUrGtmm5dut9';
+
   static const String privacyPolicyUrl = 'https://daddoodev.pro/privacy';
   static const String supportUrl =
       'mailto:support@daddoodev.pro?subject=YetiMatch%20Support';
 
-  static String? _runtimeKey;
+  static String? _quizApiKeyTestOverride;
   static String? _revenueCatIosKey;
   static String? _revenueCatAndroidKey;
   static String? _revenueCatFallbackKey;
 
-  static String get apiKey =>
-      _runtimeKey ??
-      const String.fromEnvironment('YETIMATCH_API_KEY', defaultValue: '');
+  static String get apiKey {
+    final o = _quizApiKeyTestOverride;
+    if (o != null && o.isNotEmpty) return o;
+    return ymV2QuizApiKey;
+  }
 
   /// Public RevenueCat SDK key for Apple (`appl_…` from RevenueCat → API keys).
   static String get revenueCatIosKey =>
@@ -40,7 +47,7 @@ class AppConfig {
       const String.fromEnvironment('REVENUECAT_FALLBACK_KEY', defaultValue: '');
 
   static void setApiKeyForTesting(String key) {
-    _runtimeKey = key.trim().isEmpty ? null : key.trim();
+    _quizApiKeyTestOverride = key.trim().isEmpty ? null : key.trim();
   }
 
   static String? _parseValue(String line, String key) {
@@ -55,13 +62,6 @@ class AppConfig {
   }
 
   static void init({String? envPath}) {
-    final dartKey = const String.fromEnvironment('YETIMATCH_API_KEY', defaultValue: '');
-    _runtimeKey = dartKey.isNotEmpty ? dartKey : null;
-    if (_runtimeKey == null || _runtimeKey!.isEmpty) {
-      _runtimeKey = Platform.environment['YETIMATCH_API_KEY']?.trim();
-    }
-    if (_runtimeKey != null && _runtimeKey!.isEmpty) _runtimeKey = null;
-
     final dartIos =
         const String.fromEnvironment('REVENUECAT_IOS_KEY', defaultValue: '');
     _revenueCatIosKey = dartIos.isNotEmpty ? dartIos : null;
@@ -101,8 +101,6 @@ class AppConfig {
       for (final f in candidates) {
         if (!f.existsSync()) continue;
         for (final line in f.readAsLinesSync()) {
-          final v = _parseValue(line, 'YETIMATCH_API_KEY');
-          if (v != null) _runtimeKey = v;
           final ri = _parseValue(line, 'REVENUECAT_IOS_KEY');
           if (ri != null) _revenueCatIosKey = ri;
           final ra = _parseValue(line, 'REVENUECAT_ANDROID_KEY');
