@@ -1,7 +1,7 @@
 name: yetimatch
 description: YetiMatch - personality quiz app (Flutter).
 publish_to: 'none'
-version: 1.1.7+7
+version: 1.1.8+8
 
 environment:
   sdk: ^3.11.1
@@ -35,6 +35,8 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
+  config:
+    enable-swift-package-manager: false
   assets:
     - assets/
     - assets/images/
