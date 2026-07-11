@@ -84,6 +84,10 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
 
   /// Runs after [runApp] so the UI is not blocked by RevenueCat (see [main]).
   Future<void> _bootstrapSubscriptionsAfterFirstFrame() async {
+    if (!AppConfig.subscriptionsEnabled) {
+      if (mounted) setState(() => _hasUnlimited = true);
+      return;
+    }
     try {
       await SubscriptionService.configure()
           .timeout(const Duration(seconds: 20));
@@ -430,7 +434,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                   const PopupMenuItem(
                       value: 'privacy', child: Text('Privacy policy')),
                   const PopupMenuItem(value: 'support', child: Text('Support')),
-                  if (!_hasUnlimited)
+                  if (AppConfig.subscriptionsEnabled && !_hasUnlimited)
                     const PopupMenuItem(
                       value: 'upgrade',
                       child: Text('Upgrade to Premium'),

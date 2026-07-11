@@ -11,6 +11,7 @@ class SubscriptionService {
   static bool _configured = false;
 
   static Future<void> configure() async {
+    if (!AppConfig.subscriptionsEnabled) return;
     if (_configured) return;
     if (!Platform.isIOS && !Platform.isAndroid) {
       return;
@@ -51,6 +52,7 @@ class SubscriptionService {
   }
 
   static Future<bool> hasUnlimitedAccess() async {
+    if (!AppConfig.subscriptionsEnabled) return true;
     final info = await getCustomerInfo();
     if (info == null) return false;
     return info.entitlements.active[entitlementUnlimited] != null;

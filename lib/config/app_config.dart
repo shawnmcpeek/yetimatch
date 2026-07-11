@@ -12,6 +12,16 @@ import 'dart:io' show File, Platform;
 ///
 /// Call [init] from main() before runApp.
 class AppConfig {
+  /// RevenueCat paywalls and quiz limits. Off by default for testing; enable with
+  /// `--dart-define=SUBSCRIPTIONS_ENABLED=true` or env `SUBSCRIPTIONS_ENABLED=true`.
+  static bool get subscriptionsEnabled {
+    const fromDefine =
+        bool.fromEnvironment('SUBSCRIPTIONS_ENABLED', defaultValue: false);
+    if (fromDefine) return true;
+    final env = Platform.environment['SUBSCRIPTIONS_ENABLED']?.trim().toLowerCase();
+    return env == 'true' || env == '1';
+  }
+
   /// Client key for `GET /ym/v2/quizzes` (matches Firebase secret for `ymApi`).
   static const String ymV2QuizApiKey =
       'ymTJKwohI4otH8wUdFYzlaJUrGtmm5dut9';
