@@ -30,48 +30,51 @@ class QuizScreen extends StatelessWidget {
 
         final progress = quizState.getProgress() / 100;
 
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              LinearProgressIndicator(value: progress),
-              const SizedBox(height: 16),
-              Text(
-                'Question ${questionIndex + 1} of ${quiz.questions.length}',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                question.text,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 32),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: question.answers.length,
-                  separatorBuilder: (_, i) => const SizedBox(height: 12),
-                  itemBuilder: (_, i) {
-                    final answer = question.answers[i];
-                    return Card(
-                      child: ListTile(
-                        title: Text(answer.text),
-                        onTap: () => quizState.answerQuestion(answer.id),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              if (questionIndex > 0) ...[
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LinearProgressIndicator(value: progress),
                 const SizedBox(height: 16),
-                OutlinedButton(
-                  onPressed: () => quizState.previousQuestion(),
-                  child: const Text('Previous Question'),
+                Text(
+                  'Question ${questionIndex + 1} of ${quiz.questions.length}',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                 ),
+                const SizedBox(height: 24),
+                Text(
+                  question.text,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 32),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: question.answers.length,
+                    separatorBuilder: (_, i) => const SizedBox(height: 12),
+                    itemBuilder: (_, i) {
+                      final answer = question.answers[i];
+                      return Card(
+                        child: ListTile(
+                          title: Text(answer.text),
+                          onTap: () => quizState.answerQuestion(answer.id),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                if (questionIndex > 0) ...[
+                  const SizedBox(height: 16),
+                  OutlinedButton(
+                    onPressed: () => quizState.previousQuestion(),
+                    child: const Text('Previous Question'),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },
