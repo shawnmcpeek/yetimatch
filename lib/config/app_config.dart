@@ -30,6 +30,19 @@ class AppConfig {
   static const String supportUrl =
       'mailto:support@daddoodev.pro?subject=YetiMatch%20Support';
 
+  /// Google Play listing (public or track link).
+  static const String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.daddoodev.yetimatch';
+
+  /// App Store listing. Empty until a current iOS build/listing URL is available.
+  static const String appStoreUrl = '';
+
+  /// Store link for share CTAs: iOS prefers [appStoreUrl], otherwise [playStoreUrl].
+  static String get storeListingUrl {
+    if (Platform.isIOS && appStoreUrl.isNotEmpty) return appStoreUrl;
+    return playStoreUrl;
+  }
+
   static String? _quizApiKeyTestOverride;
   static String? _revenueCatIosKey;
   static String? _revenueCatAndroidKey;

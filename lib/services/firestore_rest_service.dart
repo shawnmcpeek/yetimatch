@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/quiz.dart';
+import '../models/saved_quiz_result.dart';
 import 'auth_service_interface.dart';
 import 'firestore_service_interface.dart';
 
@@ -94,5 +95,70 @@ class FirestoreRestService implements IFirestoreService {
     if (response.statusCode != 200 && response.statusCode != 409) {
       throw Exception('Firestore REST saveQuizResult: ${response.statusCode} ${response.body}');
     }
+  }
+
+  @override
+  Future<List<SavedQuizResult>> listQuizResults() async {
+    final uid = _auth.currentUserId;
+    if (uid == null) return [];
+    final token = await _getIdToken();
+    if (token == null) return [];
+    final path = '$_baseUrl/$_users/$uid/$_quizResults';
+    final uri = Uri.parse(path).replace(queryParameters: {
+      'orderBy': 'completedAt desc',
+    });
+    final response = await http.get(
+      uri,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode == 404) return [];
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Firestore REST listQuizResults: ${response.statusCode} ${response.body}');
+    }
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    final docs = data['documents'] as List<dynamic>? ?? [];
+    return docs.map((raw) {
+      final doc = raw as Map<String, dynamic>;
+      final fields = doc['fields'] as Map<String, dynamic>? ?? {};
+      final name = doc['name'] as String? ?? '';
+      final id = name.split('/').isNotEmpty ? name.split('/').last : '';
+      final traitsField = fields['traits'] as Map<String, dynamic>?;
+      final traitValues =
+          (traitsField?['arrayValue'] as Map<String, dynamic>?)?['values']
+                  as List<dynamic>? ??
+              [];
+      final completedRaw =
+          (fields['completedAt'] as Map<String, dynamic>?)?['timestampValue']
+              as String?;
+      return SavedQuizResult(
+        quizId: (fields['quizId'] as Map<String, dynamic>?)?['stringValue']
+                as String? ??
+            id,
+        quizTitle:
+            (fields['quizTitle'] as Map<String, dynamic>?)?['stringValue']
+                    as String? ??
+                '',
+        characterId:
+            (fields['characterId'] as Map<String, dynamic>?)?['stringValue']
+                    as String? ??
+                '',
+        characterName:
+            (fields['characterName'] as Map<String, dynamic>?)?['stringValue']
+                    as String? ??
+                '',
+        description:
+            (fields['description'] as Map<String, dynamic>?)?['stringValue']
+                    as String? ??
+                '',
+        traits: traitValues
+            .map((v) =>
+                (v as Map<String, dynamic>)['stringValue'] as String? ?? '')
+            .where((s) => s.isNotEmpty)
+            .toList(),
+        completedAt:
+            completedRaw != null ? DateTime.tryParse(completedRaw) : null,
+      );
+    }).toList();
   }
 }

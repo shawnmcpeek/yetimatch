@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yetimatch/app/yeti_match_app.dart';
 import 'package:yetimatch/models/quiz.dart';
+import 'package:yetimatch/models/saved_quiz_result.dart';
 import 'package:yetimatch/services/auth_service_interface.dart';
 import 'package:yetimatch/services/firestore_service_interface.dart';
 import 'package:yetimatch/services/prefs_service.dart';
@@ -37,7 +38,16 @@ class _FakeAuthService implements IAuthService {
   String? get currentUserId => null;
 
   @override
+  bool get isAnonymous => false;
+
+  @override
+  bool get hasEmailAccount => false;
+
+  @override
   Future<({String? error})> deleteAccount() async => (error: null);
+
+  @override
+  Future<({String? error})> ensureAnonymousUser() async => (error: null);
 
   @override
   Future<String?> getIdToken() async => null;
@@ -68,4 +78,7 @@ class _FakeFirestoreService implements IFirestoreService {
     String quizTitle,
     QuizResult result,
   ) async {}
+
+  @override
+  Future<List<SavedQuizResult>> listQuizResults() async => [];
 }

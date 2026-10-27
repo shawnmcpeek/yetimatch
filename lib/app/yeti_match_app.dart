@@ -7,8 +7,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../config/app_config.dart';
 import '../models/manifest.dart';
 import '../models/quiz.dart';
+import '../models/saved_quiz_result.dart';
 import '../screens/category_detail_screen.dart';
 import '../screens/error_screen.dart';
+import '../screens/history_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/loading_screen.dart';
 import '../screens/paywall_screen.dart';
@@ -35,6 +37,8 @@ enum _AppScreen {
   signIn,
   signUp,
   paywall,
+  history,
+  historyDetail,
   welcome,
   quiz,
   result,
@@ -70,16 +74,27 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   bool _isLoadingQuiz = false;
   String _searchQuery = '';
   String? _signedInEmail;
+  bool _isAnonymous = false;
   bool _hasUnlimited = false;
   ThemeMode _themeMode = ThemeMode.system;
+
+  List<SavedQuizResult> _historyResults = [];
+  bool _historyLoading = false;
+  String? _historyError;
+  SavedQuizResult? _selectedHistoryResult;
 
   @override
   void initState() {
     super.initState();
     _themeMode = widget.prefs.getThemeMode();
-    _signedInEmail = widget.auth.currentUserEmail;
+    _syncAuthUiState();
     _loadManifest();
     unawaited(_bootstrapSubscriptionsAfterFirstFrame());
+  }
+
+  void _syncAuthUiState() {
+    _signedInEmail = widget.auth.currentUserEmail;
+    _isAnonymous = widget.auth.isAnonymous;
   }
 
   /// Runs after [runApp] so the UI is not blocked by RevenueCat (see [main]).
@@ -93,7 +108,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
           .timeout(const Duration(seconds: 20));
     } on TimeoutException {
       debugPrint(
-        'YetiMatch: RevenueCat.configure timed out; subscriptions disabled.',
+        'YetiMatch: RevenueCat.configure timed out; continuing without entitlement.',
       );
     } catch (_) {
       // configure() already logs; continue without subscriptions.
@@ -207,13 +222,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
       return;
     }
     final count = widget.prefs.getQuizzesTakenCount();
-    final signedIn = widget.auth.currentUserEmail != null;
-    if (count >= _freeQuizLimit && !signedIn) {
-      _pendingQuizId = meta.id;
-      setState(() => _screen = _AppScreen.signIn);
-      return;
-    }
-    if (count >= _freeQuizLimit && !_hasUnlimited) {
+    if (count >= _freeQuizLimit) {
       _pendingQuizId = meta.id;
       setState(() => _screen = _AppScreen.paywall);
       return;
@@ -227,7 +236,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
     await widget.firestore.ensureUserOnSignIn();
     final uid = widget.auth.currentUserId;
     if (uid != null) await SubscriptionService.loginUser(uid);
-    setState(() => _signedInEmail = widget.auth.currentUserEmail);
+    setState(_syncAuthUiState);
     await _refreshSubscription();
     if (_pendingQuizId != null) {
       if (_hasUnlimited) {
@@ -252,7 +261,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
     });
   }
 
-  Future<void> _onPaywallPurchaseCompleted() async {
+  Future<void> _afterUnlock() async {
     await _refreshSubscription();
     if (_pendingQuizId != null && _hasUnlimited) {
       _loadQuizById(_pendingQuizId!);
@@ -263,39 +272,115 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
         _pendingQuizId = null;
       });
     }
+    if (_hasUnlimited && widget.auth.isAnonymous) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _showCreateAccountForSyncPrompt();
+      });
+    }
+  }
+
+  Future<void> _onPaywallPurchaseCompleted() async {
+    await _afterUnlock();
   }
 
   Future<void> _onPaywallRestoreCompleted() async {
-    await _refreshSubscription();
-    if (_pendingQuizId != null && _hasUnlimited) {
-      _loadQuizById(_pendingQuizId!);
-      setState(() => _screen = _AppScreen.loadingQuiz);
-    } else {
+    await _afterUnlock();
+  }
+
+  void _showCreateAccountForSyncPrompt() {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Save your results?'),
+        content: const Text(
+          'Create an account to keep your quiz history and unlock it on other devices.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Not now'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              _pendingQuizId = null;
+              setState(() => _screen = _AppScreen.signUp);
+            },
+            child: const Text('Create account'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _onQuizComplete() async {
+    widget.prefs.setQuizzesTakenCount(
+        widget.prefs.getQuizzesTakenCount() + 1);
+
+    final quiz = _quizState.currentQuiz;
+    final result = _quizState.result;
+    if (quiz != null && result != null) {
+      if (widget.auth.currentUserId == null) {
+        final anon = await widget.auth.ensureAnonymousUser();
+        if (anon.error != null) {
+          debugPrint('Anonymous auth failed: ${anon.error}');
+        }
+      }
+      final uid = widget.auth.currentUserId;
+      if (uid != null) {
+        await SubscriptionService.loginUser(uid);
+        await widget.firestore.ensureUserOnSignIn();
+        await widget.firestore.saveQuizResult(quiz.id, quiz.title, result);
+      }
+      if (mounted) setState(_syncAuthUiState);
+    }
+
+    if (mounted) setState(() => _screen = _AppScreen.result);
+  }
+
+  Future<void> _openHistory() async {
+    setState(() {
+      _screen = _AppScreen.history;
+      _historyLoading = true;
+      _historyError = null;
+      _selectedHistoryResult = null;
+    });
+    try {
+      final results = await widget.firestore.listQuizResults();
+      if (!mounted) return;
       setState(() {
-        _screen = _AppScreen.home;
-        _pendingQuizId = null;
+        _historyResults = results;
+        _historyLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _historyError = e.toString();
+        _historyLoading = false;
       });
     }
   }
 
-  void _onQuizComplete() {
-    widget.prefs.setQuizzesTakenCount(
-        widget.prefs.getQuizzesTakenCount() + 1);
-    final uid = widget.auth.currentUserId;
-    final quiz = _quizState.currentQuiz;
-    final result = _quizState.result;
-    if (uid != null && quiz != null && result != null) {
-      widget.firestore.ensureUserOnSignIn();
-      widget.firestore.saveQuizResult(quiz.id, quiz.title, result);
-    }
-    setState(() => _screen = _AppScreen.result);
+  Future<void> _signOut() async {
+    await widget.auth.signOut();
+    await SubscriptionService.logout();
+    await _refreshSubscription();
+    if (!mounted) return;
+    setState(() {
+      _syncAuthUiState();
+      _screen = _AppScreen.home;
+      _historyResults = [];
+      _selectedHistoryResult = null;
+    });
   }
 
   bool get _showBack =>
       _screen == _AppScreen.categoryDetail ||
       _screen == _AppScreen.signIn ||
       _screen == _AppScreen.signUp ||
-      _screen == _AppScreen.paywall;
+      _screen == _AppScreen.paywall ||
+      _screen == _AppScreen.history ||
+      _screen == _AppScreen.historyDetail;
 
   String get _appBarTitle {
     switch (_screen) {
@@ -310,12 +395,30 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
       case _AppScreen.signIn:
         return 'Sign in';
       case _AppScreen.signUp:
-        return 'Sign up';
+        return 'Create account';
       case _AppScreen.paywall:
         return 'Upgrade';
+      case _AppScreen.history:
+        return 'My results';
+      case _AppScreen.historyDetail:
+        return _selectedHistoryResult?.quizTitle.isNotEmpty == true
+            ? _selectedHistoryResult!.quizTitle
+            : 'Result';
       default:
         return 'YetiMatch';
     }
+  }
+
+  void _onBack() {
+    setState(() {
+      if (_screen == _AppScreen.historyDetail) {
+        _screen = _AppScreen.history;
+        _selectedHistoryResult = null;
+      } else {
+        _screen = _AppScreen.home;
+        _pendingQuizId = null;
+      }
+    });
   }
 
   bool _isDark() {
@@ -370,8 +473,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
             leading: _showBack
                 ? IconButton(
                     icon: const Text('<'),
-                    onPressed: () =>
-                        setState(() => _screen = _AppScreen.home),
+                    onPressed: _onBack,
                   )
                 : null,
             actions: [
@@ -391,13 +493,12 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                       _pendingQuizId = null;
                       setState(() => _screen = _AppScreen.signIn);
                       break;
+                    case 'sign_up':
+                      _pendingQuizId = null;
+                      setState(() => _screen = _AppScreen.signUp);
+                      break;
                     case 'sign_out':
-                      await widget.auth.signOut();
-                      await SubscriptionService.logout();
-                      setState(() {
-                        _signedInEmail = null;
-                        _screen = _AppScreen.home;
-                      });
+                      await _signOut();
                       break;
                     case 'delete':
                       _showDeleteAccountDialog();
@@ -412,34 +513,59 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                       _pendingQuizId = null;
                       setState(() => _screen = _AppScreen.paywall);
                       break;
+                    case 'history':
+                      await _openHistory();
+                      break;
                   }
                 },
-                itemBuilder: (ctx) => [
-                  if (_signedInEmail != null) ...[
+                itemBuilder: (ctx) {
+                  final items = <PopupMenuEntry<String>>[];
+                  if (widget.auth.hasEmailAccount) {
+                    items.addAll([
+                      const PopupMenuItem(
+                          value: 'account', child: Text('Account')),
+                      PopupMenuItem(
+                          value: 'email',
+                          child: Text(_signedInEmail ?? '')),
+                      const PopupMenuItem(
+                          value: 'sign_out', child: Text('Sign out')),
+                      const PopupMenuItem(
+                        value: 'delete',
+                        child: Text('Delete account',
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                    ]);
+                  } else if (_isAnonymous) {
+                    items.addAll([
+                      const PopupMenuItem(
+                          value: 'sign_up',
+                          child: Text('Create account')),
+                      const PopupMenuItem(
+                          value: 'sign_in', child: Text('Sign in')),
+                    ]);
+                  } else {
+                    items.add(const PopupMenuItem(
+                        value: 'sign_in', child: Text('Sign in')));
+                  }
+                  if (_hasUnlimited && widget.auth.currentUserId != null) {
+                    items.add(const PopupMenuItem(
+                        value: 'history', child: Text('My results')));
+                  }
+                  items.addAll([
+                    const PopupMenuDivider(),
                     const PopupMenuItem(
-                        value: 'account', child: Text('Account')),
-                    PopupMenuItem(
-                        value: 'email', child: Text(_signedInEmail!)),
+                        value: 'privacy', child: Text('Privacy policy')),
                     const PopupMenuItem(
-                        value: 'sign_out', child: Text('Sign out')),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Text('Delete account',
-                          style: TextStyle(color: Colors.red)),
-                    ),
-                  ] else
-                    const PopupMenuItem(
-                        value: 'sign_in', child: Text('Sign in')),
-                  const PopupMenuDivider(),
-                  const PopupMenuItem(
-                      value: 'privacy', child: Text('Privacy policy')),
-                  const PopupMenuItem(value: 'support', child: Text('Support')),
-                  if (AppConfig.subscriptionsEnabled && !_hasUnlimited)
-                    const PopupMenuItem(
+                        value: 'support', child: Text('Support')),
+                  ]);
+                  if (AppConfig.subscriptionsEnabled && !_hasUnlimited) {
+                    items.add(const PopupMenuItem(
                       value: 'upgrade',
                       child: Text('Upgrade to Premium'),
-                    ),
-                ],
+                    ));
+                  }
+                  return items;
+                },
               ),
             ],
           ),
@@ -483,12 +609,12 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                 );
                 return;
               }
-              await widget.auth.signOut();
               await SubscriptionService.logout();
               widget.prefs.setQuizzesTakenCount(0);
+              await _refreshSubscription();
               if (!mounted) return;
               setState(() {
-                _signedInEmail = null;
+                _syncAuthUiState();
                 _screen = _AppScreen.home;
               });
             },
@@ -514,9 +640,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
     switch (_screen) {
       case _AppScreen.signIn:
         return SignInScreen(
-          message: _pendingQuizId != null
-              ? "You've completed $_freeQuizLimit free quizzes. Sign in to continue."
-              : 'Sign in to sync your progress and unlock features.',
+          message: 'Sign in to restore your results on this device.',
           onSuccess: _onSignInSuccess,
           onGoToSignUp: () =>
               setState(() => _screen = _AppScreen.signUp),
@@ -535,9 +659,9 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
         );
       case _AppScreen.signUp:
         return SignUpScreen(
-          message: _pendingQuizId != null
-              ? "You've completed $_freeQuizLimit free quizzes. Create an account to continue."
-              : 'Create an account to sync your progress and unlock features.',
+          message: _isAnonymous
+              ? 'Create an account to keep your quiz history and use it on other devices.'
+              : 'Create an account to sync your quiz history across devices.',
           onSuccess: _onSignUpSuccess,
           onGoToSignIn: () =>
               setState(() => _screen = _AppScreen.signIn),
@@ -556,6 +680,32 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
           onPurchaseCompleted: _onPaywallPurchaseCompleted,
           onRestoreCompleted: _onPaywallRestoreCompleted,
         );
+      case _AppScreen.history:
+        return HistoryScreen(
+          results: _historyResults,
+          loading: _historyLoading,
+          error: _historyError,
+          onRetry: _openHistory,
+          onOpenResult: (r) => setState(() {
+                _selectedHistoryResult = r;
+                _screen = _AppScreen.historyDetail;
+              }),
+        );
+      case _AppScreen.historyDetail:
+        final selected = _selectedHistoryResult;
+        if (selected == null) {
+          return HistoryScreen(
+            results: _historyResults,
+            loading: false,
+            error: null,
+            onRetry: _openHistory,
+            onOpenResult: (r) => setState(() {
+                  _selectedHistoryResult = r;
+                  _screen = _AppScreen.historyDetail;
+                }),
+          );
+        }
+        return HistoryDetailScreen(result: selected);
       case _AppScreen.loadingQuiz:
         return const LoadingScreen(message: 'Loading quiz...');
       case _AppScreen.home:
@@ -590,7 +740,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
       case _AppScreen.quiz:
         return QuizScreen(
           quizState: _quizState,
-          onQuizComplete: _onQuizComplete,
+          onQuizComplete: () => unawaited(_onQuizComplete()),
         );
       case _AppScreen.result:
         return ResultScreen(
