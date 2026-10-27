@@ -3,7 +3,8 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    // Kotlin comes from AGP built-in Kotlin or Flutter's legacy KGP path
+    // (android.builtInKotlin=false). Do not apply kotlin-android here.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -41,10 +42,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
     signingConfigs {
         if (hasReleaseKeystore) {
             create("release") {
@@ -59,7 +56,9 @@ android {
 
     defaultConfig {
         applicationId = "com.daddoodev.yetimatch"
-        minSdk = flutter.minSdkVersion
+        // Firebase Android BoM 35 / FlutterFire 5.x require minSdk 24.
+        // RevenueCat 10.x requires minSdk 23.
+        minSdk = maxOf(flutter.minSdkVersion, 24)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -74,6 +73,12 @@ android {
                 debugSymbolLevel = "SYMBOL_TABLE"
             }
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
