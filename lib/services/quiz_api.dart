@@ -17,6 +17,8 @@ typedef HttpClient = Future<http.Response> Function(
   Map<String, String>? headers,
 });
 
+typedef AppCheckTokenProvider = Future<String?> Function();
+
 final _quizIdToCategory = <String, String>{
   'fabulous-five': 'personality-self',
   'coffee-personality-quiz': 'fun-entertainment',
@@ -37,13 +39,16 @@ class QuizApi {
     String? apiKey,
     String? baseUrl,
     HttpClient? httpClient,
+    AppCheckTokenProvider? getAppCheckToken,
   })  : apiKey = apiKey ?? AppConfig.apiKey,
         baseUrl = baseUrl ?? _baseUrl,
-        _httpClient = httpClient ?? _defaultHttpClient;
+        _httpClient = httpClient ?? _defaultHttpClient,
+        _getAppCheckToken = getAppCheckToken;
 
   final String apiKey;
   final String baseUrl;
   final HttpClient _httpClient;
+  final AppCheckTokenProvider? _getAppCheckToken;
 
   static Future<http.Response> _defaultHttpClient(
     Uri uri, {
@@ -51,12 +56,21 @@ class QuizApi {
   }) =>
       http.get(uri, headers: headers);
 
+  Future<Map<String, String>> _headers() async {
+    final headers = <String, String>{'X-API-Key': apiKey};
+    final token = await _getAppCheckToken?.call();
+    if (token != null && token.isNotEmpty) {
+      headers['X-Firebase-AppCheck'] = token;
+    }
+    return headers;
+  }
+
   Future<List<QuizMeta>> listQuizzes() async {
     if (apiKey.isEmpty) return [];
     final uri = Uri.parse('$baseUrl/quizzes');
     final response = await _httpClient(
       uri,
-      headers: {'X-API-Key': apiKey},
+      headers: await _headers(),
     ).timeout(_httpTimeout);
     if (response.statusCode != 200) return [];
     final body = jsonDecode(response.body) as Map<String, dynamic>;
@@ -79,7 +93,7 @@ class QuizApi {
     final uri = Uri.parse('$baseUrl/quizzes/$id');
     final response = await _httpClient(
       uri,
-      headers: {'X-API-Key': apiKey},
+      headers: await _headers(),
     ).timeout(_httpTimeout);
     if (response.statusCode != 200) return null;
     final map = jsonDecode(response.body) as Map<String, dynamic>;

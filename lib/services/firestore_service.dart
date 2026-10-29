@@ -24,13 +24,16 @@ class FirestoreService implements IFirestoreService {
     final uid = _auth.currentUserId;
     if (uid == null) return;
     final email = _auth.currentUserEmail ?? '';
-    await _firestore.collection(_users).doc(uid).set(
-      {
+    final ref = _firestore.collection(_users).doc(uid);
+    final existing = await ref.get();
+    if (!existing.exists) {
+      await ref.set({
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
-      },
-      SetOptions(merge: true),
-    );
+      });
+    } else {
+      await ref.set({'email': email}, SetOptions(merge: true));
+    }
   }
 
   @override
@@ -87,5 +90,19 @@ class FirestoreService implements IFirestoreService {
         completedAt: completedAt,
       );
     }).toList();
+  }
+
+  @override
+  Future<void> deleteUserData() async {
+    final uid = _auth.currentUserId;
+    if (uid == null) return;
+    final userRef = _firestore.collection(_users).doc(uid);
+    final results = await userRef.collection(_quizResults).get();
+    final batch = _firestore.batch();
+    for (final doc in results.docs) {
+      batch.delete(doc.reference);
+    }
+    batch.delete(userRef);
+    await batch.commit();
   }
 }

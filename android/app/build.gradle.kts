@@ -6,9 +6,9 @@ plugins {
     // Kotlin comes from AGP built-in Kotlin or Flutter's legacy KGP path
     // (android.builtInKotlin=false). Do not apply kotlin-android here.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
-
-apply(plugin = "com.google.gms.google-services")
 
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()

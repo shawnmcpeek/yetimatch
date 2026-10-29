@@ -10,4 +10,7 @@ abstract class IFirestoreService {
     QuizResult result,
   );
   Future<List<SavedQuizResult>> listQuizResults();
+
+  /// Deletes the signed-in user's profile and quizResults. Auth user is deleted separately.
+  Future<void> deleteUserData();
 }

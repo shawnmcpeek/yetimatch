@@ -128,10 +128,7 @@ class HistoryDetailScreen extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: result.traits
-                  .map((t) => ActionChip(
-                        label: Text(t),
-                        onPressed: () {},
-                      ))
+                  .map((t) => Chip(label: Text(t)))
                   .toList(),
             ),
           ],

@@ -36,26 +36,45 @@ class FirestoreRestService implements IFirestoreService {
     final token = await _getIdToken();
     if (token == null) return;
     final email = _auth.currentUserEmail ?? '';
-    final docName = 'projects/$projectId/databases/$_databaseId/documents/$_users/$uid';
+    final docName =
+        'projects/$projectId/databases/$_databaseId/documents/$_users/$uid';
     final path = '$_baseUrl/$_users/$uid';
-    final now = DateTime.now().toUtc().toIso8601String();
-    final body = {
-      'name': docName,
-      'fields': {
-        'email': {'stringValue': email},
-        'createdAt': {'timestampValue': now},
-      },
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
     };
+    final existing = await http.get(Uri.parse(path), headers: headers);
+    final now = DateTime.now().toUtc().toIso8601String();
+    final Map<String, dynamic> body;
+    final Uri uri;
+    if (existing.statusCode == 200) {
+      uri = Uri.parse(path).replace(queryParameters: {
+        'updateMask.fieldPaths': 'email',
+      });
+      body = {
+        'name': docName,
+        'fields': {
+          'email': {'stringValue': email},
+        },
+      };
+    } else {
+      uri = Uri.parse(path);
+      body = {
+        'name': docName,
+        'fields': {
+          'email': {'stringValue': email},
+          'createdAt': {'timestampValue': now},
+        },
+      };
+    }
     final response = await http.patch(
-      Uri.parse(path),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
+      uri,
+      headers: headers,
       body: jsonEncode(body),
     );
     if (response.statusCode != 200 && response.statusCode != 409) {
-      throw Exception('Firestore REST ensureUser: ${response.statusCode} ${response.body}');
+      throw Exception(
+          'Firestore REST ensureUser: ${response.statusCode} ${response.body}');
     }
   }
 
@@ -160,5 +179,25 @@ class FirestoreRestService implements IFirestoreService {
             completedRaw != null ? DateTime.tryParse(completedRaw) : null,
       );
     }).toList();
+  }
+
+  @override
+  Future<void> deleteUserData() async {
+    final uid = _auth.currentUserId;
+    if (uid == null) return;
+    final token = await _getIdToken();
+    if (token == null) return;
+    final headers = {'Authorization': 'Bearer $token'};
+    final results = await listQuizResults();
+    for (final r in results) {
+      final path = '$_baseUrl/$_users/$uid/$_quizResults/${r.quizId}';
+      await http.delete(Uri.parse(path), headers: headers);
+    }
+    final userPath = '$_baseUrl/$_users/$uid';
+    final response = await http.delete(Uri.parse(userPath), headers: headers);
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      throw Exception(
+          'Firestore REST deleteUserData: ${response.statusCode} ${response.body}');
+    }
   }
 }

@@ -17,7 +17,7 @@ Later you can add: `isPaid`, `tier`, etc.
 
 ### `users/{userId}/quizResults` (subcollection)
 
-One document per quiz completion. Written for every signed-in user when they finish a quiz (free or paid). Visibility in the app can be gated by tier (e.g. show last 10 for free, full history for paid).
+One document per quiz id (document id = `quizId`). A retake **overwrites** the previous final result for that quiz. Written for signed-in users (including anonymous) when they finish a quiz. In-app history UI is gated on Unlimited.
 
 | Field         | Type     | Description                    |
 |---------------|----------|--------------------------------|
@@ -29,6 +29,6 @@ One document per quiz completion. Written for every signed-in user when they fin
 | `traits`      | array    | List of trait strings          |
 | `completedAt` | timestamp| When the quiz was completed    |
 
-## Security rules (example)
+## Security rules
 
-- Users can read/write only their own `users/{userId}` and `users/{userId}/quizResults` documents (e.g. `request.auth != null && request.auth.uid == userId`).
+Production rules live in `firestore.rules` (deploy with Firebase CLI). Users can read/write/delete only their own `users/{userId}` and `users/{userId}/quizResults` documents.

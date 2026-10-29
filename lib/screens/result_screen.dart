@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../services/result_share_service.dart';
 import '../state/quiz_state.dart';
 
-class ResultScreen extends StatelessWidget {
+class ResultScreen extends StatefulWidget {
   const ResultScreen({
     super.key,
     required this.quizState,
@@ -15,8 +16,42 @@ class ResultScreen extends StatelessWidget {
   final VoidCallback onBackToHome;
 
   @override
+  State<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  final _shareService = ResultShareService();
+  bool _sharing = false;
+
+  Future<void> _share() async {
+    final quiz = widget.quizState.currentQuiz;
+    final result = widget.quizState.result;
+    if (quiz == null || result == null || _sharing) return;
+
+    setState(() => _sharing = true);
+    try {
+      final box = context.findRenderObject() as RenderBox?;
+      final origin = box != null
+          ? box.localToGlobal(Offset.zero) & box.size
+          : null;
+      await _shareService.shareResult(
+        quizTitle: quiz.title,
+        characterName: result.characterName,
+        sharePositionOrigin: origin,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not share: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _sharing = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final result = quizState.result;
+    final result = widget.quizState.result;
     if (result == null) return const SizedBox.shrink();
 
     return SingleChildScrollView(
@@ -59,24 +94,32 @@ class ResultScreen extends StatelessWidget {
             alignment: WrapAlignment.center,
             spacing: 8,
             runSpacing: 8,
-            children: result.traits
-                .map((t) => ActionChip(
-                      label: Text(t),
-                      onPressed: () {},
-                    ))
-                .toList(),
+            children:
+                result.traits.map((t) => Chip(label: Text(t))).toList(),
           ),
           const SizedBox(height: 32),
+          FilledButton.icon(
+            onPressed: _sharing ? null : _share,
+            icon: _sharing
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.share),
+            label: Text(_sharing ? 'Preparing…' : 'Share result'),
+          ),
+          const SizedBox(height: 12),
           FilledButton(
             onPressed: () {
-              quizState.restartQuiz();
-              onRetakeQuiz();
+              widget.quizState.restartQuiz();
+              widget.onRetakeQuiz();
             },
             child: const Text('Retake Quiz'),
           ),
           const SizedBox(height: 12),
           OutlinedButton(
-            onPressed: onBackToHome,
+            onPressed: widget.onBackToHome,
             child: const Text('Back to Home'),
           ),
         ],

@@ -1,5 +1,5 @@
 # YetiMatch – Flutter (Android + iOS)
-# Quiz API key is compiled into the app (AppConfig); no dart-define for YETIMATCH_API_KEY.
+# Quiz API key + RevenueCat public SDK keys are compiled into the app (AppConfig).
 # Store uploads run in scripts (codemagic-cli-tools) so they are not skipped when YAML
 # "publishing:" would show "Not publishing to external services" (e.g. PR builds).
 # Google Play: GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS + optional GOOGLE_PLAY_TRACK (default alpha).
@@ -24,6 +24,12 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter pub get
+      - name: Analyze
+        script: |
+          flutter analyze
+      - name: Test
+        script: |
+          flutter test
       - name: Build Android (debug APK)
         script: |
           flutter build apk --debug
@@ -69,6 +75,12 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter pub get
+      - name: Analyze
+        script: |
+          flutter analyze
+      - name: Test
+        script: |
+          flutter test
       - name: Install CocoaPods
         script: |
           set -e
@@ -118,6 +130,12 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter pub get
+      - name: Analyze
+        script: |
+          flutter analyze
+      - name: Test
+        script: |
+          flutter test
       - name: Build Android
         script: |
           flutter build apk --release

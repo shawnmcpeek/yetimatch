@@ -20,6 +20,7 @@ import '../screens/sign_in_screen.dart';
 import '../screens/sign_up_screen.dart';
 import '../screens/welcome_screen.dart';
 import '../services/auth_service_interface.dart';
+import '../services/error_reporting.dart';
 import '../services/firestore_service_interface.dart';
 import '../services/prefs_service.dart';
 import '../services/quiz_api.dart';
@@ -45,16 +46,21 @@ enum _AppScreen {
 }
 
 class YetiMatchApp extends StatefulWidget {
-  const YetiMatchApp({
+  YetiMatchApp({
     super.key,
     required this.prefs,
     required this.auth,
     required this.firestore,
-  });
+    ErrorReporting? errorReporting,
+    QuizApi? quizApi,
+  })  : errorReporting = errorReporting ?? NoOpErrorReporting(),
+        quizApi = quizApi ?? QuizApi();
 
   final PrefsService prefs;
   final IAuthService auth;
   final IFirestoreService firestore;
+  final ErrorReporting errorReporting;
+  final QuizApi quizApi;
 
   @override
   State<YetiMatchApp> createState() => _YetiMatchAppState();
@@ -62,7 +68,7 @@ class YetiMatchApp extends StatefulWidget {
 
 class _YetiMatchAppState extends State<YetiMatchApp> {
   final QuizService _quizService = QuizService();
-  final QuizApi _quizApi = QuizApi();
+  late final QuizApi _quizApi = widget.quizApi;
   final QuizState _quizState = QuizState();
 
   _AppScreen _screen = _AppScreen.home;
@@ -82,12 +88,20 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   bool _historyLoading = false;
   String? _historyError;
   SavedQuizResult? _selectedHistoryResult;
+  bool _handlingQuizComplete = false;
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
+  BuildContext? get _dialogContext =>
+      _navigatorKey.currentContext ?? _scaffoldMessengerKey.currentContext;
 
   @override
   void initState() {
     super.initState();
     _themeMode = widget.prefs.getThemeMode();
     _syncAuthUiState();
+    unawaited(widget.errorReporting.setUserId(widget.auth.currentUserId));
     _loadManifest();
     unawaited(_bootstrapSubscriptionsAfterFirstFrame());
   }
@@ -95,6 +109,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   void _syncAuthUiState() {
     _signedInEmail = widget.auth.currentUserEmail;
     _isAnonymous = widget.auth.isAnonymous;
+    unawaited(widget.errorReporting.setUserId(widget.auth.currentUserId));
   }
 
   /// Runs after [runApp] so the UI is not blocked by RevenueCat (see [main]).
@@ -134,6 +149,9 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
         try {
           final apiQuizzes = await _quizApi.listQuizzes();
           if (apiQuizzes.isNotEmpty) {
+            final bundledById = {
+              for (final q in manifest.quizzes) q.id: q,
+            };
             manifest = QuizManifest(
               categories: manifest.categories,
               quizzes: apiQuizzes
@@ -144,13 +162,16 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                         categoryId: q.categoryId.isEmpty
                             ? _quizApi.getCategoryForQuiz(q.id)
                             : q.categoryId,
-                        resourcePath: '',
+                        // Keep bundled asset paths so offline load can fall back.
+                        resourcePath: bundledById[q.id]?.resourcePath ?? '',
                       ))
                   .toList(),
             );
           }
-        } catch (_) {
+        } catch (e, st) {
           // Offline, timeout, or API error: keep bundled manifest.
+          unawaited(widget.errorReporting
+              .recordError(e, st, reason: 'listQuizzes'));
         }
       }
       if (!mounted) return;
@@ -288,8 +309,10 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   }
 
   void _showCreateAccountForSyncPrompt() {
+    final dialogContext = _dialogContext;
+    if (dialogContext == null) return;
     showDialog<void>(
-      context: context,
+      context: dialogContext,
       builder: (ctx) => AlertDialog(
         title: const Text('Save your results?'),
         content: const Text(
@@ -314,28 +337,102 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   }
 
   Future<void> _onQuizComplete() async {
-    widget.prefs.setQuizzesTakenCount(
-        widget.prefs.getQuizzesTakenCount() + 1);
+    if (_handlingQuizComplete) return;
+    _handlingQuizComplete = true;
 
-    final quiz = _quizState.currentQuiz;
-    final result = _quizState.result;
-    if (quiz != null && result != null) {
-      if (widget.auth.currentUserId == null) {
-        final anon = await widget.auth.ensureAnonymousUser();
-        if (anon.error != null) {
-          debugPrint('Anonymous auth failed: ${anon.error}');
+    String? saveError;
+    try {
+      final quiz = _quizState.currentQuiz;
+      final result = _quizState.result;
+      if (quiz != null && result != null) {
+        if (widget.auth.currentUserId == null) {
+          final anon = await widget.auth.ensureAnonymousUser();
+          if (anon.error != null) {
+            saveError = anon.error;
+            await widget.errorReporting
+                .log('Anonymous auth failed: ${anon.error}');
+          }
+        }
+        final uid = widget.auth.currentUserId;
+        if (uid != null) {
+          try {
+            await SubscriptionService.loginUser(uid);
+            await widget.firestore.ensureUserOnSignIn();
+            await widget.firestore
+                .saveQuizResult(quiz.id, quiz.title, result);
+          } catch (e, st) {
+            saveError = e.toString();
+            await widget.errorReporting
+                .recordError(e, st, reason: 'saveQuizResult');
+          }
         }
       }
-      final uid = widget.auth.currentUserId;
-      if (uid != null) {
-        await SubscriptionService.loginUser(uid);
-        await widget.firestore.ensureUserOnSignIn();
-        await widget.firestore.saveQuizResult(quiz.id, quiz.title, result);
-      }
-      if (mounted) setState(_syncAuthUiState);
-    }
 
-    if (mounted) setState(() => _screen = _AppScreen.result);
+      await widget.prefs.setQuizzesTakenCount(
+          widget.prefs.getQuizzesTakenCount() + 1);
+
+      if (!mounted) return;
+      setState(() {
+        _syncAuthUiState();
+        _screen = _AppScreen.result;
+      });
+      if (saveError != null) {
+        _scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Result shown, but saving to your account failed. Check your connection.',
+            ),
+          ),
+        );
+      }
+    } catch (e, st) {
+      await widget.errorReporting
+          .recordError(e, st, reason: 'onQuizComplete');
+      if (mounted) {
+        setState(() => _screen = _AppScreen.result);
+      }
+    }
+  }
+
+  void _resetQuizCompletionGuard() {
+    _handlingQuizComplete = false;
+  }
+
+  Future<void> _goToSignIn() async {
+    _pendingQuizId = null;
+    if (widget.auth.isAnonymous) {
+      final dialogContext = _dialogContext;
+      if (dialogContext == null) return;
+      final proceed = await showDialog<bool>(
+        context: dialogContext,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Sign in to another account?'),
+          content: const Text(
+            'Signing in to an existing account leaves this device’s guest '
+            'results behind. Create an account instead to keep them.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop(false);
+                setState(() => _screen = _AppScreen.signUp);
+              },
+              child: const Text('Create account'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: const Text('Sign in anyway'),
+            ),
+          ],
+        ),
+      );
+      if (proceed != true || !mounted) return;
+    }
+    setState(() => _screen = _AppScreen.signIn);
   }
 
   Future<void> _openHistory() async {
@@ -451,6 +548,8 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
 
     return MaterialApp(
       title: 'YetiMatch',
+      navigatorKey: _navigatorKey,
+      scaffoldMessengerKey: _scaffoldMessengerKey,
       theme: yetiMatchTheme(dark: false),
       darkTheme: yetiMatchTheme(dark: true),
       themeMode: _themeMode,
@@ -472,26 +571,30 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
             ),
             leading: _showBack
                 ? IconButton(
-                    icon: const Text('<'),
+                    icon: const Icon(Icons.arrow_back),
+                    tooltip: 'Back',
                     onPressed: _onBack,
                   )
                 : null,
             actions: [
-              Switch(
-                value: _isDark(),
-                onChanged: (v) {
-                  final next = v ? ThemeMode.dark : ThemeMode.light;
-                  widget.prefs.setThemeMode(next);
-                  setState(() => _themeMode = next);
-                },
+              Semantics(
+                label: 'Toggle dark mode',
+                child: Switch(
+                  value: _isDark(),
+                  onChanged: (v) {
+                    final next = v ? ThemeMode.dark : ThemeMode.light;
+                    widget.prefs.setThemeMode(next);
+                    setState(() => _themeMode = next);
+                  },
+                ),
               ),
               PopupMenuButton<String>(
+                tooltip: 'Menu',
                 onSelected: (value) async {
                   if (value == 'account' || value == 'email') return;
                   switch (value) {
                     case 'sign_in':
-                      _pendingQuizId = null;
-                      setState(() => _screen = _AppScreen.signIn);
+                      await _goToSignIn();
                       break;
                     case 'sign_up':
                       _pendingQuizId = null;
@@ -576,8 +679,10 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
   }
 
   void _showDeleteAccountDialog() {
+    final dialogContext = _dialogContext;
+    if (dialogContext == null) return;
     showDialog<void>(
-      context: context,
+      context: dialogContext,
       builder: (ctx) => AlertDialog(
         title: const Text('Delete account?'),
         content: const Text(
@@ -591,26 +696,38 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
           TextButton(
             onPressed: () async {
               Navigator.of(ctx).pop();
+              try {
+                await widget.firestore.deleteUserData();
+              } catch (e, st) {
+                await widget.errorReporting
+                    .recordError(e, st, reason: 'deleteUserData');
+              }
               final r = await widget.auth.deleteAccount();
               if (!mounted) return;
               if (r.error != null) {
-                showDialog<void>(
-                  context: context,
-                  builder: (c) => AlertDialog(
-                    title: const Text('Error'),
-                    content: Text(r.error!),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(c).pop(),
-                        child: const Text('OK'),
+                final errContext = _dialogContext;
+                if (errContext != null && errContext.mounted) {
+                  showDialog<void>(
+                    context: errContext,
+                    builder: (c) => AlertDialog(
+                      title: const Text('Error'),
+                      content: Text(
+                        '${r.error!}\n\nIf you signed in a while ago, sign out, '
+                        'sign back in, then try deleting again.',
                       ),
-                    ],
-                  ),
-                );
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(c).pop(),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
                 return;
               }
               await SubscriptionService.logout();
-              widget.prefs.setQuizzesTakenCount(0);
+              await widget.prefs.setQuizzesTakenCount(0);
               await _refreshSubscription();
               if (!mounted) return;
               setState(() {
@@ -618,8 +735,10 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
                 _screen = _AppScreen.home;
               });
             },
-            child: Text('Delete',
-                style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Theme.of(ctx).colorScheme.error),
+            ),
           ),
         ],
       ),
@@ -663,8 +782,7 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
               ? 'Create an account to keep your quiz history and use it on other devices.'
               : 'Create an account to sync your quiz history across devices.',
           onSuccess: _onSignUpSuccess,
-          onGoToSignIn: () =>
-              setState(() => _screen = _AppScreen.signIn),
+          onGoToSignIn: () => unawaited(_goToSignIn()),
           onCancel: () => setState(() {
                 _screen = _AppScreen.home;
                 _pendingQuizId = null;
@@ -741,13 +859,22 @@ class _YetiMatchAppState extends State<YetiMatchApp> {
         return QuizScreen(
           quizState: _quizState,
           onQuizComplete: () => unawaited(_onQuizComplete()),
+          onLeaveQuiz: () {
+            _resetQuizCompletionGuard();
+            setState(() => _screen = _AppScreen.home);
+          },
         );
       case _AppScreen.result:
         return ResultScreen(
           quizState: _quizState,
-          onRetakeQuiz: () =>
-              setState(() => _screen = _AppScreen.quiz),
-          onBackToHome: () => setState(() => _screen = _AppScreen.home),
+          onRetakeQuiz: () {
+            _resetQuizCompletionGuard();
+            setState(() => _screen = _AppScreen.quiz);
+          },
+          onBackToHome: () {
+            _resetQuizCompletionGuard();
+            setState(() => _screen = _AppScreen.home);
+          },
         );
     }
   }

@@ -81,4 +81,7 @@ class _FakeFirestoreService implements IFirestoreService {
 
   @override
   Future<List<SavedQuizResult>> listQuizResults() async => [];
+
+  @override
+  Future<void> deleteUserData() async {}
 }
